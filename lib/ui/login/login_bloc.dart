@@ -29,10 +29,10 @@ class LoginBloc extends ChangeNotifier {
         usernameController.text.trim(),
         passwordController.text.trim(),
       );
-      // TODO: Save user information
+
       loginState = LoginState.initial;
       notifyListeners();
-      return true;
+      return loginResponse;
     } catch (e) {
       loginState = LoginState.initial;
       notifyListeners();

@@ -1,3 +1,4 @@
+import 'package:boxting/data/network/login_api.dart';
 import 'package:boxting/data/repository/login_repository_impl.dart';
 import 'package:boxting/data/repository/settings_repository_impl.dart';
 import 'package:boxting/ui/biometric/biometric_screen.dart';
@@ -16,7 +17,7 @@ class LoginScreen extends StatefulWidget {
   static Widget init(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => LoginBloc(
-        loginRepository: LoginRepositoryImpl(),
+        loginRepository: LoginRepositoryImpl(loginApi: LoginApi()),
         settingsRepository: SettingsRepositoryImpl(),
       ),
       builder: (_, __) => LoginScreen._(),
@@ -115,7 +116,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final bloc = context.read<LoginBloc>();
     final loginResult = await bloc.login();
     final fingerprintLogin = await bloc.loadBiometricInformation();
-    print(fingerprintLogin);
     if (loginResult) {
       if (fingerprintLogin) {
         Navigator.pushReplacement(

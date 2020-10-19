@@ -1,9 +1,16 @@
+import 'package:boxting/data/network/login_api.dart';
 import 'package:boxting/domain/repository/login_repository.dart';
+import 'package:flutter/material.dart';
 
 class LoginRepositoryImpl implements LoginRepository {
+  final LoginApi loginApi;
+
+  LoginRepositoryImpl({@required this.loginApi});
+
   @override
   Future<bool> login(String username, String password) async {
-    await Future.delayed(Duration(seconds: 2));
-    return true;
+    final loginResponse = await loginApi.login(username, password);
+    // TODO: Save user information
+    return loginResponse.success;
   }
 }
