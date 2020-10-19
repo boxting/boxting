@@ -33,7 +33,7 @@ class Data {
     username = json['username'];
     role = json['role'] != null ? new Role.fromJson(json['role']) : null;
     voter = json['voter'] != null ? new Voter.fromJson(json['voter']) : null;
-    token = json['token'];
+    token = json['token'] ?? "";
   }
 
   Map<String, dynamic> toJson() {

@@ -1,9 +1,9 @@
-import 'package:boxting/data/network/login_api.dart';
+import 'package:boxting/data/network/auth_api.dart';
 import 'package:boxting/domain/repository/login_repository.dart';
 import 'package:flutter/material.dart';
 
 class LoginRepositoryImpl implements LoginRepository {
-  final LoginApi loginApi;
+  final AuthenticationApi loginApi;
 
   LoginRepositoryImpl({@required this.loginApi});
 
