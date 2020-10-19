@@ -1,10 +1,11 @@
-import 'package:boxting/data/network/login_api.dart';
+import 'package:boxting/data/network/auth_api.dart';
 import 'package:boxting/data/repository/login_repository_impl.dart';
 import 'package:boxting/data/repository/settings_repository_impl.dart';
 import 'package:boxting/ui/biometric/biometric_screen.dart';
 import 'package:boxting/ui/home/home_screen.dart';
 import 'package:boxting/ui/login/login_bloc.dart';
 import 'package:boxting/ui/register/register_screen.dart';
+import 'package:boxting/ui/widgets/boxting_button.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,7 +18,7 @@ class LoginScreen extends StatefulWidget {
   static Widget init(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => LoginBloc(
-        loginRepository: LoginRepositoryImpl(loginApi: LoginApi()),
+        loginRepository: LoginRepositoryImpl(loginApi: AuthenticationApi()),
         settingsRepository: SettingsRepositoryImpl(),
       ),
       builder: (_, __) => LoginScreen._(),
@@ -216,23 +217,24 @@ class _LoginScreenState extends State<LoginScreen> {
               icon: Icon(Icons.fingerprint_outlined),
               label: Text('Autenticación biometrica'),
             ),
-            SizedBox(height: 32),
+            SizedBox(height: 24),
             loginBloc.loginState == LoginState.loading
                 ? Center(child: CircularProgressIndicator())
-                : FlatButton(
-                    color: Theme.of(context).primaryColor,
-                    textColor: Colors.white,
+                : BoxtingButton(
+                    type: BoxtingButtonType.primary,
                     onPressed: () => login(context),
-                    child: Text('Ingresar'.toUpperCase()),
+                    child: Text(
+                      'Ingresar'.toUpperCase(),
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-            SizedBox(height: 8),
+            SizedBox(height: 16),
             Center(
               child: InkWell(
                 onTap: () => goToRegister(context),
-                child: Text(
-                  'Aún no tienes una cuenta? Registrate aquí',
-                  style: TextStyle(),
-                ),
+                child: Text('Aún no tienes una cuenta? Registrate aquí'),
               ),
             ),
           ],

@@ -32,6 +32,7 @@ class LoginBloc extends ChangeNotifier {
 
       loginState = LoginState.initial;
       notifyListeners();
+
       return loginResponse;
     } catch (e) {
       loginState = LoginState.initial;

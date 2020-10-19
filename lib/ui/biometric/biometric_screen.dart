@@ -1,6 +1,7 @@
 import 'package:boxting/data/repository/settings_repository_impl.dart';
 import 'package:boxting/ui/biometric/biometric_bloc.dart';
 import 'package:boxting/ui/home/home_screen.dart';
+import 'package:boxting/ui/widgets/boxting_button.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -122,21 +123,30 @@ class _BiometricScreenState extends State<BiometricScreen> {
               Image.asset(
                 'assets/images/biometric_login.png',
                 width: size.width,
-                height: 360,
+                height: size.height * 0.4,
               ),
               Center(
-                  child: Text(
-                'Asegura tu voto utilizando tu huella digital!',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
+                child: Text(
+                  'Asegura tu voto utilizando tu huella digital!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                  ),
                 ),
-              )),
+              ),
+              SizedBox(height: 8),
               Text(
                 'Ingresa a la aplicación utilizando tu huella digital y realizado todo de manera más rapida y segura. Recuerda que puedes modificar tu accesso con huella digital dentro de Configuración > Biometria',
               ),
-              RaisedButton(
-                child: Text(_isAuthenticating ? 'Cargando' : 'Autenticar'),
+              SizedBox(height: 32),
+              BoxtingButton(
+                child: Text(
+                  _isAuthenticating ? 'Cargando' : 'Autenticar',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 onPressed: () async {
                   await _checkBiometrics();
                   await _getAvailableBiometrics();
@@ -146,6 +156,7 @@ class _BiometricScreenState extends State<BiometricScreen> {
                     _authenticate(context);
                 },
               ),
+              SizedBox(height: 24),
               InkWell(
                 onTap: () => goToHomeScreen(context),
                 child: Text('Omitir por ahora'),
