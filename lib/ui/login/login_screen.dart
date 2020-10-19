@@ -175,13 +175,13 @@ class _LoginScreenState extends State<LoginScreen> {
     final loginBloc = context.watch<LoginBloc>();
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(30.0),
+        padding: const EdgeInsets.all(32.0),
         child: ListView(
           children: <Widget>[
             Image.asset(
               'assets/images/boxting_icon_white.png',
-              width: 100,
-              height: 100,
+              width: 120,
+              height: 120,
             ),
             SizedBox(height: 32),
             TextField(
@@ -226,11 +226,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Text('Ingresar'.toUpperCase()),
                   ),
             SizedBox(height: 8),
-            InkWell(
-              onTap: () => goToRegister(context),
-              child: Text(
-                'Aún no tienes una cuenta? Registrate aquí',
-                style: TextStyle(),
+            Center(
+              child: InkWell(
+                onTap: () => goToRegister(context),
+                child: Text(
+                  'Aún no tienes una cuenta? Registrate aquí',
+                  style: TextStyle(),
+                ),
               ),
             ),
           ],
