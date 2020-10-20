@@ -17,9 +17,7 @@ class LoginRepositoryImpl implements LoginRepository {
       return loginResponse.success;
     } on DioError catch (e) {
       throw BoxtingFailure(
-        statusCode: e.response.statusCode,
-        message: e.response.data['error']['message'] ??
-            'Ocurrió un error desconocido',
+        statusCode: e.response.data['error']['errorCode'] ?? 999,
       );
     }
   }

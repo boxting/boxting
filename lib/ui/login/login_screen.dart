@@ -122,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
       CoolAlert.show(
         context: context,
         type: CoolAlertType.error,
-        title: "Ocurrio un error ${bloc.failure.statusCode}!",
+        title: "Ocurrio un error!",
         text: bloc.failure.message,
       );
     } else {

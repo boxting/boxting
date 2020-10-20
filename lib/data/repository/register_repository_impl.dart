@@ -33,9 +33,7 @@ class RegisterRepositoryImpl implements RegisterRepository {
       return registerResponse.success;
     } on DioError catch (e) {
       throw BoxtingFailure(
-        statusCode: e.response.statusCode ?? 999,
-        message: e.response.data['error']['message'] ??
-            'Ocurrió un error desconocido',
+        statusCode: e.response.data['error']['errorCode'] ?? 999,
       );
     }
   }

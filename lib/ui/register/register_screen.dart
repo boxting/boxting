@@ -35,7 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       CoolAlert.show(
         context: context,
         type: CoolAlertType.error,
-        title: "Ocurrió un error ${bloc.failure.statusCode}!",
+        title: "Ocurrió un error!",
         text: bloc.failure.message,
       );
     } else {
