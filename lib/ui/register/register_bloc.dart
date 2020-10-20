@@ -1,3 +1,4 @@
+import 'package:boxting/data/error/error_handler.dart';
 import 'package:boxting/domain/repository/register_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +8,8 @@ class RegisterBloc extends ChangeNotifier {
   final RegisterRepository registerRepository;
 
   var registerState = RegisterState.initial;
+  BoxtingFailure _boxtingFailure;
+  BoxtingFailure get failure => _boxtingFailure;
 
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
@@ -37,6 +40,7 @@ class RegisterBloc extends ChangeNotifier {
       return loginResponse;
     } catch (e) {
       registerState = RegisterState.initial;
+      _boxtingFailure = e;
       notifyListeners();
       return false;
     }

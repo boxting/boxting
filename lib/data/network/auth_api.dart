@@ -1,6 +1,5 @@
 import 'package:boxting/data/network/response/login_response.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
 
 class AuthenticationApi {
   var dio = Dio();
@@ -12,19 +11,14 @@ class AuthenticationApi {
   }
 
   Future<LoginResponse> login(String username, String password) async {
-    try {
-      final response = await dio.post(
-        "user/voter/login",
-        data: {
-          "username": username,
-          "password": password,
-        },
-      );
-
-      return LoginResponse.fromJson(response.data);
-    } catch (e) {
-      throw PlatformException(code: e);
-    }
+    final response = await dio.post(
+      "user/voter/login",
+      data: {
+        "username": username,
+        "password": password,
+      },
+    );
+    return LoginResponse.fromJson(response.data);
   }
 
   Future<LoginResponse> register(
@@ -36,24 +30,20 @@ class AuthenticationApi {
     String mail,
     String phone,
   ) async {
-    try {
-      final response = await dio.post(
-        "user/voter/add",
-        data: {
-          "username": username,
-          "password": password,
-          'voter': {
-            'firstName': name,
-            'lastName': lastname,
-            'dni': dni,
-            'mail': mail,
-            'phone': phone,
-          }
-        },
-      );
-      return LoginResponse.fromJson(response.data);
-    } catch (e) {
-      throw PlatformException(code: e);
-    }
+    final response = await dio.post(
+      "user/voter/add",
+      data: {
+        "username": username,
+        "password": password,
+        'voter': {
+          'firstName': name,
+          'lastName': lastname,
+          'dni': dni,
+          'mail': mail,
+          'phone': phone,
+        }
+      },
+    );
+    return LoginResponse.fromJson(response.data);
   }
 }

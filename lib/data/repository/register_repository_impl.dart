@@ -1,5 +1,7 @@
+import 'package:boxting/data/error/error_handler.dart';
 import 'package:boxting/data/network/auth_api.dart';
 import 'package:boxting/domain/repository/register_repository.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class RegisterRepositoryImpl implements RegisterRepository {
@@ -17,16 +19,24 @@ class RegisterRepositoryImpl implements RegisterRepository {
     String username,
     String password,
   ) async {
-    final registerResponse = await authenticationApi.register(
-      name,
-      lastname,
-      username,
-      password,
-      dni,
-      email,
-      phone,
-    );
-    // TODO: Save user information
-    return registerResponse.success;
+    try {
+      final registerResponse = await authenticationApi.register(
+        name,
+        lastname,
+        username,
+        password,
+        dni,
+        email,
+        phone,
+      );
+      // TODO: Save user information
+      return registerResponse.success;
+    } on DioError catch (e) {
+      throw BoxtingFailure(
+        statusCode: e.response.statusCode ?? 999,
+        message: e.response.data['error']['message'] ??
+            'Ocurrió un error desconocido',
+      );
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:boxting/data/error/error_handler.dart';
 import 'package:boxting/domain/repository/login_repository.dart';
 import 'package:boxting/domain/repository/settings_repository.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,9 @@ class LoginBloc extends ChangeNotifier {
   final LoginRepository loginRepository;
   final SettingsRepository settingsRepository;
   var loginState = LoginState.initial;
+
+  BoxtingFailure _boxtingFailure;
+  BoxtingFailure get failure => _boxtingFailure;
 
   LoginBloc({
     @required this.loginRepository,
@@ -34,8 +38,9 @@ class LoginBloc extends ChangeNotifier {
       notifyListeners();
 
       return loginResponse;
-    } catch (e) {
+    } on BoxtingFailure catch (e) {
       loginState = LoginState.initial;
+      _boxtingFailure = e;
       notifyListeners();
       return false;
     }

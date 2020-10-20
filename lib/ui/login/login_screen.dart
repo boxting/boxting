@@ -117,25 +117,35 @@ class _LoginScreenState extends State<LoginScreen> {
     final bloc = context.read<LoginBloc>();
     final loginResult = await bloc.login();
     final fingerprintLogin = await bloc.loadBiometricInformation();
-    if (loginResult) {
-      if (fingerprintLogin) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => HomeScreen.init(context)),
-        );
-      } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => BiometricScreen.init(context)),
-        );
-      }
-    } else {
+
+    if (bloc.failure != null) {
       CoolAlert.show(
         context: context,
         type: CoolAlertType.error,
-        title: "Algo salio mal",
-        text: "Error al iniciar sesión. Usuario o contraseña incorrectos.",
+        title: "Ocurrio un error ${bloc.failure.statusCode}!",
+        text: bloc.failure.message,
       );
+    } else {
+      if (loginResult) {
+        if (fingerprintLogin) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => HomeScreen.init(context)),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => BiometricScreen.init(context)),
+          );
+        }
+      } else {
+        CoolAlert.show(
+          context: context,
+          type: CoolAlertType.error,
+          title: "Algo salio mal",
+          text: "Error al iniciar sesión. Usuario o contraseña incorrectos.",
+        );
+      }
     }
   }
 
@@ -196,6 +206,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             SizedBox(height: 16),
             TextField(
+              obscureText: true,
               controller: loginBloc.passwordController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
