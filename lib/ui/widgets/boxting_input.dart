@@ -11,6 +11,7 @@ class BoxtingInput extends StatelessWidget {
   final int maxLines;
   final TextInputType keyboardType;
   final VoidCallback onSelected;
+  final bool isPasswordField;
 
   BoxtingInput({
     @required this.label,
@@ -23,6 +24,7 @@ class BoxtingInput extends StatelessWidget {
     this.validator,
     this.maxLines,
     this.onSelected,
+    this.isPasswordField = false,
   });
 
   @override
@@ -33,6 +35,7 @@ class BoxtingInput extends StatelessWidget {
       keyboardType: keyboardType ?? TextInputType.name,
       controller: controller,
       enabled: enabled,
+      obscureText: isPasswordField,
       maxLines: this.maxLines == null ? 1 : this.maxLines,
       decoration: InputDecoration(
         alignLabelWithHint: true,

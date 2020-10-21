@@ -115,8 +115,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void login(BuildContext context) async {
     final bloc = context.read<LoginBloc>();
-    final loginResult = await bloc.login();
+    final isFirstTimeLogin = await bloc.isFirstTimeLogin();
     final fingerprintLogin = await bloc.loadBiometricInformation();
+    final loginResult = await bloc.login();
 
     if (bloc.failure != null) {
       CoolAlert.show(
@@ -133,10 +134,17 @@ class _LoginScreenState extends State<LoginScreen> {
             MaterialPageRoute(builder: (_) => HomeScreen.init(context)),
           );
         } else {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => BiometricScreen.init(context)),
-          );
+          if (isFirstTimeLogin) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => BiometricScreen.init(context)),
+            );
+          } else {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => HomeScreen.init(context)),
+            );
+          }
         }
       } else {
         CoolAlert.show(

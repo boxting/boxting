@@ -21,7 +21,7 @@ class SettingsScreen extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => BiometricScreen.init(context),
+          builder: (_) => BiometricScreen.init(context, settings: true),
         ),
       );
     } else {

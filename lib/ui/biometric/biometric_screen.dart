@@ -9,12 +9,16 @@ import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 
 class BiometricScreen extends StatefulWidget {
-  BiometricScreen._();
+  BiometricScreen._({this.comesFromSetting});
 
-  static Widget init(BuildContext context) {
+  final bool comesFromSetting;
+
+  static Widget init(BuildContext context, {bool settings}) {
     return ChangeNotifierProvider(
       create: (_) => BiometricBloc(repository: SettingsRepositoryImpl()),
-      builder: (_, __) => BiometricScreen._(),
+      builder: (_, __) => BiometricScreen._(
+        comesFromSetting: settings ?? false,
+      ),
     );
   }
 
@@ -46,15 +50,19 @@ class _BiometricScreenState extends State<BiometricScreen> {
   }
 
   void goToHomeScreen(BuildContext context, {bool dialog = false}) {
-    // Pop the dialog
-    if (dialog) Navigator.pop(context);
-    // Go to HomeScreen
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (_) => HomeScreen.init(context),
-      ),
-    );
+    if (widget.comesFromSetting) {
+      Navigator.pop(context);
+    } else {
+      // Pop the dialog
+      if (dialog) Navigator.pop(context);
+      // Go to HomeScreen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => HomeScreen.init(context),
+        ),
+      );
+    }
   }
 
   Future<void> _getAvailableBiometrics() async {

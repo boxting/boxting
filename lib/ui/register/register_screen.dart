@@ -107,6 +107,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(height: 16),
               BoxtingInput(
                 label: 'Contraseña',
+                isPasswordField: true,
                 controller: bloc.passwordController,
                 validator: (value) {
                   return value.isEmpty || value.length < 6

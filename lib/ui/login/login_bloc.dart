@@ -25,6 +25,9 @@ class LoginBloc extends ChangeNotifier {
     return await settingsRepository.isFingerprintLoginEnabled();
   }
 
+  Future<bool> isFirstTimeLogin() async =>
+      await loginRepository.isFirstTimeLogin();
+
   Future<bool> login() async {
     try {
       loginState = LoginState.loading;
