@@ -51,6 +51,9 @@ class _BiometricScreenState extends State<BiometricScreen> {
 
   void goToHomeScreen(BuildContext context, {bool dialog = false}) {
     if (widget.comesFromSetting) {
+      // Pop the dialog
+      if (dialog) Navigator.pop(context);
+      // Pop the Biometric Screen
       Navigator.pop(context);
     } else {
       // Pop the dialog
@@ -106,11 +109,16 @@ class _BiometricScreenState extends State<BiometricScreen> {
       }
     } on PlatformException catch (e) {
       CoolAlert.show(
-        context: context,
-        type: CoolAlertType.error,
-        title: "Algo malio sal",
-        text: e.message,
-      );
+          context: context,
+          type: CoolAlertType.error,
+          title: "Algo salio mal",
+          text: e.message,
+          onConfirmBtnTap: () {
+            Navigator.pop(context);
+            setState(() {
+              _isAuthenticating = false;
+            });
+          });
     }
     if (!mounted) return;
   }

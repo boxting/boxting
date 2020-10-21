@@ -31,7 +31,10 @@ class SettingsScreen extends StatelessWidget {
         text: "Do you want to logout",
         confirmBtnText: "Yes",
         cancelBtnText: "No",
-        onConfirmBtnTap: () => bloc.setBiometricInformation(enabled),
+        onConfirmBtnTap: () {
+          Navigator.pop(context);
+          bloc.setBiometricInformation(enabled);
+        },
         confirmBtnColor: Colors.green,
       );
     }
