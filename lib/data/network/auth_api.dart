@@ -6,8 +6,8 @@ class AuthenticationApi {
 
   AuthenticationApi() {
     dio.options.baseUrl = "https://blockchain-voting.herokuapp.com/";
-    dio.options.connectTimeout = 8000; //5s
-    dio.options.receiveTimeout = 8000;
+    dio.options.connectTimeout = 20000; //5s
+    dio.options.receiveTimeout = 20000;
   }
 
   Future<LoginResponse> login(String username, String password) async {
