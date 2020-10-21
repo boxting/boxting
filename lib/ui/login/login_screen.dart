@@ -115,6 +115,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void login(BuildContext context) async {
     final bloc = context.read<LoginBloc>();
+
+    if (bloc.usernameController.text.trim().isEmpty ||
+        bloc.passwordController.text.trim().isEmpty) {
+      CoolAlert.show(
+        context: context,
+        type: CoolAlertType.error,
+        title: "Ocurrio un error!",
+        text: "Debe llenar los campos obligatiorios",
+      );
+      return;
+    }
+
     final isFirstTimeLogin = await bloc.isFirstTimeLogin();
     final fingerprintLogin = await bloc.loadBiometricInformation();
     final loginResult = await bloc.login();

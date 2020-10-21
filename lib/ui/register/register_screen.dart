@@ -101,7 +101,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 label: 'Usuario',
                 controller: bloc.usernameController,
                 validator: (value) {
-                  return value.isEmpty ? 'Debe ingresar información' : null;
+                  return value.length < 3 || value.length > 25
+                      ? 'Ingrese un usuario de un tamaño valido'
+                      : null;
                 },
               ),
               SizedBox(height: 16),
@@ -111,7 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 controller: bloc.passwordController,
                 validator: (value) {
                   return value.isEmpty || value.length < 6
-                      ? 'Ingrese una contraseña de un tamaño valido'
+                      ? 'Ingrese una contraseña de un tamaño válido'
                       : null;
                 },
               ),
