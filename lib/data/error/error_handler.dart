@@ -21,10 +21,10 @@ class BoxtingFailure implements Exception {
         message = 'Ocurrió un error desconocido';
         break;
       case LOGIN_USERNAME_ERROR:
-        message = 'El nombre de usuario ingresado no existe';
+        message = 'El usuario o contraseña ingresado es incorrecto';
         break;
       case PASSWORD_LOGIN_ERROR:
-        message = 'La contraseña ingresada es incorrecta';
+        message = 'El usuario o contraseña ingresado es incorrecto';
         break;
       case LOGIN_CREDENTIALS_ERROR:
         message =
