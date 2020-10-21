@@ -23,6 +23,7 @@ class RegisterBloc extends ChangeNotifier {
 
   Future<bool> register() async {
     try {
+      _boxtingFailure = null;
       registerState = RegisterState.loading;
       notifyListeners();
       final loginResponse = await registerRepository.registerUser(

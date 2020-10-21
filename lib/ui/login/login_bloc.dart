@@ -30,13 +30,13 @@ class LoginBloc extends ChangeNotifier {
 
   Future<bool> login() async {
     try {
+      _boxtingFailure = null;
       loginState = LoginState.loading;
       notifyListeners();
       final loginResponse = await loginRepository.login(
         usernameController.text.trim(),
         passwordController.text.trim(),
       );
-
       loginState = LoginState.initial;
       notifyListeners();
 
