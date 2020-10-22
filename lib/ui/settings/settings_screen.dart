@@ -28,8 +28,8 @@ class SettingsScreen extends StatelessWidget {
       CoolAlert.show(
         context: context,
         type: CoolAlertType.confirm,
-        text: "Do you want to logout",
-        confirmBtnText: "Yes",
+        text: "Quieres eliminar tu huella de la aplicación?",
+        confirmBtnText: "Sí",
         cancelBtnText: "No",
         onConfirmBtnTap: () {
           Navigator.pop(context);
