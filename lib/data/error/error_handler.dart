@@ -42,7 +42,7 @@ class BoxtingFailure implements Exception {
             'No se ha ingresado un valor para uno de los campos obligatorios';
         break;
       case REGISTER_DNI_ERROR:
-        message = 'El dni ingresado ya existe';
+        message = 'El DNI ingresado ya existe';
         break;
       case REGISTER_MAIL_ERROR:
         message = 'El mail ingresado ya existe';
