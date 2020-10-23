@@ -93,6 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
           title: "Perfecto",
           text: "Tu huella digital ha sido validada",
           confirmBtnText: 'Continuar',
+          barrierDismissible: false,
           onConfirmBtnTap: () => goToHomeScreen(context, dialog: true),
         );
       } else {
