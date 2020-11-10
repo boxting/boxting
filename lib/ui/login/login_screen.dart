@@ -2,6 +2,7 @@ import 'package:boxting/data/network/auth_api.dart';
 import 'package:boxting/data/repository/login_repository_impl.dart';
 import 'package:boxting/data/repository/settings_repository_impl.dart';
 import 'package:boxting/ui/biometric/biometric_screen.dart';
+import 'package:boxting/ui/forgot_password/forgot_password_screen.dart';
 import 'package:boxting/ui/home/home_screen.dart';
 import 'package:boxting/ui/login/login_bloc.dart';
 import 'package:boxting/ui/register/register_screen.dart';
@@ -237,6 +238,18 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             SizedBox(height: 8),
+            InkWell(
+              onTap: () => goToForgotPassword(),
+              child: Text(
+                'Olvide mi contraseña',
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  fontSize: 16,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
+            SizedBox(height: 8),
             CheckboxListTile(
               title: Text('Recordar'),
               value: rememberCheckbox,
@@ -274,4 +287,11 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+  Future<void> goToForgotPassword() => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => ForgotPasswordScreen.init(context),
+        ),
+      );
 }
