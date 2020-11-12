@@ -1,6 +1,7 @@
 import 'package:boxting/data/repository/settings_repository_impl.dart';
 import 'package:boxting/ui/biometric/biometric_screen.dart';
 import 'package:boxting/ui/settings/settings_bloc.dart';
+import 'package:boxting/ui/terms/terms_screen.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -80,6 +81,19 @@ class SettingsScreen extends StatelessWidget {
                   title: Text('Idiomas'),
                   subtitle: Text('Define el idioma de la aplicación'),
                   trailing: Icon(Icons.arrow_forward_ios),
+                ),
+                ListTile(
+                  leading: Icon(Icons.text_format_sharp),
+                  title: Text('Terminos y condiciones'),
+                  subtitle: Text(
+                      'Conoce los terminos y condiciones de la aplicación'),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => TermsScreen.init(context),
+                    ),
+                  ),
                 ),
               ],
             );
