@@ -1,4 +1,4 @@
-package com.example.boxting
+package com.boxtinglabs.boxting
 
 import io.flutter.embedding.android.FlutterActivity
 
