@@ -95,6 +95,21 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                ListTile(
+                  leading: Icon(Icons.question_answer),
+                  title: Text('Preguntas frecuentes'),
+                  subtitle: Text(
+                    'Conoce las respuestas a las preguntas más frecuentes acerca de la aplicación',
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      // TODO: Goto faq screens
+                      builder: (_) => TermsScreen.init(context),
+                    ),
+                  ),
+                ),
               ],
             );
           } else {
