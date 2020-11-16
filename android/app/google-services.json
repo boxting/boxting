@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "477434757501",
+    "firebase_url": "https://boxting-8ec66.firebaseio.com",
+    "project_id": "boxting-8ec66",
+    "storage_bucket": "boxting-8ec66.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:477434757501:android:5df5016becf157992acc14",
+        "android_client_info": {
+          "package_name": "com.boxtinglabs.boxting"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "477434757501-p4a760p8ppiusodgb7lmlp4n5ssngfk3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.boxtinglabs.boxting",
+            "certificate_hash": "02df166bb753b446e093b44c14d6e267dd68de57"
+          }
+        },
+        {
+          "client_id": "477434757501-nko4ho4emev5irjgqnpa62d005mfpfhr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQEDUpk1P6_ckXGhTreX-osivpcC483F4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "477434757501-nko4ho4emev5irjgqnpa62d005mfpfhr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
