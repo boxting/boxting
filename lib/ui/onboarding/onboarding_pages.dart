@@ -1,4 +1,5 @@
 import 'package:boxting/ui/onboarding/onboarding_model.dart';
+import 'package:boxting/ui/widgets/boxting_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -184,9 +185,11 @@ class ShowPageData extends StatelessWidget {
 class StepIndicator extends StatelessWidget {
   final bool isActive;
   final Color themeColor;
-  const StepIndicator(
-      {Key key, @required this.isActive, @required this.themeColor})
-      : super(key: key);
+  const StepIndicator({
+    Key key,
+    @required this.isActive,
+    @required this.themeColor,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
@@ -205,33 +208,28 @@ class StepIndicator extends StatelessWidget {
 class GetStartedButton extends StatelessWidget {
   final VoidCallback getStartedTapped;
   final Color themeColor;
-  const GetStartedButton(
-      {Key key, @required this.getStartedTapped, @required this.themeColor})
-      : super(key: key);
+  const GetStartedButton({
+    Key key,
+    @required this.getStartedTapped,
+    @required this.themeColor,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-          left: 20.0, right: 20.0, top: 5.0, bottom: 30.0),
-      child: GestureDetector(
-        onTap: getStartedTapped,
-        child: Container(
-          height: 50.0,
-          decoration: BoxDecoration(
-            color: themeColor,
-            borderRadius: BorderRadius.all(
-              Radius.circular(6.0),
-            ),
-          ),
-          child: Center(
-            child: Text(
-              'Empezar',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16.0,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+        left: 20.0,
+        right: 20.0,
+        top: 5.0,
+        bottom: 30.0,
+      ),
+      child: BoxtingButton(
+        onPressed: getStartedTapped,
+        child: Text(
+          'Empezar',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16.0,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),

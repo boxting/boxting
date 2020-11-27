@@ -5,9 +5,10 @@ import 'package:boxting/ui/widgets/boxting_button.dart';
 import 'package:boxting/ui/widgets/boxting_input.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends HookWidget {
   RegisterScreen._();
 
   static Widget init(BuildContext context) {
@@ -21,11 +22,6 @@ class RegisterScreen extends StatefulWidget {
     );
   }
 
-  @override
-  _RegisterScreenState createState() => _RegisterScreenState();
-}
-
-class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
 
   void register(BuildContext context) async {
