@@ -1,9 +1,10 @@
-import 'package:boxting/ui/home/home_bloc.dart';
-import 'package:boxting/ui/settings/settings_screen.dart';
+import 'package:boxting/features/settings/settings_screen.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
+
+import 'home_bloc.dart';
 
 class HomeScreen extends HookWidget {
   HomeScreen._();

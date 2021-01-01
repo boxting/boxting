@@ -1,8 +1,8 @@
 import 'package:boxting/data/network/auth_api.dart';
 import 'package:boxting/data/repository/register_repository_impl.dart';
-import 'package:boxting/ui/register/register_bloc.dart';
-import 'package:boxting/ui/widgets/boxting_button.dart';
-import 'package:boxting/ui/widgets/boxting_input.dart';
+import 'package:boxting/features/register/register_bloc.dart';
+import 'package:boxting/features/widgets/boxting_button.dart';
+import 'package:boxting/features/widgets/boxting_input.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';

@@ -1,7 +1,8 @@
-import 'package:boxting/ui/onboarding/onboarding_model.dart';
-import 'package:boxting/ui/widgets/boxting_button.dart';
+import 'package:boxting/features/widgets/boxting_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'onboarding_model.dart';
 
 class OnboardingPages extends StatefulWidget {
   final List<OnboardingModel> pages;

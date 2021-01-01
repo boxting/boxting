@@ -1,9 +1,10 @@
-import 'package:boxting/ui/login/login_screen.dart';
-import 'package:boxting/ui/onboarding/onboarding_screen.dart';
-import 'package:boxting/ui/splash/splash_bloc.dart';
+import 'package:boxting/features/login/login_screen.dart';
+import 'package:boxting/features/onboarding/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
+
+import 'splash_bloc.dart';
 
 class SplashScreen extends HookWidget {
   SplashScreen._();
