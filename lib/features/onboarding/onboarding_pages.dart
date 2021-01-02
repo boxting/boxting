@@ -1,10 +1,11 @@
 import 'package:boxting/features/widgets/boxting_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'onboarding_model.dart';
 
-class OnboardingPages extends StatefulWidget {
+class OnboardingPages extends HookWidget {
   final List<OnboardingModel> pages;
   final Color bgColor;
   final Color themeColor;
@@ -20,41 +21,31 @@ class OnboardingPages extends StatefulWidget {
     @required this.getStartedClicked,
   }) : super(key: key);
 
-  @override
-  OnboardingPagesState createState() => OnboardingPagesState();
-}
-
-class OnboardingPagesState extends State<OnboardingPages> {
   final PageController _pageController = PageController(initialPage: 0);
-  int _currentPage = 0;
-
-  List<Widget> _buildPageIndicator() {
-    List<Widget> list = [];
-    for (int i = 0; i < widget.pages.length; i++) {
-      list.add(i == _currentPage
-          ? StepIndicator(isActive: true, themeColor: widget.themeColor)
-          : StepIndicator(isActive: false, themeColor: widget.themeColor));
-    }
-    return list;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  List<Widget> buildOnboardingPages() {
-    final children = <Widget>[];
-    for (int i = 0; i < widget.pages.length; i++) {
-      children.add(ShowPageData(page: widget.pages[i]));
-    }
-    return children;
-  }
 
   @override
   Widget build(BuildContext context) {
+    final _currentPage = useState<int>(0);
+    List<Widget> _buildPageIndicator() {
+      List<Widget> list = [];
+      for (int i = 0; i < pages.length; i++) {
+        list.add(i == _currentPage.value
+            ? StepIndicator(isActive: true, themeColor: themeColor)
+            : StepIndicator(isActive: false, themeColor: themeColor));
+      }
+      return list;
+    }
+
+    List<Widget> buildOnboardingPages() {
+      final children = <Widget>[];
+      for (int i = 0; i < pages.length; i++) {
+        children.add(ShowPageData(page: pages[i]));
+      }
+      return children;
+    }
+
     return Scaffold(
-      backgroundColor: widget.bgColor,
+      backgroundColor: bgColor,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: SafeArea(
@@ -69,7 +60,7 @@ class OnboardingPagesState extends State<OnboardingPages> {
                     alignment: Alignment.centerRight,
                     child: FlatButton(
                       onPressed: () {
-                        widget.skipClicked("Skip Tapped");
+                        skipClicked("Skip Tapped");
                       },
                       child: Text(
                         'Saltar',
@@ -85,30 +76,27 @@ class OnboardingPagesState extends State<OnboardingPages> {
                     height: 475.0,
                     color: Colors.transparent,
                     child: PageView(
-                        physics: ClampingScrollPhysics(),
-                        controller: _pageController,
-                        onPageChanged: (int page) {
-                          setState(() {
-                            _currentPage = page;
-                          });
-                        },
-                        children: buildOnboardingPages()),
+                      physics: ClampingScrollPhysics(),
+                      controller: _pageController,
+                      onPageChanged: (int page) => _currentPage.value = page,
+                      children: buildOnboardingPages(),
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: _buildPageIndicator(),
                   ),
-                  _currentPage != widget.pages.length - 1
+                  _currentPage.value != pages.length - 1
                       ? Expanded(
                           child: Align(
                             alignment: FractionalOffset.bottomRight,
                             child: Padding(
                               padding: EdgeInsets.only(right: 20, bottom: 10),
                               child: FloatingActionButton(
-                                backgroundColor: widget.bgColor,
+                                backgroundColor: bgColor,
                                 child: Icon(
                                   Icons.arrow_forward,
-                                  color: widget.themeColor,
+                                  color: themeColor,
                                 ),
                                 onPressed: () {
                                   _pageController.nextPage(
@@ -127,17 +115,17 @@ class OnboardingPagesState extends State<OnboardingPages> {
           ),
         ),
       ),
-      bottomSheet: _currentPage == widget.pages.length - 1
+      bottomSheet: _currentPage.value == pages.length - 1
           ? GetStartedButton(
               getStartedTapped: () => _getStartedTapped(),
-              themeColor: widget.themeColor,
+              themeColor: themeColor,
             )
-          : Text(''),
+          : Container(),
     );
   }
 
   void _getStartedTapped() {
-    widget.getStartedClicked("Get Started Tapped");
+    getStartedClicked("Get Started Tapped");
   }
 }
 
