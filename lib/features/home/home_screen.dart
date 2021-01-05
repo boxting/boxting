@@ -19,7 +19,7 @@ class HomeScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final selectedIndex = useState<int>(0);
-    final child = useState<Widget>();
+    final child = useState<Widget>(SettingsScreen.init(context));
     Widget getChildByIndex(int index, BuildContext context) {
       switch (index) {
         case 0:
