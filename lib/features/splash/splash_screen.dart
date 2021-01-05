@@ -28,7 +28,7 @@ class SplashScreen extends HookWidget {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (_) => OnBoardingScreen(),
+                builder: (_) => LoginScreen.init(context),
               ),
             );
           } else {

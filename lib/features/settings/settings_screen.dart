@@ -1,5 +1,6 @@
 import 'package:boxting/data/repository/settings_repository_impl.dart';
 import 'package:boxting/features/biometric/biometric_screen.dart';
+import 'package:boxting/features/faq/faq_screen.dart';
 import 'package:boxting/features/settings/settings_bloc.dart';
 import 'package:boxting/features/terms/terms_screen.dart';
 import 'package:cool_alert/cool_alert.dart';
@@ -91,7 +92,7 @@ class SettingsScreen extends StatelessWidget {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => TermsScreen.init(context),
+                      builder: (_) => TermsScreen(),
                     ),
                   ),
                 ),
@@ -106,7 +107,7 @@ class SettingsScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       // TODO: Goto faq screens
-                      builder: (_) => TermsScreen.init(context),
+                      builder: (_) => FaqScreen(),
                     ),
                   ),
                 ),
