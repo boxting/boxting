@@ -5,7 +5,8 @@ import 'package:boxting/features/biometric/biometric_screen.dart';
 import 'package:boxting/features/forgot_password/forgot_password_screen.dart';
 import 'package:boxting/features/home/home_screen.dart';
 import 'package:boxting/features/register/register_screen.dart';
-import 'package:boxting/features/widgets/boxting_button.dart';
+import 'package:boxting/widgets/widgets.dart';
+
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

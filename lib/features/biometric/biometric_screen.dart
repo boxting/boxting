@@ -1,7 +1,8 @@
 import 'package:boxting/data/repository/settings_repository_impl.dart';
 import 'package:boxting/features/biometric/biometric_bloc.dart';
 import 'package:boxting/features/home/home_screen.dart';
-import 'package:boxting/features/widgets/boxting_button.dart';
+import 'package:boxting/widgets/widgets.dart';
+
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
