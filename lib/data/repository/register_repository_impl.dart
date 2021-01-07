@@ -32,9 +32,8 @@ class RegisterRepositoryImpl implements RegisterRepository {
       // TODO: Save user information
       return registerResponse.success;
     } on DioError catch (e) {
-      throw BoxtingFailure(
-        statusCode: e.response.data['error']['errorCode'] ?? 999,
-      );
+      final statusCodeError = e.response.data['error']['errorCode'];
+      throw BoxtingFailure(statusCode: statusCodeError ?? 999);
     }
   }
 }
