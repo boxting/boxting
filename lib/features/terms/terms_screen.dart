@@ -1,9 +1,5 @@
-import 'package:boxting/data/network/auth_api.dart';
-import 'package:boxting/data/repository/register_repository_impl.dart';
-import 'package:boxting/features/register/register_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:provider/provider.dart';
 
 class TermsScreen extends StatelessWidget {
   final data =

@@ -8,6 +8,7 @@ import 'package:boxting/features/register/register_screen.dart';
 import 'package:boxting/widgets/widgets.dart';
 
 import 'package:cool_alert/cool_alert.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -22,7 +23,8 @@ class LoginScreen extends HookWidget {
   static Widget init(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => LoginBloc(
-        loginRepository: LoginRepositoryImpl(loginApi: AuthenticationApi()),
+        loginRepository:
+            LoginRepositoryImpl(loginApi: AuthenticationApi(Dio())),
         settingsRepository: SettingsRepositoryImpl(),
       ),
       builder: (_, __) => LoginScreen._(),
