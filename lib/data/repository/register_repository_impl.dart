@@ -36,4 +36,10 @@ class RegisterRepositoryImpl implements RegisterRepository {
       throw BoxtingFailure(statusCode: statusCodeError ?? 999);
     }
   }
+
+  @override
+  Future<void> fetchInformationFromReniec(String dni) {
+    // TODO: implement fetchInformationFromReniec
+    throw UnimplementedError();
+  }
 }

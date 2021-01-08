@@ -8,4 +8,6 @@ abstract class RegisterRepository {
     String username,
     String password,
   );
+
+  Future<void> fetchInformationFromReniec(String dni);
 }

@@ -2,9 +2,9 @@ import 'package:boxting/data/network/response/login_response.dart';
 import 'package:dio/dio.dart';
 
 class AuthenticationApi {
-  var dio = Dio();
-
-  AuthenticationApi() {
+  Dio dio;
+  AuthenticationApi(Dio dio) {
+    this.dio = dio;
     dio.options.baseUrl = "https://blockchain-voting.herokuapp.com/";
     dio.options.connectTimeout = 20000; //5s
     dio.options.receiveTimeout = 20000;
