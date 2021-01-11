@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
-
-import 'features/boxting_theme.dart';
+import 'boxting_theme.dart';
 import 'features/splash/splash_bloc.dart';
 import 'features/splash/splash_screen.dart';
 
