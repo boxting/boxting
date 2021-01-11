@@ -1,12 +1,12 @@
 import 'package:boxting/data/network/auth_api.dart';
 import 'package:boxting/data/repository/login_repository_impl.dart';
 import 'package:boxting/data/repository/settings_repository_impl.dart';
+import 'package:boxting/features/biometric/biometric_bloc.dart';
 import 'package:boxting/features/biometric/biometric_screen.dart';
 import 'package:boxting/features/forgot_password/forgot_password_screen.dart';
 import 'package:boxting/features/home/home_screen.dart';
 import 'package:boxting/features/register/register_screen.dart';
 import 'package:boxting/widgets/widgets.dart';
-
 import 'package:cool_alert/cool_alert.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -21,90 +21,36 @@ class LoginScreen extends HookWidget {
   LoginScreen._();
 
   static Widget init(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => LoginBloc(
-        loginRepository:
-            LoginRepositoryImpl(loginApi: AuthenticationApi(Dio())),
-        settingsRepository: SettingsRepositoryImpl(),
-      ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<LoginBloc>(
+          create: (_) => LoginBloc(
+            loginRepository:
+                LoginRepositoryImpl(loginApi: AuthenticationApi(Dio())),
+            settingsRepository: SettingsRepositoryImpl(),
+          ),
+        ),
+        ChangeNotifierProvider<BiometricBloc>(
+          create: (_) => BiometricBloc(
+            SettingsRepositoryImpl(),
+            LocalAuthentication(),
+          ),
+        )
+      ],
       builder: (_, __) => LoginScreen._(),
     );
   }
-
-  final LocalAuthentication auth = LocalAuthentication();
 
   @override
   Widget build(BuildContext context) {
     final _isAuthenticating = useState<bool>(false);
 
-    Future<void> _checkBiometrics() async {
-      try {
-        await auth.canCheckBiometrics;
-      } on PlatformException catch (e) {
-        print(e);
-      }
-    }
-
-    void goToHomeScreen(BuildContext context, {bool dialog = false}) {
-      // Pop the dialog
-      if (dialog) Navigator.pop(context);
-      // Go to HomeScreen
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => HomeScreen.init(context),
-        ),
-      );
-    }
-
-    Future<void> _getAvailableBiometrics() async {
-      try {
-        await auth.getAvailableBiometrics();
-      } on PlatformException catch (e) {
-        print(e);
-      }
-    }
-
-    Future<void> _authenticate(BuildContext context) async {
-      bool authenticated = false;
-      try {
-        authenticated = await auth.authenticateWithBiometrics(
-          localizedReason: 'Scan your fingerprint to authenticate',
-          useErrorDialogs: true,
-          stickyAuth: true,
-        );
-        if (authenticated) {
-          CoolAlert.show(
-            context: context,
-            type: CoolAlertType.success,
-            title: "Perfecto",
-            text: "Tu huella digital ha sido validada",
-            confirmBtnText: 'Continuar',
-            barrierDismissible: false,
-            onConfirmBtnTap: () => goToHomeScreen(context, dialog: true),
-          );
-        } else {
-          throw PlatformException(code: 'Autenticación fallida');
-        }
-      } on PlatformException catch (e) {
-        CoolAlert.show(
-          context: context,
-          type: CoolAlertType.error,
-          title: "Algo malio sal",
-          text: e.message,
-        );
-      }
-    }
-
-    void _cancelAuthentication() {
-      auth.stopAuthentication();
-    }
+    final loginBloc = context.watch<LoginBloc>();
+    final biometricBloc = context.watch<BiometricBloc>();
 
     void login(BuildContext context) async {
-      final bloc = context.read<LoginBloc>();
-
-      if (bloc.usernameController.text.trim().isEmpty ||
-          bloc.passwordController.text.trim().isEmpty) {
+      if (loginBloc.usernameController.text.trim().isEmpty ||
+          loginBloc.passwordController.text.trim().isEmpty) {
         CoolAlert.show(
           context: context,
           type: CoolAlertType.error,
@@ -114,16 +60,16 @@ class LoginScreen extends HookWidget {
         return;
       }
 
-      final isFirstTimeLogin = await bloc.isFirstTimeLogin();
-      final fingerprintLogin = await bloc.loadBiometricInformation();
-      final loginResult = await bloc.login();
+      final isFirstTimeLogin = await loginBloc.isFirstTimeLogin();
+      final fingerprintLogin = await loginBloc.loadBiometricInformation();
+      final loginResult = await loginBloc.login();
 
-      if (bloc.failure != null) {
+      if (loginBloc.failure != null) {
         CoolAlert.show(
           context: context,
           type: CoolAlertType.error,
           title: "Ocurrio un error!",
-          text: bloc.failure.message,
+          text: loginBloc.failure.message,
         );
       } else {
         if (loginResult) {
@@ -158,23 +104,39 @@ class LoginScreen extends HookWidget {
     }
 
     void goToRegister(BuildContext context) => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => RegisterScreen.init(context),
-          ),
-        );
+        context,
+        MaterialPageRoute(
+          builder: (_) => RegisterScreen.init(context),
+        ));
 
     void authenticateBiometrical(BuildContext context) async {
       final bloc = context.read<LoginBloc>();
       final biometricLoginEnabled = await bloc.loadBiometricInformation();
 
       if (biometricLoginEnabled) {
-        await _checkBiometrics();
-        await _getAvailableBiometrics();
+        await biometricBloc.checkBiometrics();
+        await biometricBloc.getAvailableBiometrics();
         if (_isAuthenticating.value)
-          _cancelAuthentication();
+          biometricBloc.cancelAuthentication();
         else
-          _authenticate(context);
+          biometricBloc.authenticate(
+            context: context,
+            onSuccess: () => CoolAlert.show(
+                context: context,
+                type: CoolAlertType.success,
+                title: "Perfecto",
+                text: "Tu huella digital ha sido validada",
+                confirmBtnText: 'Continuar',
+                barrierDismissible: false,
+                onConfirmBtnTap: () =>
+                    biometricBloc.goToHomeScreen(context, dialog: true)),
+            onFailure: (PlatformException e) => CoolAlert.show(
+              context: context,
+              type: CoolAlertType.error,
+              title: "Algo malio sal",
+              text: e.message,
+            ),
+          );
       } else {
         CoolAlert.show(
           context: context,
@@ -188,8 +150,6 @@ class LoginScreen extends HookWidget {
     }
 
     final rememberCheckbox = useState<bool>(false);
-
-    final loginBloc = context.watch<LoginBloc>();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(32.0),
