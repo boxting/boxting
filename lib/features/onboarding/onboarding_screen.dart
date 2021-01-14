@@ -25,8 +25,8 @@ class OnBoardingScreen extends HookWidget {
 
   void goToLoginScreen(BuildContext context) async {
     var box = await Hive.openBox('onboarding');
-    box.put('firstTime', false);
-    Navigator.pushReplacement(
+    await box.put('firstTime', false);
+    await Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (_) => LoginScreen.init(context),

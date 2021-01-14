@@ -27,8 +27,8 @@ class OnboardingPages extends HookWidget {
   Widget build(BuildContext context) {
     final _currentPage = useState<int>(0);
     List<Widget> _buildPageIndicator() {
-      List<Widget> list = [];
-      for (int i = 0; i < pages.length; i++) {
+      var list = <Widget>[];
+      for (var i = 0; i < pages.length; i++) {
         list.add(i == _currentPage.value
             ? StepIndicator(isActive: true, themeColor: themeColor)
             : StepIndicator(isActive: false, themeColor: themeColor));
@@ -38,7 +38,7 @@ class OnboardingPages extends HookWidget {
 
     List<Widget> buildOnboardingPages() {
       final children = <Widget>[];
-      for (int i = 0; i < pages.length; i++) {
+      for (var i = 0; i < pages.length; i++) {
         children.add(ShowPageData(page: pages[i]));
       }
       return children;
@@ -60,7 +60,7 @@ class OnboardingPages extends HookWidget {
                     alignment: Alignment.centerRight,
                     child: FlatButton(
                       onPressed: () {
-                        skipClicked("Skip Tapped");
+                        skipClicked('Skip Tapped');
                       },
                       child: Text(
                         'Saltar',
@@ -125,7 +125,7 @@ class OnboardingPages extends HookWidget {
   }
 
   void _getStartedTapped() {
-    getStartedClicked("Get Started Tapped");
+    getStartedClicked('Get Started Tapped');
   }
 }
 

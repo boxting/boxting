@@ -51,11 +51,11 @@ class LoginScreen extends HookWidget {
     void login(BuildContext context) async {
       if (loginBloc.usernameController.text.trim().isEmpty ||
           loginBloc.passwordController.text.trim().isEmpty) {
-        CoolAlert.show(
+        await CoolAlert.show(
           context: context,
           type: CoolAlertType.error,
-          title: "Ocurrio un error!",
-          text: "Debe llenar los campos obligatiorios",
+          title: 'Ocurrio un error!',
+          text: 'Debe llenar los campos obligatiorios',
         );
         return;
       }
@@ -65,39 +65,39 @@ class LoginScreen extends HookWidget {
       final loginResult = await loginBloc.login();
 
       if (loginBloc.failure != null) {
-        CoolAlert.show(
+        await CoolAlert.show(
           context: context,
           type: CoolAlertType.error,
-          title: "Ocurrio un error!",
+          title: 'Ocurrio un error!',
           text: loginBloc.failure.message,
         );
       } else {
         if (loginResult) {
           if (fingerprintLogin) {
-            Navigator.pushReplacement(
+            await Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (_) => HomeScreen.init(context)),
             );
           } else {
             if (isFirstTimeLogin) {
-              Navigator.pushReplacement(
+              await Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                     builder: (_) => BiometricScreen.init(context)),
               );
             } else {
-              Navigator.pushReplacement(
+              await Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (_) => HomeScreen.init(context)),
               );
             }
           }
         } else {
-          CoolAlert.show(
+          await CoolAlert.show(
             context: context,
             type: CoolAlertType.error,
-            title: "Algo salio mal",
-            text: "Error al iniciar sesión. Usuario o contraseña incorrectos.",
+            title: 'Algo salio mal',
+            text: 'Error al iniciar sesión. Usuario o contraseña incorrectos.',
           );
         }
       }
@@ -116,16 +116,16 @@ class LoginScreen extends HookWidget {
       if (biometricLoginEnabled) {
         await biometricBloc.checkBiometrics();
         await biometricBloc.getAvailableBiometrics();
-        if (_isAuthenticating.value)
+        if (_isAuthenticating.value) {
           biometricBloc.cancelAuthentication();
-        else
-          biometricBloc.authenticate(
+        } else {
+          await biometricBloc.authenticate(
             context: context,
             onSuccess: () => CoolAlert.show(
                 context: context,
                 type: CoolAlertType.success,
-                title: "Perfecto",
-                text: "Tu huella digital ha sido validada",
+                title: 'Perfecto',
+                text: 'Tu huella digital ha sido validada',
                 confirmBtnText: 'Continuar',
                 barrierDismissible: false,
                 onConfirmBtnTap: () =>
@@ -133,16 +133,17 @@ class LoginScreen extends HookWidget {
             onFailure: (PlatformException e) => CoolAlert.show(
               context: context,
               type: CoolAlertType.error,
-              title: "Algo malio sal",
+              title: 'Algo malio sal',
               text: e.message,
             ),
           );
+        }
       } else {
-        CoolAlert.show(
+        await CoolAlert.show(
           context: context,
           type: CoolAlertType.error,
-          title: "Ocurrió un error",
-          text: "Aún no has validado tu huella digital en este dispositivo.",
+          title: 'Ocurrió un error',
+          text: 'Aún no has validado tu huella digital en este dispositivo.',
           confirmBtnText: 'Ok',
           onConfirmBtnTap: () => Navigator.pop(context),
         );

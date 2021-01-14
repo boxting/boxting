@@ -5,17 +5,17 @@ class AuthenticationApi {
   Dio dio;
   AuthenticationApi(Dio dio) {
     this.dio = dio;
-    dio.options.baseUrl = "https://blockchain-voting.herokuapp.com/";
+    dio.options.baseUrl = 'https://blockchain-voting.herokuapp.com/';
     dio.options.connectTimeout = 20000; //5s
     dio.options.receiveTimeout = 20000;
   }
 
   Future<LoginResponse> login(String username, String password) async {
     final response = await dio.post(
-      "user/voter/login",
+      'user/voter/login',
       data: {
-        "username": username,
-        "password": password,
+        'username': username,
+        'password': password,
       },
     );
     return LoginResponse.fromJson(response.data);
@@ -31,10 +31,10 @@ class AuthenticationApi {
     String phone,
   ) async {
     final response = await dio.post(
-      "user/voter/add",
+      'user/voter/add',
       data: {
-        "username": username,
-        "password": password,
+        'username': username,
+        'password': password,
         'voter': {
           'firstName': name,
           'lastName': lastname,

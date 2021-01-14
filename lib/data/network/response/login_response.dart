@@ -6,12 +6,12 @@ class LoginResponse {
 
   LoginResponse.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
+    final data = <String, dynamic>{};
+    data['success'] = success;
     if (this.data != null) {
       data['data'] = this.data.toJson();
     }
@@ -31,22 +31,22 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     username = json['username'];
-    role = json['role'] != null ? new Role.fromJson(json['role']) : null;
-    voter = json['voter'] != null ? new Voter.fromJson(json['voter']) : null;
-    token = json['token'] ?? "";
+    role = json['role'] != null ? Role.fromJson(json['role']) : null;
+    voter = json['voter'] != null ? Voter.fromJson(json['voter']) : null;
+    token = json['token'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['username'] = this.username;
-    if (this.role != null) {
-      data['role'] = this.role.toJson();
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['username'] = username;
+    if (role != null) {
+      data['role'] = role.toJson();
     }
-    if (this.voter != null) {
-      data['voter'] = this.voter.toJson();
+    if (voter != null) {
+      data['voter'] = voter.toJson();
     }
-    data['token'] = this.token;
+    data['token'] = token;
     return data;
   }
 }
@@ -61,8 +61,8 @@ class Role {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
+    final data = <String, dynamic>{};
+    data['name'] = name;
     return data;
   }
 }
@@ -94,13 +94,13 @@ class Voter {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['firstName'] = this.firstName;
-    data['lastName'] = this.lastName;
-    data['dni'] = this.dni;
-    data['mail'] = this.mail;
-    data['phone'] = this.phone;
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
+    data['dni'] = dni;
+    data['mail'] = mail;
+    data['phone'] = phone;
     return data;
   }
 }

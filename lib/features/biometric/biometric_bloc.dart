@@ -6,7 +6,7 @@ import 'package:local_auth/local_auth.dart';
 
 enum BiometricState { initial, loading }
 
-typedef void FailureCallback(PlatformException e);
+typedef FailureCallback = void Function(PlatformException e);
 
 class BiometricBloc extends ChangeNotifier {
   final SettingsRepository repository;
@@ -27,7 +27,7 @@ class BiometricBloc extends ChangeNotifier {
     VoidCallback onSuccess,
     FailureCallback onFailure,
   }) async {
-    bool authenticated = false;
+    var authenticated = false;
     try {
       authenticated = await auth.authenticateWithBiometrics(
         localizedReason: 'Scan your fingerprint to authenticate',
@@ -35,7 +35,7 @@ class BiometricBloc extends ChangeNotifier {
         stickyAuth: true,
       );
       if (authenticated) {
-        _setBiometricInformation(authenticated);
+        await _setBiometricInformation(authenticated);
         onSuccess();
       } else {
         throw PlatformException(code: 'La autenticación fallo');

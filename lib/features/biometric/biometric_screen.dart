@@ -64,16 +64,16 @@ class BiometricScreen extends HookWidget {
                 onPressed: () async {
                   await bloc.checkBiometrics();
                   await bloc.getAvailableBiometrics();
-                  if (_isAuthenticating.value)
+                  if (_isAuthenticating.value) {
                     bloc.cancelAuthentication();
-                  else
-                    bloc.authenticate(
+                  } else {
+                    await bloc.authenticate(
                       context: context,
                       onSuccess: () => CoolAlert.show(
                         context: context,
                         type: CoolAlertType.success,
-                        title: "Perfecto",
-                        text: "Tu huella digital ha sido validada",
+                        title: 'Perfecto',
+                        text: 'Tu huella digital ha sido validada',
                         confirmBtnText: 'Continuar',
                         onConfirmBtnTap: () => bloc.goToHomeScreen(
                           context,
@@ -84,13 +84,14 @@ class BiometricScreen extends HookWidget {
                       onFailure: (PlatformException e) => CoolAlert.show(
                           context: context,
                           type: CoolAlertType.error,
-                          title: "Algo salio mal",
+                          title: 'Algo salio mal',
                           text: e.message,
                           onConfirmBtnTap: () {
                             Navigator.pop(context);
                             _isAuthenticating.value = false;
                           }),
                     );
+                  }
                 },
               ),
               SizedBox(height: 24),

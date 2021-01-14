@@ -30,18 +30,18 @@ class BoxtingInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      validator: this.validator,
+      validator: validator,
       onTap: onSelected,
       keyboardType: keyboardType ?? TextInputType.name,
       controller: controller,
       enabled: enabled,
       obscureText: isPasswordField,
-      maxLines: this.maxLines == null ? 1 : this.maxLines,
+      maxLines: maxLines ?? 1,
       decoration: InputDecoration(
         alignLabelWithHint: true,
-        helperText: this.helperText,
+        helperText: helperText,
         suffix: suffix ?? SizedBox(),
-        labelText: this.label,
+        labelText: label,
         focusColor: Theme.of(context).primaryColor,
         filled: true,
         border: OutlineInputBorder(

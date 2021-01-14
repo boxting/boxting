@@ -28,31 +28,31 @@ class RegisterScreen extends HookWidget {
     final bloc = context.read<RegisterBloc>();
     final registerResponse = await bloc.register();
     if (bloc.failure != null) {
-      CoolAlert.show(
+      await CoolAlert.show(
         context: context,
         type: CoolAlertType.error,
-        title: "Ocurrió un error!",
+        title: 'Ocurrió un error!',
         text: bloc.failure.message,
       );
     } else {
       if (registerResponse) {
-        CoolAlert.show(
+        await CoolAlert.show(
           context: context,
           type: CoolAlertType.success,
-          title: "Usuario registrado exitosamente!",
-          text: "Ya puedes iniciar sesión dentro de la aplicación",
+          title: 'Usuario registrado exitosamente!',
+          text: 'Ya puedes iniciar sesión dentro de la aplicación',
           onConfirmBtnTap: () {
             Navigator.pop(context);
             Navigator.pop(context);
           },
         );
       } else {
-        CoolAlert.show(
+        await CoolAlert.show(
           context: context,
           type: CoolAlertType.error,
-          title: "Error al registrar usuario",
+          title: 'Error al registrar usuario',
           text:
-              "Ocurrió un error durante el registro del usuario. Intentelo de nuevo.",
+              'Ocurrió un error durante el registro del usuario. Intentelo de nuevo.',
         );
       }
     }
