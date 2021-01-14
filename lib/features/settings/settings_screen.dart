@@ -20,19 +20,19 @@ class SettingsScreen extends StatelessWidget {
   void setBiometricInformation(BuildContext context, bool enabled) async {
     final bloc = context.read<SettingsBloc>();
     if (enabled) {
-      Navigator.push(
+      await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (_) => BiometricScreen.init(context, settings: true),
         ),
       );
     } else {
-      CoolAlert.show(
+      await CoolAlert.show(
         context: context,
         type: CoolAlertType.confirm,
-        text: "Quieres eliminar tu huella de la aplicación?",
-        confirmBtnText: "Sí",
-        cancelBtnText: "No",
+        text: 'Quieres eliminar tu huella de la aplicación?',
+        confirmBtnText: 'Sí',
+        cancelBtnText: 'No',
         onConfirmBtnTap: () {
           Navigator.pop(context);
           bloc.setBiometricInformation(enabled);

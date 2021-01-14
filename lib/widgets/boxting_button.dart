@@ -17,7 +17,7 @@ class BoxtingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     Color btnColor;
     Border border;
-    switch (this.type) {
+    switch (type) {
       case BoxtingButtonType.primary:
         btnColor = Theme.of(context).primaryColor;
         break;
@@ -44,7 +44,7 @@ class BoxtingButton extends StatelessWidget {
     );
 
     return InkWell(
-      onTap: this.onPressed,
+      onTap: onPressed,
       child: Container(
         constraints: BoxConstraints(
           maxHeight: 50,
@@ -52,7 +52,7 @@ class BoxtingButton extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
         alignment: Alignment.center,
         decoration: dec,
-        child: this.child,
+        child: child,
       ),
     );
   }

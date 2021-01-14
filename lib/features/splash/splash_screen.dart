@@ -25,14 +25,14 @@ class SplashScreen extends HookWidget {
           await Future.delayed(Duration(seconds: 1));
           await provider.isFirstTimeOpen();
           if (provider.isFirstTime) {
-            Navigator.pushReplacement(
+            await Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (_) => LoginScreen.init(context),
               ),
             );
           } else {
-            Navigator.pushReplacement(
+            await Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (_) => LoginScreen.init(context),
@@ -40,7 +40,7 @@ class SplashScreen extends HookWidget {
             );
           }
         } catch (_) {
-          Navigator.pushReplacement(
+          await Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (_) => OnBoardingScreen(),
