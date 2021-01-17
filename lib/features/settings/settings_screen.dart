@@ -1,8 +1,9 @@
-import 'package:boxting/data/repository/settings_repository_impl.dart';
+import 'package:boxting/domain/repository/settings_repository.dart';
 import 'package:boxting/features/biometric/biometric_screen.dart';
 import 'package:boxting/features/faq/faq_screen.dart';
 import 'package:boxting/features/settings/settings_bloc.dart';
 import 'package:boxting/features/terms/terms_screen.dart';
+import 'package:boxting/service_locator.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +12,7 @@ class SettingsScreen extends StatelessWidget {
   SettingsScreen._();
   static Widget init(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SettingsBloc(repository: SettingsRepositoryImpl())
+      create: (_) => SettingsBloc(repository: getIt.get<SettingsRepository>())
         ..loadBiometricInformation(),
       builder: (_, __) => SettingsScreen._(),
     );

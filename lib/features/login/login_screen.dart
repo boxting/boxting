@@ -1,14 +1,14 @@
-import 'package:boxting/data/network/auth_api.dart';
-import 'package:boxting/data/repository/login_repository_impl.dart';
 import 'package:boxting/data/repository/settings_repository_impl.dart';
+import 'package:boxting/domain/repository/login_repository.dart';
+import 'package:boxting/domain/repository/settings_repository.dart';
 import 'package:boxting/features/biometric/biometric_bloc.dart';
 import 'package:boxting/features/biometric/biometric_screen.dart';
 import 'package:boxting/features/forgot_password/forgot_password_screen.dart';
 import 'package:boxting/features/home/home_screen.dart';
 import 'package:boxting/features/register/register_screen.dart';
+import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:cool_alert/cool_alert.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -25,9 +25,8 @@ class LoginScreen extends HookWidget {
       providers: [
         ChangeNotifierProvider<LoginBloc>(
           create: (_) => LoginBloc(
-            loginRepository:
-                LoginRepositoryImpl(loginApi: AuthenticationApi(Dio())),
-            settingsRepository: SettingsRepositoryImpl(),
+            loginRepository: getIt.get<LoginRepository>(),
+            settingsRepository: getIt.get<SettingsRepository>(),
           ),
         ),
         ChangeNotifierProvider<BiometricBloc>(
@@ -57,7 +56,6 @@ class LoginScreen extends HookWidget {
           title: 'Ocurrio un error!',
           text: 'Debe llenar los campos obligatiorios',
         );
-        return;
       }
 
       final isFirstTimeLogin = await loginBloc.isFirstTimeLogin();
