@@ -6,4 +6,5 @@ final boxtingTheme = ThemeData(
   shadowColor: Color(0xff04192F),
   canvasColor: Color(0xffFFFFFF),
   visualDensity: VisualDensity.adaptivePlatformDensity,
+  fontFamily: 'ProductSans',
 );

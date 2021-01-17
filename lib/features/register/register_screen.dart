@@ -1,6 +1,7 @@
 import 'package:boxting/domain/repository/register_repository.dart';
 import 'package:boxting/features/register/register_bloc.dart';
 import 'package:boxting/service_locator.dart';
+import 'package:boxting/widgets/boxting_password_input.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +75,7 @@ class RegisterScreen extends HookWidget {
               ),
               SizedBox(height: 16),
               BoxtingInput(
-                label: 'Nombre',
+                labelText: 'Nombre',
                 controller: bloc.nameController,
                 validator: (value) {
                   return value.isEmpty ? 'Debe ingresar información' : null;
@@ -82,7 +83,7 @@ class RegisterScreen extends HookWidget {
               ),
               SizedBox(height: 16),
               BoxtingInput(
-                label: 'Apellido',
+                labelText: 'Apellido',
                 controller: bloc.lastnameController,
                 validator: (value) {
                   return value.isEmpty ? 'Debe ingresar información' : null;
@@ -90,7 +91,7 @@ class RegisterScreen extends HookWidget {
               ),
               SizedBox(height: 16),
               BoxtingInput(
-                label: 'Usuario',
+                labelText: 'Usuario',
                 controller: bloc.usernameController,
                 validator: (value) {
                   return value.length < 3 || value.length > 25
@@ -99,9 +100,7 @@ class RegisterScreen extends HookWidget {
                 },
               ),
               SizedBox(height: 16),
-              BoxtingInput(
-                label: 'Contraseña',
-                isPasswordField: true,
+              BoxtingPasswordInput(
                 controller: bloc.passwordController,
                 validator: (value) {
                   return value.isEmpty || value.length < 6
@@ -111,20 +110,20 @@ class RegisterScreen extends HookWidget {
               ),
               SizedBox(height: 16),
               BoxtingInput(
-                label: 'DNI',
+                labelText: 'DNI',
                 suffix: Icon(Icons.perm_identity),
                 controller: bloc.dniController,
-                keyboardType: TextInputType.number,
+                type: BoxtingInputType.numeric,
                 validator: (value) {
                   return value.length != 8 ? 'Error de longitud' : null;
                 },
               ),
               SizedBox(height: 16),
               BoxtingInput(
-                label: 'Correo',
+                labelText: 'Correo',
                 suffix: Icon(Icons.email),
                 controller: bloc.mailController,
-                keyboardType: TextInputType.emailAddress,
+                type: BoxtingInputType.email,
                 validator: (value) {
                   return RegExp(
                     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
@@ -135,10 +134,10 @@ class RegisterScreen extends HookWidget {
               ),
               SizedBox(height: 16),
               BoxtingInput(
-                label: 'Telefono',
+                labelText: 'Telefono',
                 suffix: Icon(Icons.phone),
                 controller: bloc.phoneController,
-                keyboardType: TextInputType.number,
+                type: BoxtingInputType.numeric,
                 validator: (value) {
                   return value.isEmpty ? 'Debe ingresar información' : null;
                 },

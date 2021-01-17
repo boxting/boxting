@@ -1,52 +1,88 @@
 import 'package:flutter/material.dart';
 
+enum BoxtingInputType {
+  text,
+  email,
+  password,
+  numeric,
+}
+
 class BoxtingInput extends StatelessWidget {
-  final String label;
-  final String helperText;
-  final int fontSize;
+  final String labelText;
   final Widget suffix;
   final bool enabled;
   final TextEditingController controller;
   final String Function(String) validator;
   final int maxLines;
-  final TextInputType keyboardType;
-  final VoidCallback onSelected;
-  final bool isPasswordField;
+  final BoxtingInputType type;
+  final VoidCallback onFocus;
+  final double borderRadius;
+  final bool readOnly;
+  final bool autofocus;
 
   BoxtingInput({
-    @required this.label,
+    @required this.labelText,
     this.controller,
-    this.suffix,
-    this.keyboardType,
+    this.suffix = const SizedBox(),
+    this.type = BoxtingInputType.text,
     this.enabled = true,
-    this.helperText,
-    this.fontSize = 12,
     this.validator,
-    this.maxLines,
-    this.onSelected,
-    this.isPasswordField = false,
+    this.maxLines = 1,
+    this.onFocus,
+    this.borderRadius = 5,
+    this.readOnly = false,
+    this.autofocus,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       validator: validator,
-      onTap: onSelected,
-      keyboardType: keyboardType ?? TextInputType.name,
+      onTap: onFocus,
+      autofocus: autofocus ?? false,
+      obscureText: type == BoxtingInputType.password,
+      keyboardType: chooseTextInput(),
       controller: controller,
       enabled: enabled,
-      obscureText: isPasswordField,
-      maxLines: maxLines ?? 1,
+      enableInteractiveSelection: !readOnly,
+      maxLines: maxLines,
+      readOnly: readOnly,
+      style: TextStyle(
+        color: readOnly ? Colors.grey : Colors.blue,
+        fontSize: 14,
+      ),
       decoration: InputDecoration(
         alignLabelWithHint: true,
-        helperText: helperText,
-        suffix: suffix ?? SizedBox(),
-        labelText: label,
+        suffixIcon: suffix,
+        labelText: labelText,
         focusColor: Theme.of(context).primaryColor,
         filled: true,
+        labelStyle: TextStyle(
+          color: enabled || readOnly ? Colors.grey[800] : Colors.grey[200],
+        ),
+        errorStyle: TextStyle(
+          fontSize: 9,
+        ),
+        fillColor: enabled ? Colors.white : Colors.grey,
         border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10))),
+          borderRadius: BorderRadius.all(
+            Radius.circular(borderRadius),
+          ),
+        ),
       ),
     );
+  }
+
+  TextInputType chooseTextInput() {
+    switch (type) {
+      case BoxtingInputType.numeric:
+        return TextInputType.number;
+        break;
+      case BoxtingInputType.email:
+        return TextInputType.emailAddress;
+        break;
+      default:
+        return TextInputType.text;
+    }
   }
 }
