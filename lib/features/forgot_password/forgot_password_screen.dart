@@ -45,7 +45,10 @@ class ForgotPasswordScreen extends HookWidget {
               ),
             ),
             SizedBox(height: 32),
-            BoxtingInput(label: 'Correo electronico'),
+            BoxtingInput(
+              labelText: 'Correo electronico',
+              type: BoxtingInputType.email,
+            ),
             SizedBox(height: 32),
             BoxtingButton(
               child: Text(

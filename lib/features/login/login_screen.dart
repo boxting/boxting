@@ -7,6 +7,7 @@ import 'package:boxting/features/forgot_password/forgot_password_screen.dart';
 import 'package:boxting/features/home/home_screen.dart';
 import 'package:boxting/features/register/register_screen.dart';
 import 'package:boxting/service_locator.dart';
+import 'package:boxting/widgets/boxting_password_input.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
@@ -148,7 +149,7 @@ class LoginScreen extends HookWidget {
       }
     }
 
-    final rememberCheckbox = useState<bool>(false);
+    // final rememberCheckbox = useState<bool>(false);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(32.0),
@@ -160,27 +161,15 @@ class LoginScreen extends HookWidget {
               height: 120,
             ),
             SizedBox(height: 32),
-            TextField(
+            BoxtingInput(
+              labelText: 'Usuario',
               controller: loginBloc.usernameController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                hintText: 'Usuario',
-              ),
             ),
             SizedBox(height: 16),
-            TextField(
-              obscureText: true,
+            BoxtingPasswordInput(
               controller: loginBloc.passwordController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                hintText: 'Contraseña',
-              ),
             ),
-            SizedBox(height: 8),
+            SizedBox(height: 16),
             InkWell(
               onTap: () => goToForgotPassword(context),
               child: Text(
@@ -193,17 +182,17 @@ class LoginScreen extends HookWidget {
               ),
             ),
             SizedBox(height: 8),
-            CheckboxListTile(
-              title: Text('Recordar'),
-              value: rememberCheckbox.value,
-              onChanged: (bool value) => rememberCheckbox.value = value,
-            ),
+            // CheckboxListTile(
+            //   title: Text('Recordar'),
+            //   value: rememberCheckbox.value,
+            //   onChanged: (bool value) => rememberCheckbox.value = value,
+            // ),
             FlatButton.icon(
               onPressed: () => authenticateBiometrical(context),
               icon: Icon(Icons.fingerprint_outlined),
               label: Text('Autenticación biometrica'),
             ),
-            SizedBox(height: 24),
+            SizedBox(height: 48),
             loginBloc.loginState == LoginState.loading
                 ? Center(child: CircularProgressIndicator())
                 : BoxtingButton(
@@ -213,10 +202,11 @@ class LoginScreen extends HookWidget {
                       'Ingresar'.toUpperCase(),
                       style: TextStyle(
                         color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-            SizedBox(height: 16),
+            SizedBox(height: 32),
             Center(
               child: InkWell(
                 onTap: () => goToRegister(context),

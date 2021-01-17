@@ -52,3 +52,14 @@ flutter:
     - assets/images/
     - assets/images/onboarding/
     - assets/lottie/
+  fonts:
+    - family: ProductSans
+      fonts:
+        - asset: fonts/ProductSans-Light.ttf
+        - asset: fonts/ProductSans-Regular.ttf
+          style: normal
+        - asset: fonts/ProductSans-Medium.ttf
+        - asset: fonts/ProductSans-Black.ttf
+        - asset: fonts/ProductSans-Bold.ttf
+        - asset: fonts/ProductSans-Italic.ttf
+          style: italic
