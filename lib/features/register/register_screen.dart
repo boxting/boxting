@@ -1,9 +1,8 @@
-import 'package:boxting/data/network/auth_api.dart';
-import 'package:boxting/data/repository/register_repository_impl.dart';
+import 'package:boxting/domain/repository/register_repository.dart';
 import 'package:boxting/features/register/register_bloc.dart';
+import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:cool_alert/cool_alert.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
@@ -13,11 +12,8 @@ class RegisterScreen extends HookWidget {
 
   static Widget init(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => RegisterBloc(
-        registerRepository: RegisterRepositoryImpl(
-          authenticationApi: AuthenticationApi(Dio()),
-        ),
-      ),
+      create: (_) =>
+          RegisterBloc(registerRepository: getIt.get<RegisterRepository>()),
       builder: (_, __) => RegisterScreen._(),
     );
   }

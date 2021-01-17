@@ -1,14 +1,15 @@
 import 'package:boxting/data/error/error_handler.dart';
-import 'package:boxting/data/network/auth_api.dart';
+import 'package:boxting/data/network/boxting_client.dart';
+import 'package:boxting/data/network/request/login_request/login_request.dart';
 import 'package:boxting/domain/repository/login_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 class LoginRepositoryImpl implements LoginRepository {
-  final AuthenticationApi loginApi;
+  final BoxtingClient boxtingClient;
 
-  LoginRepositoryImpl({@required this.loginApi});
+  LoginRepositoryImpl({@required this.boxtingClient});
 
   Future<void> _saveFirstTimeLogin() async {
     var box = await Hive.openBox('BoxtingBox');
@@ -25,7 +26,11 @@ class LoginRepositoryImpl implements LoginRepository {
   @override
   Future<bool> login(String username, String password) async {
     try {
-      final loginResponse = await loginApi.login(username, password);
+      final loginRequest = LoginRequest(username: username, password: password);
+      final loginResponse = await boxtingClient.login(loginRequest);
+      if (loginResponse.error != null) {
+        throw Exception();
+      }
       await _saveFirstTimeLogin();
       return loginResponse.success;
     } on DioError catch (e) {

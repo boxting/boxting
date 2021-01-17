@@ -1,3 +1,5 @@
+import 'package:boxting/data/network/response/dni_response/dni_response.dart';
+
 abstract class RegisterRepository {
   Future<bool> registerUser(
     String name,
@@ -9,5 +11,5 @@ abstract class RegisterRepository {
     String password,
   );
 
-  Future<void> fetchInformationFromReniec(String dni);
+  Future<DniResponseData> fetchInformationFromReniec(String dni);
 }
