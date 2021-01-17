@@ -1,13 +1,15 @@
 import 'package:boxting/data/error/error_handler.dart';
-import 'package:boxting/data/network/auth_api.dart';
+import 'package:boxting/data/network/boxting_client.dart';
+import 'package:boxting/data/network/request/register_request/register_request.dart';
+import 'package:boxting/data/network/response/dni_response/dni_response.dart';
 import 'package:boxting/domain/repository/register_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class RegisterRepositoryImpl implements RegisterRepository {
-  final AuthenticationApi authenticationApi;
+  final BoxtingClient boxtingClient;
 
-  RegisterRepositoryImpl({@required this.authenticationApi});
+  RegisterRepositoryImpl({@required this.boxtingClient});
 
   @override
   Future<bool> registerUser(
@@ -15,20 +17,23 @@ class RegisterRepositoryImpl implements RegisterRepository {
     String lastname,
     String dni,
     String phone,
-    String email,
+    String mail,
     String username,
     String password,
   ) async {
     try {
-      final registerResponse = await authenticationApi.register(
-        name,
-        lastname,
-        username,
-        password,
-        dni,
-        email,
-        phone,
+      final registerRequest = RegisterRequest(
+        username: username,
+        password: password,
+        mail: mail,
+        voter: VoterRequest(
+          dni: dni,
+          phone: phone,
+          firstName: name,
+          lastName: lastname,
+        ),
       );
+      final registerResponse = await boxtingClient.register(registerRequest);
       // TODO: Save user information
       return registerResponse.success;
     } on DioError catch (e) {
@@ -38,8 +43,15 @@ class RegisterRepositoryImpl implements RegisterRepository {
   }
 
   @override
-  Future<void> fetchInformationFromReniec(String dni) {
-    // TODO: implement fetchInformationFromReniec
-    throw UnimplementedError();
+  Future<DniResponseData> fetchInformationFromReniec(String dni) async {
+    try {
+      final dniResponse = await boxtingClient.getDniInformation(dni);
+      if (dniResponse.error != null) {
+        throw Exception();
+      }
+      return dniResponse.data;
+    } catch (e) {
+      throw BoxtingFailure(statusCode: 999);
+    }
   }
 }
