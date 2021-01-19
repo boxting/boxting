@@ -10,12 +10,13 @@ import 'package:get_it/get_it.dart';
 
 final getIt = GetIt.I;
 
+final options = BaseOptions(
+  connectTimeout: 50000,
+  receiveTimeout: 30000,
+  validateStatus: (status) => status < 500,
+);
+
 void setupGetIt() {
-  final options = BaseOptions(
-    connectTimeout: 5000,
-    receiveTimeout: 3000,
-    validateStatus: (status) => status < 500,
-  );
   getIt.registerSingleton<Dio>(Dio(options));
   final boxtingClient = BoxtingClient(getIt.get<Dio>());
   getIt.registerSingleton<LoginRepository>(
@@ -25,4 +26,8 @@ void setupGetIt() {
     RegisterRepositoryImpl(boxtingClient: boxtingClient),
   );
   getIt.registerSingleton<SettingsRepository>(SettingsRepositoryImpl());
+}
+
+void setupGetItTesting() {
+  getIt.registerSingleton<Dio>(Dio(options));
 }
