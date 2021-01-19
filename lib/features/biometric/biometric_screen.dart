@@ -28,7 +28,7 @@ class BiometricScreen extends HookWidget {
     final bloc = context.watch<BiometricBloc>();
 
     final size = MediaQuery.of(context).size;
-    return Scaffold(
+    return BoxtingScaffold(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(30.0),

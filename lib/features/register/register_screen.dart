@@ -58,7 +58,7 @@ class RegisterScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<RegisterBloc>();
-    return Scaffold(
+    return BoxtingScaffold(
       appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(32.0),
@@ -151,7 +151,6 @@ class RegisterScreen extends HookWidget {
                           color: Colors.white,
                         ),
                       ),
-                      type: BoxtingButtonType.primary,
                       onPressed: () => _formKey.currentState.validate()
                           ? register(context)
                           : null,

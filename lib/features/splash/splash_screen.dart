@@ -1,5 +1,6 @@
 import 'package:boxting/features/login/login_screen.dart';
 import 'package:boxting/features/onboarding/onboarding_screen.dart';
+import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +51,7 @@ class SplashScreen extends HookWidget {
       });
       return;
     });
-    return Scaffold(
+    return BoxtingScaffold(
       body: Center(
         child: Image.asset(
           'assets/images/boxting_logo.png',
