@@ -51,12 +51,13 @@ class LoginScreen extends HookWidget {
     void login(BuildContext context) async {
       if (loginBloc.usernameController.text.trim().isEmpty ||
           loginBloc.passwordController.text.trim().isEmpty) {
-        await CoolAlert.show(
-          context: context,
-          type: CoolAlertType.error,
+        await BoxtingModal.show(
+          context,
+          // type: CoolAlertType.error,
           title: 'Ocurrio un error!',
-          text: 'Debe llenar los campos obligatiorios',
+          message: 'Debe llenar los campos obligatiorios',
         );
+        return;
       }
 
       final isFirstTimeLogin = await loginBloc.isFirstTimeLogin();
@@ -150,7 +151,7 @@ class LoginScreen extends HookWidget {
     }
 
     // final rememberCheckbox = useState<bool>(false);
-    return Scaffold(
+    return BoxtingScaffold(
       body: Padding(
         padding: const EdgeInsets.all(32.0),
         child: ListView(
@@ -196,7 +197,6 @@ class LoginScreen extends HookWidget {
             loginBloc.loginState == LoginState.loading
                 ? Center(child: CircularProgressIndicator())
                 : BoxtingButton(
-                    type: BoxtingButtonType.primary,
                     onPressed: () => login(context),
                     child: Text(
                       'Ingresar'.toUpperCase(),

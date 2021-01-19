@@ -45,7 +45,6 @@ class OnboardingPages extends HookWidget {
     }
 
     return Scaffold(
-      backgroundColor: bgColor,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: SafeArea(

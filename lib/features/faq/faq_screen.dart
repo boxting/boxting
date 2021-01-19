@@ -1,4 +1,5 @@
 import 'package:boxting/widgets/loading_screen.dart';
+import 'package:boxting/widgets/widgets.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -15,7 +16,7 @@ class FaqScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BoxtingScaffold(
       appBar: AppBar(title: Text('Preguntas frecuentes')),
       body: FutureBuilder(
         future: fetchFrequentQuestions(),

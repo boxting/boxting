@@ -16,7 +16,7 @@ class ForgotPasswordScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BoxtingScaffold(
       appBar: AppBar(
         title: Text('Recuperar contraseña'),
       ),

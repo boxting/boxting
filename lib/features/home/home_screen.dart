@@ -1,4 +1,7 @@
+import 'package:boxting/features/events/events_screen.dart';
+import 'package:boxting/features/feed/feed_screen.dart';
 import 'package:boxting/features/settings/settings_screen.dart';
+import 'package:boxting/widgets/widgets.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -18,15 +21,15 @@ class HomeScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedIndex = useState<int>(0);
-    final child = useState<Widget>(SettingsScreen.init(context));
+    final selectedIndex = useState<int>(1);
+    final child = useState<Widget>(EventsScreen.init(context));
     Widget getChildByIndex(int index, BuildContext context) {
       switch (index) {
         case 0:
-          child.value = Placeholder();
+          child.value = EventsScreen.init(context);
           break;
         case 1:
-          child.value = Placeholder();
+          child.value = FeedScreen.init(context);
           break;
         case 2:
           child.value = SettingsScreen.init(context);
@@ -36,8 +39,7 @@ class HomeScreen extends HookWidget {
       return child.value;
     }
 
-    return Scaffold(
-      appBar: AppBar(),
+    return BoxtingScaffold(
       body: child.value,
       bottomNavigationBar: FFNavigationBar(
         theme: FFNavigationBarTheme(
@@ -53,16 +55,16 @@ class HomeScreen extends HookWidget {
         },
         items: [
           FFNavigationBarItem(
-            iconData: Icons.calendar_today,
-            label: 'Calendario',
-          ),
-          FFNavigationBarItem(
-            iconData: Icons.info_outline,
+            iconData: Icons.rss_feed_outlined,
             label: 'Información',
           ),
           FFNavigationBarItem(
-            iconData: Icons.settings,
-            label: 'Configuración',
+            iconData: Icons.how_to_vote,
+            label: 'Votaciones',
+          ),
+          FFNavigationBarItem(
+            iconData: Icons.person,
+            label: 'Perfil',
           ),
         ],
       ),
