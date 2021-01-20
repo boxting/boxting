@@ -1,9 +1,7 @@
 source "https://rubygems.org"
 
 gem "fastlane"
-source "https://rubygems.pkg.github.com/tianhaoz95" do
-    gem "fastlane-plugin-flutter_version", "1.0.0"
-  end
+gem "fastlane-plugin-flutter_version", git: "https://github.com/tianhaoz95/fastlane-plugin-flutter-version"
 
 
 plugins_path = File.join(File.dirname(__FILE__), '.', 'Pluginfile')
