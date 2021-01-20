@@ -60,13 +60,15 @@ jobs:
         with:
           flutter-version: 1.22.5
       - name: Install Flutter dependencies
-        run: flutter pub get && flutter build appbundle
+        run: flutter pub get
+      - name: Build app bundle
+        run: flutter build appbundle
       - uses: actions/checkout@v2
       - uses: actions/setup-ruby@v1
         with:
-          ruby-version: '>= 2.6'
+          ruby-version: '2.4'
       - name: Run Fastlane
         uses: maierj/fastlane-action@v2.0.0
         with:
-          lane: beta
+          lane: closed_beta
           subdirectory: android
