@@ -24,7 +24,7 @@
 - mockito
 
 
-## Run locally
+## Run locally :smile:
 
 ### Decrypt files locally
 
