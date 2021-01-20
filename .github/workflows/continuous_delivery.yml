@@ -60,8 +60,7 @@ jobs:
         with:
           flutter-version: 1.22.5
       - name: Install Flutter dependencies
-        run: flutter pub get
-        run: flutter build appbundle
+        run: flutter pub get && flutter build appbundle
       - name: Run Fastlane
         uses: maierj/fastlane-action@v1.4.0
         with:
