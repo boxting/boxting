@@ -69,13 +69,7 @@ jobs:
           ruby-version: 2.6
           bundler-cache: true
       - name: Check file existence
-        id: check_files
-        uses: andstor/file-existence-action@v1
-        with:
-          files: "*/gradlew, */boxting_key.jks, */service_account_key.json, */key.properties, */google-services.json"
-      - name: File exists
-        if: steps.check_files.outputs.files_exists == 'true'
-        run: echo All files exists!
+        run: find . -name "gradlew"
       - uses: maierj/fastlane-action@v2.0.0
         with:
           lane: closed_beta
