@@ -11,7 +11,7 @@
 #
 
 # Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
+update_fastlane
 
 default_platform(:android)
 
@@ -19,9 +19,10 @@ platform :android do
   desc "Deploy to closed beta track"
   lane :closed_beta do
     begin
-      # gradle(task: "clean assembleRelease")
+      gradle(task: "clean assembleRelease", project_dir: 'android/')
       gradle(
         task: "bundle",
+        project_dir: 'android/'
         build_type: 'Release'
       )
       upload_to_play_store(
