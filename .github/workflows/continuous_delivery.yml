@@ -34,12 +34,12 @@ jobs:
       - name: Run the tests
         run: flutter test
       - name: Build the APK
-        run: flutter build apk --release
+        run: flutter build appbundle
       - name: Upload artifact to Github
         uses: actions/upload-artifact@v1
         with:
           name: release-apk
-          path: build/app/outputs/apk/release/app-release.apk
+          path: build/app/outputs/apk/release/app-release.aab
   # Continuous delivery
   deploy_android:
     runs-on: ubuntu-latest
