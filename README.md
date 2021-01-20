@@ -1,4 +1,4 @@
-# Boxting app
+# Boxting App
 
 ## Compile and build the app
 
