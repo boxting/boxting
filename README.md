@@ -22,3 +22,10 @@
 - json_serializable
 - mock_web_server
 - mockito
+
+
+## Test
+
+### Decrypt files locally
+
+`gpg --output android_keys.zip --decrypt android_keys.zip.gpg && jar xvf android_keys.zip && mv google-services.json app/`
