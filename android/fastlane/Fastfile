@@ -22,7 +22,7 @@ platform :android do
       gradle(task: "clean assembleRelease", project_dir: 'android/')
       gradle(
         task: "bundle",
-        project_dir: 'android/'
+        project_dir: 'android/',
         build_type: 'Release'
       )
       upload_to_play_store(
