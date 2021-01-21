@@ -73,4 +73,4 @@ jobs:
       - uses: maierj/fastlane-action@v2.0.0
         with:
           lane: closed_beta
-          
+          subdirectory: android
