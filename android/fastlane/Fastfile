@@ -23,7 +23,8 @@ platform :android do
     #   task: 'bundle',
     #   build_type: 'Release'
     # )
-    sh("ls -a")
+    sh("ls -a ../")
+    sh("cd ..")
     sh("./gradlew","clean")
     upload_to_play_store(
       track: 'Closed beta',
