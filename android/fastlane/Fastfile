@@ -24,7 +24,7 @@ platform :android do
     #   build_type: 'Release'
     # )
     sh("ls -a ../")
-    sh("cd ..")
+    sh("cd", "../")
     sh("./gradlew","clean")
     upload_to_play_store(
       track: 'Closed beta',
