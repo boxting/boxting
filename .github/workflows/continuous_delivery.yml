@@ -63,3 +63,13 @@ jobs:
         run: flutter pub get
       - name: Build app bundle
         run: flutter build appbundle
+      - name: Build release APK
+        run: flutter build apk
+      - name: Create release tag
+        uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: "*.aab; *.apk"
+          tags: true
+          draft: true
