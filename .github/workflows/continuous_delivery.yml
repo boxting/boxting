@@ -65,12 +65,8 @@ jobs:
         run: flutter build appbundle
       - name: Build release APK
         run: flutter build apk
-      - name: Create release tag
-        uses: xresloader/upload-to-github-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create a Release APK
+        uses: ncipollo/release-action@v1
         with:
-          file: "*.aab; *.apk"
-          tags: true
-          draft: true
-          tag_name: ${{ github.ref }}
+          artifacts: "build/app/outputs/apk/release/*.apk"
+          token: ${{ secrets.GITHUB_TOKEN }}
