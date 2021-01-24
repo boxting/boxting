@@ -19,11 +19,11 @@ jobs:
       - name: Decrypt Android keys
         run: sh ./.github/scripts/decrypt_android_keys.sh
         env:
-          ANDROID_KEYS_SECRET_PASSPHRASE: $
+          ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
       - name: Setup Flutter
         uses: subosito/flutter-action@v1
         with:
-          flutter-version: 1.17.5
+          flutter-version: 1.22.5
       - name: Install Flutter dependencies
         run: flutter pub get
       - name: Format files
@@ -34,8 +34,4 @@ jobs:
         run: flutter test
       - name: Build the APK
         run: flutter build apk --release
-      - name: Upload artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: release-apk
-          path: build/app/outputs/apk/release/app-release.apk
+      
