@@ -25,9 +25,7 @@ class RegisterBloc extends ChangeNotifier {
 
   Future<bool> register() async {
     try {
-      _boxtingFailure = null;
-      registerState = RegisterState.loading;
-      notifyListeners();
+      _loadingNotifier();
       final loginResponse = await authRepository.registerUser(
         nameController.text.trim(),
         lastnameController.text.trim(),
@@ -37,14 +35,10 @@ class RegisterBloc extends ChangeNotifier {
         usernameController.text.trim(),
         passwordController.text.trim(),
       );
-
-      registerState = RegisterState.initial;
-      notifyListeners();
+      _successNotifier();
       return loginResponse;
     } catch (e) {
-      registerState = RegisterState.initial;
-      _boxtingFailure = e;
-      notifyListeners();
+      _errorNotifier(e);
       return false;
     }
   }
@@ -52,14 +46,31 @@ class RegisterBloc extends ChangeNotifier {
   Future<DniResponseData> retrieveIdentifierInformation(
       String identifier) async {
     try {
+      _loadingNotifier();
       final result =
           await authRepository.fetchInformationFromReniec(identifier);
-      notifyListeners();
+      _successNotifier();
       return result;
-    } catch (e) {
-      _boxtingFailure = e;
-      notifyListeners();
-      throw Exception(e);
+    } on BoxtingFailure catch (e) {
+      _errorNotifier(e);
+      throw BoxtingFailure(statusCode: e.statusCode);
     }
+  }
+
+  void _successNotifier() {
+    registerState = RegisterState.initial;
+    notifyListeners();
+  }
+
+  void _loadingNotifier() {
+    _boxtingFailure = null;
+    registerState = RegisterState.loading;
+    notifyListeners();
+  }
+
+  void _errorNotifier(Exception e) {
+    registerState = RegisterState.initial;
+    _boxtingFailure = e;
+    notifyListeners();
   }
 }

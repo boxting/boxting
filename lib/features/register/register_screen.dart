@@ -61,7 +61,7 @@ class RegisterScreen extends HookWidget {
   Widget build(BuildContext context) {
     final bloc = context.watch<RegisterBloc>();
     return BoxtingScaffold(
-      appBar: AppBar(),
+      appBar: BoxtingAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(32.0),
         child: Form(
