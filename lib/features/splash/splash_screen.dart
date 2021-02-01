@@ -54,9 +54,9 @@ class SplashScreen extends HookWidget {
     return BoxtingScaffold(
       body: Center(
         child: Image.asset(
-          'assets/images/boxting_logo.png',
-          height: 256,
-          width: 256,
+          'assets/images/icons/boxting_icon_white.png',
+          height: 128,
+          width: 128,
         ),
       ),
     );
