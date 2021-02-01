@@ -1,11 +1,11 @@
 import 'package:boxting/data/error/error_handler.dart';
-import 'package:boxting/domain/repository/register_repository.dart';
+import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:flutter/material.dart';
 
 enum RegisterState { initial, loading }
 
 class RegisterBloc extends ChangeNotifier {
-  final RegisterRepository registerRepository;
+  final AuthRepository authRepository;
 
   var registerState = RegisterState.initial;
   BoxtingFailure _boxtingFailure;
@@ -19,14 +19,14 @@ class RegisterBloc extends ChangeNotifier {
   final phoneController = TextEditingController();
   final dniController = TextEditingController();
 
-  RegisterBloc({@required this.registerRepository});
+  RegisterBloc({@required this.authRepository});
 
   Future<bool> register() async {
     try {
       _boxtingFailure = null;
       registerState = RegisterState.loading;
       notifyListeners();
-      final loginResponse = await registerRepository.registerUser(
+      final loginResponse = await authRepository.registerUser(
         nameController.text.trim(),
         lastnameController.text.trim(),
         dniController.text.trim(),

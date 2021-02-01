@@ -1,6 +1,8 @@
 import 'package:boxting/data/network/response/dni_response/dni_response.dart';
 
-abstract class RegisterRepository {
+abstract class AuthRepository {
+  Future<bool> login(String username, String password);
+  Future<bool> isFirstTimeLogin();
   Future<bool> registerUser(
     String name,
     String lastname,
@@ -10,6 +12,6 @@ abstract class RegisterRepository {
     String username,
     String password,
   );
-
   Future<DniResponseData> fetchInformationFromReniec(String dni);
+  Future<void> sendForgotPassword(String mail);
 }

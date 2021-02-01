@@ -1,7 +1,7 @@
-import 'package:boxting/domain/repository/settings_repository.dart';
+import 'package:boxting/domain/repository/biometric_repository.dart';
 import 'package:hive/hive.dart';
 
-class SettingsRepositoryImpl implements SettingsRepository {
+class BiometricRepositoryImpl implements BiometricRepository {
   @override
   Future<bool> isFingerprintLoginEnabled() async {
     var box = await Hive.openBox('BoxtingBox');

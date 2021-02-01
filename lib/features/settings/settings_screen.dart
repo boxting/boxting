@@ -1,4 +1,4 @@
-import 'package:boxting/domain/repository/settings_repository.dart';
+import 'package:boxting/domain/repository/biometric_repository.dart';
 import 'package:boxting/features/biometric/biometric_screen.dart';
 import 'package:boxting/features/faq/faq_screen.dart';
 import 'package:boxting/features/settings/settings_bloc.dart';
@@ -14,8 +14,8 @@ class SettingsScreen extends HookWidget {
   SettingsScreen._();
   static Widget init(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) =>
-          SettingsBloc(repository: getIt.get<SettingsRepository>())..loadBiometricInformation(),
+      create: (_) => SettingsBloc(repository: getIt.get<BiometricRepository>())
+        ..loadBiometricInformation(),
       builder: (_, __) => SettingsScreen._(),
     );
   }
@@ -61,21 +61,24 @@ class SettingsScreen extends HookWidget {
                   ListTile(
                     leading: Icon(Icons.person),
                     title: Text('Perfil'),
-                    subtitle: Text('Configura tus elementos personales acerca de tí.'),
+                    subtitle: Text(
+                        'Configura tus elementos personales acerca de tí.'),
                     trailing: Icon(Icons.arrow_forward_ios),
                   ),
                   snapshot.data
                       ? ListTile(
                           leading: Icon(Icons.fingerprint),
                           title: Text('Biometria'),
-                          subtitle: Text('Elimina tu huella digital como medio para autenticarte'),
+                          subtitle: Text(
+                              'Elimina tu huella digital como medio para autenticarte'),
                           trailing: Icon(Icons.arrow_forward_ios),
                           onTap: () => setBiometricInformation(context, false),
                         )
                       : ListTile(
                           leading: Icon(Icons.fingerprint),
                           title: Text('Biometria'),
-                          subtitle: Text('Agrega tu huella digital como medio para autenticarte'),
+                          subtitle: Text(
+                              'Agrega tu huella digital como medio para autenticarte'),
                           trailing: Icon(Icons.arrow_forward_ios),
                           onTap: () => setBiometricInformation(context, true),
                         ),
@@ -88,7 +91,8 @@ class SettingsScreen extends HookWidget {
                   ListTile(
                     leading: Icon(Icons.text_format_sharp),
                     title: Text('Terminos y condiciones'),
-                    subtitle: Text('Conoce los terminos y condiciones de la aplicación'),
+                    subtitle: Text(
+                        'Conoce los terminos y condiciones de la aplicación'),
                     trailing: Icon(Icons.arrow_forward_ios),
                     onTap: () => Navigator.push(
                       context,

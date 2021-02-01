@@ -1,5 +1,6 @@
-import 'package:boxting/data/repository/settings_repository_impl.dart';
+import 'package:boxting/domain/repository/biometric_repository.dart';
 import 'package:boxting/features/biometric/biometric_bloc.dart';
+import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,8 @@ class BiometricScreen extends HookWidget {
 
   static Widget init(BuildContext context, {bool settings}) {
     return ChangeNotifierProvider(
-      create: (_) =>
-          BiometricBloc(SettingsRepositoryImpl(), LocalAuthentication()),
+      create: (_) => BiometricBloc(
+          getIt.get<BiometricRepository>(), getIt.get<LocalAuthentication>()),
       builder: (_, __) => BiometricScreen._(
         comesFromSetting: settings ?? false,
       ),
