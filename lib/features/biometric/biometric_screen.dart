@@ -9,7 +9,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 
 class BiometricScreen extends HookWidget {
-  BiometricScreen._({this.comesFromSetting});
+  BiometricScreen._({this.comesFromSetting = true});
   final bool comesFromSetting;
 
   static Widget init(BuildContext context, {bool settings}) {
@@ -35,7 +35,7 @@ class BiometricScreen extends HookWidget {
           child: Column(
             children: [
               Image.asset(
-                'assets/images/biometric_login.png',
+                'assets/images/biometric/biometric_login.png',
                 width: size.width,
                 height: size.height * 0.4,
               ),
@@ -49,9 +49,11 @@ class BiometricScreen extends HookWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 8),
-              Text(
-                'Ingresa a la aplicación utilizando tu huella digital y realizado todo de manera más rapida y segura. Recuerda que puedes modificar tu accesso con huella digital dentro de Configuración > Biometria',
+              const SizedBox(height: 8),
+              const Text(
+                'Ingresa a la aplicación utilizando tu huella digital y realizado '
+                'todo de manera más rapida y segura. Recuerda que puedes modificar '
+                'tu accesso con huella digital dentro de Configuración > Biometria',
               ),
               SizedBox(height: 32),
               BoxtingButton(

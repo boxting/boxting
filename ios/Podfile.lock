@@ -1,4 +1,7 @@
 PODS:
+  - connectivity (0.0.1):
+    - Flutter
+    - Reachability
   - Firebase/CoreOnly (6.33.0):
     - FirebaseCore (= 6.10.3)
   - Firebase/RemoteConfig (6.33.0):
@@ -51,9 +54,12 @@ PODS:
     - nanopb/encode (= 1.30906.0)
   - nanopb/decode (1.30906.0)
   - nanopb/encode (1.30906.0)
+  - package_info (0.0.1):
+    - Flutter
   - path_provider (0.0.1):
     - Flutter
   - PromisesObjC (1.2.11)
+  - Reachability (3.2)
   - screen (0.0.1):
     - Flutter
   - video_player (0.0.1):
@@ -64,10 +70,12 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - connectivity (from `.symlinks/plugins/connectivity/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_remote_config (from `.symlinks/plugins/firebase_remote_config/ios`)
   - Flutter (from `Flutter`)
   - local_auth (from `.symlinks/plugins/local_auth/ios`)
+  - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - screen (from `.symlinks/plugins/screen/ios`)
   - video_player (from `.symlinks/plugins/video_player/ios`)
@@ -86,8 +94,11 @@ SPEC REPOS:
     - GoogleUtilities
     - nanopb
     - PromisesObjC
+    - Reachability
 
 EXTERNAL SOURCES:
+  connectivity:
+    :path: ".symlinks/plugins/connectivity/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_remote_config:
@@ -96,6 +107,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   local_auth:
     :path: ".symlinks/plugins/local_auth/ios"
+  package_info:
+    :path: ".symlinks/plugins/package_info/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   screen:
@@ -108,6 +121,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
+  connectivity: c4130b2985d4ef6fd26f9702e886bd5260681467
   Firebase: 8db6f2d1b2c5e2984efba4949a145875a8f65fe5
   firebase_core: 5d6a02f3d85acd5f8321c2d6d62877626a670659
   firebase_remote_config: 259817aa1d7db2d84f01d1536b4f847dd2058e47
@@ -121,8 +135,10 @@ SPEC CHECKSUMS:
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   local_auth: 25938960984c3a7f6e3253e3f8d962fdd16852bd
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
+  package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   screen: abd91ca7bf3426e1cc3646d27e9b2358d6bf07b0
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
   wakelock: 0d4a70faf8950410735e3f61fb15d517c8a6efc4
