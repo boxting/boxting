@@ -13,7 +13,6 @@ final getIt = GetIt.I;
 final options = BaseOptions(
   connectTimeout: 50000,
   receiveTimeout: 30000,
-  validateStatus: (status) => status < 500,
 );
 
 void setupGetIt() {
