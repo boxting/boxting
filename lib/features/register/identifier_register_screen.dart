@@ -1,5 +1,5 @@
 import 'package:boxting/domain/entities/documents.dart';
-import 'package:boxting/domain/repository/register_repository.dart';
+import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:boxting/features/register/register_bloc.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/widgets.dart';
@@ -16,8 +16,7 @@ class IdentifierRegisterScreen extends HookWidget {
 
   static Widget init(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) =>
-          RegisterBloc(registerRepository: getIt.get<RegisterRepository>()),
+      create: (_) => RegisterBloc(authRepository: getIt.get<AuthRepository>()),
       builder: (_, __) => IdentifierRegisterScreen._(),
     );
   }

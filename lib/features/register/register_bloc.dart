@@ -53,7 +53,7 @@ class RegisterBloc extends ChangeNotifier {
       String identifier) async {
     try {
       final result =
-          await registerRepository.fetchInformationFromReniec(identifier);
+          await authRepository.fetchInformationFromReniec(identifier);
       notifyListeners();
       return result;
     } catch (e) {
