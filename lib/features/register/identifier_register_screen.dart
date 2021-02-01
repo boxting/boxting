@@ -57,7 +57,7 @@ class IdentifierRegisterScreen extends HookWidget {
                                 fontWeight: FontWeight.w800,
                               ),
                             ),
-                            SizedBox(height: 48),
+                            const SizedBox(height: 48),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -94,7 +94,7 @@ class IdentifierRegisterScreen extends HookWidget {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 24),
+                            const SizedBox(height: 24),
                             BoxtingButton(
                               child: Text('Continuar'),
                               width: double.infinity,
@@ -125,10 +125,18 @@ class IdentifierRegisterScreen extends HookWidget {
   }
 }
 
+void goToRegisterForm(BuildContext context) => Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => IdentifierRegisterScreen.init(context),
+      ),
+    );
+
 void getUserInformation(BuildContext context, String identifier) async {
   try {
     final bloc = context.read<RegisterBloc>();
     await bloc.retrieveIdentifierInformation(identifier);
+    goToRegisterForm(context);
   } catch (e) {
     throw Exception(e);
   }

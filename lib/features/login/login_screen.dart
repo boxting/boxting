@@ -15,7 +15,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
-
 import 'login_bloc.dart';
 
 class LoginScreen extends HookWidget {
@@ -48,6 +47,28 @@ class LoginScreen extends HookWidget {
     final loginBloc = context.watch<LoginBloc>();
     final biometricBloc = context.watch<BiometricBloc>();
 
+    void showErrorAlert({String title, String text}) async =>
+        await CoolAlert.show(
+          context: context,
+          type: CoolAlertType.error,
+          title: title,
+          text: text,
+        );
+
+    void goToHomeScreen(BuildContext context) async =>
+        await Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => HomeScreen.init(context)),
+        );
+
+    void goToBiometricScreen(BuildContext context) async =>
+        await Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => BiometricScreen.init(context, settings: false),
+          ),
+        );
+
     void login(BuildContext context) async {
       if (loginBloc.usernameController.text.trim().isEmpty ||
           loginBloc.passwordController.text.trim().isEmpty) {
@@ -64,38 +85,23 @@ class LoginScreen extends HookWidget {
       final loginResult = await loginBloc.login();
 
       if (loginBloc.failure != null) {
-        await CoolAlert.show(
-          context: context,
-          type: CoolAlertType.error,
+        showErrorAlert(
           title: 'Ocurrio un error!',
           text: loginBloc.failure.message,
         );
       } else {
         if (loginResult) {
           if (fingerprintLogin) {
-            await Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => HomeScreen.init(context)),
-            );
+            goToHomeScreen(context);
           } else {
             if (isFirstTimeLogin) {
-              await Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (_) =>
-                        BiometricScreen.init(context, settings: false)),
-              );
+              goToBiometricScreen(context);
             } else {
-              await Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => HomeScreen.init(context)),
-              );
+              goToHomeScreen(context);
             }
           }
         } else {
-          await CoolAlert.show(
-            context: context,
-            type: CoolAlertType.error,
+          showErrorAlert(
             title: 'Algo salio mal',
             text: 'Error al iniciar sesión. Usuario o contraseña incorrectos.',
           );
@@ -112,7 +118,6 @@ class LoginScreen extends HookWidget {
     void authenticateBiometrical(BuildContext context) async {
       final bloc = context.read<LoginBloc>();
       final biometricLoginEnabled = await bloc.loadBiometricInformation();
-
       if (biometricLoginEnabled) {
         await biometricBloc.checkBiometrics();
         await biometricBloc.getAvailableBiometrics();
@@ -124,15 +129,13 @@ class LoginScreen extends HookWidget {
             onSuccess: () => CoolAlert.show(
                 context: context,
                 type: CoolAlertType.success,
-                title: 'Perfecto',
+                title: 'Perfecto!',
                 text: 'Tu huella digital ha sido validada',
                 confirmBtnText: 'Continuar',
                 barrierDismissible: false,
                 onConfirmBtnTap: () =>
                     biometricBloc.goToHomeScreen(context, dialog: true)),
-            onFailure: (PlatformException e) => CoolAlert.show(
-              context: context,
-              type: CoolAlertType.error,
+            onFailure: (PlatformException e) => showErrorAlert(
               title: 'Algo malio sal',
               text: e.message,
             ),
@@ -211,8 +214,6 @@ class LoginScreen extends HookWidget {
 
   Future<void> goToForgotPassword(BuildContext context) => Navigator.push(
         context,
-        MaterialPageRoute(
-          builder: (_) => ForgotPasswordScreen.init(context),
-        ),
+        MaterialPageRoute(builder: (_) => ForgotPasswordScreen.init(context)),
       );
 }

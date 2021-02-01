@@ -50,8 +50,7 @@ class RegisterBloc extends ChangeNotifier {
   }
 
   Future<DniResponseData> retrieveIdentifierInformation(
-    String identifier,
-  ) async {
+      String identifier) async {
     try {
       final result =
           await registerRepository.fetchInformationFromReniec(identifier);
