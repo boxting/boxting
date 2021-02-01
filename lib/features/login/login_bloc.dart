@@ -8,7 +8,7 @@ enum LoginState { initial, loading, error }
 
 class LoginBloc extends ChangeNotifier {
   final AuthRepository authRepository;
-  final BiometricRepository settingsRepository;
+  final BiometricRepository biometricRepository;
   var loginState = LoginState.initial;
 
   BoxtingFailure _boxtingFailure;
@@ -16,14 +16,14 @@ class LoginBloc extends ChangeNotifier {
 
   LoginBloc({
     @required this.authRepository,
-    @required this.settingsRepository,
+    @required this.biometricRepository,
   });
 
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
   Future<bool> loadBiometricInformation() async {
-    return await settingsRepository.isFingerprintLoginEnabled();
+    return await biometricRepository.isFingerprintLoginEnabled();
   }
 
   Future<bool> isFirstTimeLogin() async =>

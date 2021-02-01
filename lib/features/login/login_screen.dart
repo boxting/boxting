@@ -26,7 +26,7 @@ class LoginScreen extends HookWidget {
         ChangeNotifierProvider<LoginBloc>(
           create: (_) => LoginBloc(
             authRepository: getIt.get<AuthRepository>(),
-            settingsRepository: getIt.get<BiometricRepository>(),
+            biometricRepository: getIt.get<BiometricRepository>(),
           ),
         ),
         ChangeNotifierProvider<BiometricBloc>(
