@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class ForgotPasswordBloc extends ChangeNotifier {
   final AuthRepository authRepository;
-  ForgotPasswordBloc({this.authRepository});
+  ForgotPasswordBloc({@required this.authRepository});
 
   void forgotPassword(String email) async {
     try {
