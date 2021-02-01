@@ -1,3 +1,4 @@
+import 'package:boxting/widgets/boxting_icon.dart';
 import 'package:flutter/material.dart';
 
 class BoxtingAppBar extends AppBar {
@@ -13,7 +14,7 @@ class BoxtingAppBar extends AppBar {
           leading: leading,
           backgroundColor: backgroundColor,
           elevation: elevation,
-          title: title,
+          title: title ?? BoxtingIcon(width: 40, height: 40),
           titleSpacing: 0,
           iconTheme: IconThemeData(
             color: Colors.grey,
