@@ -6,6 +6,7 @@ import 'package:boxting/domain/repository/biometric_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:local_auth/local_auth.dart';
+import 'data/network/boxting_interceptor.dart';
 
 final getIt = GetIt.I;
 
@@ -16,7 +17,9 @@ final options = BaseOptions(
 );
 
 void setupGetIt() {
-  getIt.registerSingleton<Dio>(Dio(options));
+  final dio = Dio(options);
+  dio.interceptors.add(BoxtingInterceptors());
+  getIt.registerSingleton<Dio>(dio);
   final boxtingClient = BoxtingClient(getIt.get<Dio>());
   getIt.registerSingleton<AuthRepository>(AuthRepositoryImpl(boxtingClient));
   getIt.registerSingleton<BiometricRepository>(BiometricRepositoryImpl());
