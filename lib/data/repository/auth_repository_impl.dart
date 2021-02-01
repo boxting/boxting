@@ -14,13 +14,26 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<DniResponseData> fetchInformationFromReniec(String dni) async {
     try {
+      // TODO: Remove mock response
       final dniResponse = await boxtingClient.getDniInformation(dni);
+      // await Future.delayed(Duration(seconds: 3));
+      // final dniResponse = DniResponse(
+      //   success: true,
+      //   error: null,
+      //   data: DniResponseData(
+      //     fatherLastname: 'fatherLastname',
+      //     motherLastname: 'motherLastname',
+      //     cui: 1,
+      //     dni: '71930207',
+      //     names: 'ENZO RODRIGO',
+      //   ),
+      // );
       if (dniResponse.error != null) {
-        throw Exception();
+        throw BoxtingFailure(statusCode: dniResponse.error.statusCode);
       }
       return dniResponse.data;
-    } catch (e) {
-      throw BoxtingFailure(statusCode: 999);
+    } on BoxtingFailure catch (e) {
+      throw BoxtingFailure(statusCode: e.statusCode);
     }
   }
 
