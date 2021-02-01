@@ -1,4 +1,6 @@
+import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:boxting/features/forgot_password/forgot_password_bloc.dart';
+import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -9,7 +11,8 @@ class ForgotPasswordScreen extends HookWidget {
 
   static Widget init(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => ForgotPasswordBloc(),
+      create: (_) =>
+          ForgotPasswordBloc(authRepository: getIt.get<AuthRepository>()),
       builder: (_, __) => ForgotPasswordScreen._(),
     );
   }
@@ -24,7 +27,6 @@ class ForgotPasswordScreen extends HookWidget {
         padding: const EdgeInsets.all(30.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(
               child: Text(
@@ -36,7 +38,7 @@ class ForgotPasswordScreen extends HookWidget {
                 ),
               ),
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             Text(
               'Ingresa tu correo electronico para poder enviarte un contraseña de respaldo.',
               textAlign: TextAlign.center,
@@ -44,12 +46,12 @@ class ForgotPasswordScreen extends HookWidget {
                 fontSize: 16,
               ),
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             BoxtingInput(
               labelText: 'Correo electronico',
               type: BoxtingInputType.email,
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             BoxtingButton(
               child: Text(
                 'Continuar',
