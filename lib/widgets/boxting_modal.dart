@@ -37,8 +37,7 @@ class BoxtingModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTextStyle(
-      style: TextStyle(color: Colors.white, fontSize: 14),
+    return Material(
       child: Container(
         padding: EdgeInsets.all(20),
         color: color,
@@ -91,17 +90,17 @@ class BoxtingModal extends StatelessWidget {
       context: context,
       useSafeArea: false,
       barrierDismissible: barrierDismissible,
-      builder: (context) => Align(
+      builder: (dialogContext) => Align(
         alignment: Alignment.topCenter,
         child: BoxtingModal(
           width: double.infinity,
-          buttonBackgroundColor: Colors.pink,
+          buttonBackgroundColor: Colors.red,
           title: title,
           body: message,
           buttonContent: buttonText,
           onButtonPressed: () {
             onButtonPressed?.call();
-            BoxtingNavigation.pop(context);
+            BoxtingNavigation.pop(dialogContext);
           },
         ),
       ),
