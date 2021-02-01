@@ -1,6 +1,5 @@
-import 'package:boxting/data/repository/settings_repository_impl.dart';
-import 'package:boxting/domain/repository/login_repository.dart';
-import 'package:boxting/domain/repository/settings_repository.dart';
+import 'package:boxting/domain/repository/auth_repository.dart';
+import 'package:boxting/domain/repository/biometric_repository.dart';
 import 'package:boxting/features/biometric/biometric_bloc.dart';
 import 'package:boxting/features/biometric/biometric_screen.dart';
 import 'package:boxting/features/forgot_password/forgot_password_screen.dart';
@@ -26,14 +25,14 @@ class LoginScreen extends HookWidget {
       providers: [
         ChangeNotifierProvider<LoginBloc>(
           create: (_) => LoginBloc(
-            loginRepository: getIt.get<LoginRepository>(),
-            settingsRepository: getIt.get<SettingsRepository>(),
+            authRepository: getIt.get<AuthRepository>(),
+            settingsRepository: getIt.get<BiometricRepository>(),
           ),
         ),
         ChangeNotifierProvider<BiometricBloc>(
           create: (_) => BiometricBloc(
-            SettingsRepositoryImpl(),
-            LocalAuthentication(),
+            getIt.get<BiometricRepository>(),
+            getIt.get<LocalAuthentication>(),
           ),
         )
       ],
@@ -53,7 +52,6 @@ class LoginScreen extends HookWidget {
           loginBloc.passwordController.text.trim().isEmpty) {
         await BoxtingModal.show(
           context,
-          // type: CoolAlertType.error,
           title: 'Ocurrio un error!',
           message: 'Debe llenar los campos obligatiorios',
         );
@@ -150,7 +148,6 @@ class LoginScreen extends HookWidget {
       }
     }
 
-    // final rememberCheckbox = useState<bool>(false);
     return BoxtingScaffold(
       body: Padding(
         padding: const EdgeInsets.all(32.0),
@@ -183,11 +180,6 @@ class LoginScreen extends HookWidget {
               ),
             ),
             SizedBox(height: 8),
-            // CheckboxListTile(
-            //   title: Text('Recordar'),
-            //   value: rememberCheckbox.value,
-            //   onChanged: (bool value) => rememberCheckbox.value = value,
-            // ),
             FlatButton.icon(
               onPressed: () => authenticateBiometrical(context),
               icon: Icon(Icons.fingerprint_outlined),

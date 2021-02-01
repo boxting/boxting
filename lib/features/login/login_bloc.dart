@@ -1,20 +1,21 @@
 import 'package:boxting/data/error/error_handler.dart';
-import 'package:boxting/domain/repository/login_repository.dart';
-import 'package:boxting/domain/repository/settings_repository.dart';
+import 'package:boxting/domain/repository/auth_repository.dart';
+import 'package:boxting/domain/repository/biometric_repository.dart';
+
 import 'package:flutter/material.dart';
 
 enum LoginState { initial, loading, error }
 
 class LoginBloc extends ChangeNotifier {
-  final LoginRepository loginRepository;
-  final SettingsRepository settingsRepository;
+  final AuthRepository authRepository;
+  final BiometricRepository settingsRepository;
   var loginState = LoginState.initial;
 
   BoxtingFailure _boxtingFailure;
   BoxtingFailure get failure => _boxtingFailure;
 
   LoginBloc({
-    @required this.loginRepository,
+    @required this.authRepository,
     @required this.settingsRepository,
   });
 
@@ -26,14 +27,14 @@ class LoginBloc extends ChangeNotifier {
   }
 
   Future<bool> isFirstTimeLogin() async =>
-      await loginRepository.isFirstTimeLogin();
+      await authRepository.isFirstTimeLogin();
 
   Future<bool> login() async {
     try {
       _boxtingFailure = null;
       loginState = LoginState.loading;
       notifyListeners();
-      final loginResponse = await loginRepository.login(
+      final loginResponse = await authRepository.login(
         usernameController.text.trim(),
         passwordController.text.trim(),
       );
