@@ -1,5 +1,7 @@
 import 'package:boxting/data/error/error_handler.dart';
 import 'package:boxting/domain/repository/auth_repository.dart';
+import 'package:boxting/data/network/response/dni_response/dni_response.dart';
+
 import 'package:flutter/material.dart';
 
 enum RegisterState { initial, loading }
@@ -44,6 +46,21 @@ class RegisterBloc extends ChangeNotifier {
       _boxtingFailure = e;
       notifyListeners();
       return false;
+    }
+  }
+
+  Future<DniResponseData> retrieveIdentifierInformation(
+    String identifier,
+  ) async {
+    try {
+      final result =
+          await registerRepository.fetchInformationFromReniec(identifier);
+      notifyListeners();
+      return result;
+    } catch (e) {
+      _boxtingFailure = e;
+      notifyListeners();
+      throw Exception(e);
     }
   }
 }
