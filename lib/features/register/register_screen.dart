@@ -20,6 +20,9 @@ class RegisterScreen extends HookWidget {
 
   final _formKey = GlobalKey<FormState>();
 
+  final EMAIL_REGEX =
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+
   void register(BuildContext context) async {
     final bloc = context.read<RegisterBloc>();
     final registerResponse = await bloc.register();
@@ -68,25 +71,9 @@ class RegisterScreen extends HookWidget {
               Text(
                 'Registrate dentro de Boxting!',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
-              ),
-              SizedBox(height: 16),
-              BoxtingInput(
-                labelText: 'Nombre',
-                controller: bloc.nameController,
-                validator: (value) {
-                  return value.isEmpty ? 'Debe ingresar información' : null;
-                },
-              ),
-              SizedBox(height: 16),
-              BoxtingInput(
-                labelText: 'Apellido',
-                controller: bloc.lastnameController,
-                validator: (value) {
-                  return value.isEmpty ? 'Debe ingresar información' : null;
-                },
               ),
               SizedBox(height: 16),
               BoxtingInput(
@@ -109,24 +96,12 @@ class RegisterScreen extends HookWidget {
               ),
               SizedBox(height: 16),
               BoxtingInput(
-                labelText: 'DNI',
-                suffix: Icon(Icons.perm_identity),
-                controller: bloc.dniController,
-                type: BoxtingInputType.numeric,
-                validator: (value) {
-                  return value.length != 8 ? 'Error de longitud' : null;
-                },
-              ),
-              SizedBox(height: 16),
-              BoxtingInput(
                 labelText: 'Correo',
                 suffix: Icon(Icons.email),
                 controller: bloc.mailController,
                 type: BoxtingInputType.email,
                 validator: (value) {
-                  return RegExp(
-                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-                  ).hasMatch(value)
+                  return RegExp(EMAIL_REGEX).hasMatch(value)
                       ? null
                       : 'Ingrese un correo válido';
                 },
