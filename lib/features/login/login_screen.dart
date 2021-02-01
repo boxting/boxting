@@ -4,8 +4,9 @@ import 'package:boxting/features/biometric/biometric_bloc.dart';
 import 'package:boxting/features/biometric/biometric_screen.dart';
 import 'package:boxting/features/forgot_password/forgot_password_screen.dart';
 import 'package:boxting/features/home/home_screen.dart';
-import 'package:boxting/features/register/register_screen.dart';
+import 'package:boxting/features/register/identifier_register_screen.dart';
 import 'package:boxting/service_locator.dart';
+import 'package:boxting/widgets/boxting_icon.dart';
 import 'package:boxting/widgets/boxting_password_input.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:cool_alert/cool_alert.dart';
@@ -81,7 +82,8 @@ class LoginScreen extends HookWidget {
               await Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => BiometricScreen.init(context)),
+                    builder: (_) =>
+                        BiometricScreen.init(context, settings: false)),
               );
             } else {
               await Navigator.pushReplacement(
@@ -104,7 +106,7 @@ class LoginScreen extends HookWidget {
     void goToRegister(BuildContext context) => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => RegisterScreen.init(context),
+          builder: (_) => IdentifierRegisterScreen.init(context),
         ));
 
     void authenticateBiometrical(BuildContext context) async {
@@ -153,12 +155,8 @@ class LoginScreen extends HookWidget {
         padding: const EdgeInsets.all(32.0),
         child: ListView(
           children: <Widget>[
-            Image.asset(
-              'assets/images/boxting_icon_white.png',
-              width: 120,
-              height: 120,
-            ),
-            SizedBox(height: 32),
+            BoxtingIcon(),
+            const SizedBox(height: 32),
             BoxtingInput(
               labelText: 'Usuario',
               controller: loginBloc.usernameController,
