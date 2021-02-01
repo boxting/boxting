@@ -66,13 +66,15 @@ class RegisterScreen extends HookWidget {
           child: ListView(
             children: [
               Text(
-                'Registrate dentro de Boxting!',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                ),
+                'Crear cuenta',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
+              Text(
+                'Ingreas tus datos para continuar',
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 16),
               BoxtingInput(
                 labelText: 'Nombre',
                 controller: bloc.nameController,
@@ -99,25 +101,25 @@ class RegisterScreen extends HookWidget {
                 },
               ),
               SizedBox(height: 16),
-              BoxtingPasswordInput(
-                controller: bloc.passwordController,
-                validator: (value) {
-                  return value.isEmpty || value.length < 6
-                      ? 'Ingrese una contraseña de un tamaño válido'
-                      : null;
-                },
-              ),
-              SizedBox(height: 16),
-              BoxtingInput(
-                labelText: 'DNI',
-                suffix: Icon(Icons.perm_identity),
-                controller: bloc.dniController,
-                type: BoxtingInputType.numeric,
-                validator: (value) {
-                  return value.length != 8 ? 'Error de longitud' : null;
-                },
-              ),
-              SizedBox(height: 16),
+              // BoxtingPasswordInput(
+              //   controller: bloc.passwordController,
+              //   validator: (value) {
+              //     return value.isEmpty || value.length < 6
+              //         ? 'Ingrese una contraseña de un tamaño válido'
+              //         : null;
+              //   },
+              // ),
+              // SizedBox(height: 16),
+              // BoxtingInput(
+              //   labelText: 'DNI',
+              //   suffix: Icon(Icons.perm_identity),
+              //   controller: bloc.dniController,
+              //   type: BoxtingInputType.numeric,
+              //   validator: (value) {
+              //     return value.length != 8 ? 'Error de longitud' : null;
+              //   },
+              // ),
+              // SizedBox(height: 16),
               BoxtingInput(
                 labelText: 'Correo',
                 suffix: Icon(Icons.email),
