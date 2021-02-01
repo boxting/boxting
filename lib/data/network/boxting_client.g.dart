@@ -74,4 +74,20 @@ class _BoxtingClient implements BoxtingClient {
     final value = DniResponse.fromJson(_result.data);
     return value;
   }
+
+  @override
+  Future<void> sendForgotPassword() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    await _dio.request<void>('/login/forgot/password',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    return null;
+  }
 }
