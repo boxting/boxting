@@ -1,5 +1,6 @@
 import 'package:boxting/data/error/error_handler.dart';
 import 'package:boxting/data/network/boxting_client.dart';
+import 'package:boxting/data/network/request/forgot_password/forgot_password_request.dart';
 import 'package:boxting/data/network/request/login_request/login_request.dart';
 import 'package:boxting/data/network/request/register_request/register_request.dart';
 import 'package:boxting/data/network/response/dni_response/dni_response.dart';
@@ -33,7 +34,7 @@ class AuthRepositoryImpl implements AuthRepository {
       }
       return dniResponse.data;
     } on BoxtingFailure catch (e) {
-      throw BoxtingFailure(statusCode: e.statusCode);
+      throw BoxtingFailure(statusCode: e?.statusCode ?? UNKNOWN_ERROR);
     }
   }
 
@@ -60,10 +61,11 @@ class AuthRepositoryImpl implements AuthRepository {
       await _saveFirstTimeLogin();
       return loginResponse.success;
     } on DioError catch (e) {
-      final statusCodeError = e.response.data['error']['errorCode'] ?? 999;
+      final statusCodeError =
+          e.response.data['error']['errorCode'] ?? UNKNOWN_ERROR;
       throw BoxtingFailure(statusCode: statusCodeError);
     } catch (e) {
-      throw BoxtingFailure(statusCode: 999);
+      throw BoxtingFailure(statusCode: UNKNOWN_ERROR);
     }
   }
 
@@ -87,10 +89,17 @@ class AuthRepositoryImpl implements AuthRepository {
       return registerResponse.success;
     } on DioError catch (e) {
       final statusCodeError = e.response.data['error']['errorCode'];
-      throw BoxtingFailure(statusCode: statusCodeError ?? 999);
+      throw BoxtingFailure(statusCode: statusCodeError ?? UNKNOWN_ERROR);
     }
   }
 
   @override
-  Future<void> sendForgotPassword(String mail) async {}
+  Future<void> sendForgotPassword(String mail) async {
+    try {
+      final request = ForgotPasswordRequest(mail: mail);
+      await boxtingClient.sendForgotPassword(request);
+    } on BoxtingFailure catch (e) {
+      throw BoxtingFailure(statusCode: e?.statusCode ?? UNKNOWN_ERROR);
+    }
+  }
 }

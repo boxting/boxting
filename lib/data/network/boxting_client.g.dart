@@ -76,10 +76,13 @@ class _BoxtingClient implements BoxtingClient {
   }
 
   @override
-  Future<void> sendForgotPassword() async {
+  Future<void> sendForgotPassword(forgotPasswordRequest) async {
+    ArgumentError.checkNotNull(forgotPasswordRequest, 'forgotPasswordRequest');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
+    _data.addAll(forgotPasswordRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
     await _dio.request<void>('/login/forgot/password',
         queryParameters: queryParameters,
         options: RequestOptions(
