@@ -90,7 +90,7 @@ class BoxtingModal extends StatelessWidget {
     return showDialog(
       context: context,
       useSafeArea: false,
-      barrierDismissible: barrierDismissible ?? true,
+      barrierDismissible: barrierDismissible,
       builder: (context) => Align(
         alignment: Alignment.topCenter,
         child: BoxtingModal(
