@@ -1,4 +1,4 @@
-import 'package:boxting/domain/repository/settings_repository.dart';
+import 'package:boxting/domain/repository/biometric_repository.dart';
 import 'package:boxting/features/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +9,7 @@ enum BiometricState { initial, loading }
 typedef FailureCallback = void Function(PlatformException e);
 
 class BiometricBloc extends ChangeNotifier {
-  final SettingsRepository repository;
+  final BiometricRepository repository;
   final LocalAuthentication auth;
 
   BiometricBloc(this.repository, this.auth);
