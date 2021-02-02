@@ -1,4 +1,3 @@
-import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:boxting/features/register/register_bloc.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/boxting_password_input.dart';
@@ -9,15 +8,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends HookWidget {
-  RegisterScreen._();
-
-  static Widget init(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => RegisterBloc(authRepository: getIt.get<AuthRepository>()),
-      builder: (_, __) => RegisterScreen._(),
-    );
-  }
-
   final _formKey = GlobalKey<FormState>();
 
   final EMAIL_REGEX =
@@ -86,15 +76,15 @@ class RegisterScreen extends HookWidget {
                 },
               ),
               SizedBox(height: 16),
-              BoxtingPasswordInput(
-                controller: bloc.passwordController,
-                validator: (value) {
-                  return value.isEmpty || value.length < 6
-                      ? 'Ingrese una contraseña de un tamaño válido'
-                      : null;
-                },
-              ),
-              SizedBox(height: 16),
+              // BoxtingPasswordInput(
+              //   controller: bloc.passwordController,
+              //   validator: (value) {
+              //     return value.isEmpty || value.length < 6
+              //         ? 'Ingrese una contraseña de un tamaño válido'
+              //         : null;
+              //   },
+              // ),
+              // SizedBox(height: 16),
               BoxtingInput(
                 labelText: 'Correo',
                 suffix: Icon(Icons.email),
@@ -134,6 +124,17 @@ class RegisterScreen extends HookWidget {
           ),
         ),
       ),
+    );
+  }
+
+  static Future<void> navigate(BuildContext context) async {
+    await BoxtingNavigation.goto(context, (_) => RegisterScreen.init(context));
+  }
+
+  static Widget init(BuildContext context) {
+    return ChangeNotifierProvider.value(
+      value: getIt.get<RegisterBloc>(),
+      builder: (_, __) => RegisterScreen(),
     );
   }
 }
