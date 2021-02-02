@@ -1,6 +1,5 @@
 import 'package:boxting/features/register/register_bloc.dart';
 import 'package:boxting/service_locator.dart';
-import 'package:boxting/widgets/boxting_password_input.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
