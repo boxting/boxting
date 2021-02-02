@@ -49,17 +49,12 @@ class ForgotPasswordMailScreen extends HookWidget {
                 children: [
                   TextSpan(
                     text: 'un código de verificación ',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   TextSpan(
                     text: 'para que puedas cambiar tu contraseña.',
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 16,
-                    ),
+                    style:
+                        TextStyle(fontWeight: FontWeight.normal, fontSize: 16),
                   )
                 ],
               ),
@@ -80,7 +75,7 @@ class ForgotPasswordMailScreen extends HookWidget {
                 return null;
               },
             ),
-            SizedBox(height: 28),
+            const SizedBox(height: 28),
             BoxtingButton(
               child: Text('Recibir código'),
               width: double.infinity,
