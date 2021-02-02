@@ -1,4 +1,3 @@
-import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:boxting/features/forgot_password/forgot_password_verify.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
@@ -107,14 +106,13 @@ class ForgotPasswordMailScreen extends HookWidget {
       );
 
   void sendVerificationCode(BuildContext context, String mail) async {
-    final bloc = context.read<ForgotPasswordBloc>();
+    final bloc = await context.read<ForgotPasswordBloc>();
     await bloc.forgotPassword(mail);
   }
 
   static Widget init(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) =>
-          ForgotPasswordBloc(authRepository: getIt.get<AuthRepository>()),
+    return ChangeNotifierProvider.value(
+      value: getIt.get<ForgotPasswordBloc>(),
       builder: (_, __) => ForgotPasswordMailScreen(),
     );
   }

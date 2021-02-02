@@ -1,4 +1,3 @@
-import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:boxting/features/forgot_password/forgot_password_create.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
@@ -16,6 +15,7 @@ class ForgotPasswordVerifyScreen extends HookWidget {
   Widget build(BuildContext context) {
     final verifyCodeController = useTextEditingController();
     final _formKey = GlobalKey<FormState>();
+    final bloc = context.watch<ForgotPasswordBloc>();
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: Padding(
@@ -68,21 +68,20 @@ class ForgotPasswordVerifyScreen extends HookWidget {
               BoxtingInput(
                 controller: verifyCodeController,
                 labelText: 'Código de verificación',
-                validator: (value) => value.isEmpty
-                    ? 'Este campo no puede estar vacio'
-                    : value.length != 5
-                        ? 'Debe ingresar lo 5 digitos de su código'
-                        : null,
+                validator: (value) =>
+                    value.isEmpty ? 'Este campo no puede estar vacio' : null,
               ),
               const SizedBox(height: 28),
               BoxtingButton(
                 child: Text('Verificar'),
                 width: double.infinity,
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    BoxtingLoadingDialog.show(
+                    await BoxtingLoadingDialog.show(
                       context,
-                      futureBuilder: () async {},
+                      futureBuilder: () async => await bloc.verifyCode(
+                        verifyCodeController.text.trim(),
+                      ),
                       onSuccess: () =>
                           ForgotPasswordCreateScreen.navigate(context),
                       onError: (e) async => BoxtingModal.show(
@@ -102,9 +101,8 @@ class ForgotPasswordVerifyScreen extends HookWidget {
   }
 
   static Widget init(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) =>
-          ForgotPasswordBloc(authRepository: getIt.get<AuthRepository>()),
+    return ChangeNotifierProvider.value(
+      value: getIt.get<ForgotPasswordBloc>(),
       builder: (_, __) => ForgotPasswordVerifyScreen(),
     );
   }

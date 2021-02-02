@@ -1,6 +1,6 @@
-import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:boxting/features/forgot_password/forgot_password_bloc.dart';
 import 'package:boxting/service_locator.dart';
+import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -37,14 +37,14 @@ class ForgotPasswordCreateScreen extends HookWidget {
                 ),
               ),
               SizedBox(height: 9),
-              BoxtingInput(
+              BoxtingPasswordInput(
                 controller: passwordController,
                 labelText: 'Contraseña nueva',
                 validator: (value) =>
                     value.isEmpty ? 'Este campo no puede estar vacio' : null,
               ),
               SizedBox(height: 24),
-              BoxtingInput(
+              BoxtingPasswordInput(
                 controller: repeatPasswordController,
                 labelText: 'Confirma tu contraseña nueva',
                 validator: (value) => value.isEmpty ||
@@ -59,20 +59,19 @@ class ForgotPasswordCreateScreen extends HookWidget {
                 width: double.infinity,
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    // LoadingDialog.show(
-                    //   context,
-                    //   futureBuilder: () => provider.verifyPwReset(
-                    //     passwordController.text.trim(),
-                    //     repeatPasswordController.text.trim(),
-                    //   ),
-                    //   onSuccess: () => ForgotPasswordSuccess.navigate(context),
-                    //   onError: (err) => VModal.show(
-                    //     context,
-                    //     title: 'Error reiniciando password',
-                    //     message: 'Hubo un error al reiniciar el password.',
-                    //     buttonText: 'Intentar de nuevo',
-                    //   ),
-                    // );
+                    BoxtingLoadingDialog.show(
+                      context,
+                      futureBuilder: () async => _createNewPassword(
+                        context,
+                        repeatPasswordController.text.trim(),
+                      ),
+                      onSuccess: () => BoxtingNavigation.gotoRoot(context),
+                      onError: (err) async => await BoxtingModal.show(
+                        context,
+                        title: 'Error',
+                        message: 'Los tokens son invalidos',
+                      ),
+                    );
                   }
                 },
               ),
@@ -83,10 +82,14 @@ class ForgotPasswordCreateScreen extends HookWidget {
     );
   }
 
+  void _createNewPassword(BuildContext context, String password) async {
+    final bloc = context.read<ForgotPasswordBloc>();
+    await bloc.createNewPassword(password);
+  }
+
   static Widget init(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) =>
-          ForgotPasswordBloc(authRepository: getIt.get<AuthRepository>()),
+    return ChangeNotifierProvider.value(
+      value: getIt.get<ForgotPasswordBloc>(),
       builder: (_, __) => ForgotPasswordCreateScreen(),
     );
   }
