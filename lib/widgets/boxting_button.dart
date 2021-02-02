@@ -7,7 +7,7 @@ class BoxtingButton extends StatelessWidget {
     this.onPressed,
     this.backgroudColor,
     this.disabledBackgroudColor = Colors.grey,
-    this.height = 40,
+    this.height = 50,
     this.width = double.infinity,
     this.borderRadius = 5,
     this.borderColor,
