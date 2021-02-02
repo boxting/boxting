@@ -76,14 +76,15 @@ class _BoxtingClient implements BoxtingClient {
   }
 
   @override
-  Future<void> sendForgotPassword(forgotPasswordRequest) async {
+  Future<DefaultResponse> sendForgotPassword(forgotPasswordRequest) async {
     ArgumentError.checkNotNull(forgotPasswordRequest, 'forgotPasswordRequest');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(forgotPasswordRequest?.toJson() ?? <String, dynamic>{});
     _data.removeWhere((k, v) => v == null);
-    await _dio.request<void>('/login/forgot/password',
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/login/forgot/password',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -91,6 +92,49 @@ class _BoxtingClient implements BoxtingClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    return null;
+    final value = DefaultResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<DefaultResponse> validatePasswordToken(validateTokenRequest) async {
+    ArgumentError.checkNotNull(validateTokenRequest, 'validateTokenRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(validateTokenRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/login/validate/password-token',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = DefaultResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<DefaultResponse> setNewPassword(newPasswordRequest) async {
+    ArgumentError.checkNotNull(newPasswordRequest, 'newPasswordRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(newPasswordRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/login/set/password',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = DefaultResponse.fromJson(_result.data);
+    return value;
   }
 }
