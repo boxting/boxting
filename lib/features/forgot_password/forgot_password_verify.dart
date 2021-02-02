@@ -1,5 +1,7 @@
 import 'package:boxting/domain/repository/auth_repository.dart';
+import 'package:boxting/features/forgot_password/forgot_password_create.dart';
 import 'package:boxting/service_locator.dart';
+import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -72,14 +74,25 @@ class ForgotPasswordVerifyScreen extends HookWidget {
                         ? 'Debe ingresar lo 5 digitos de su código'
                         : null,
               ),
-              SizedBox(height: 28),
+              const SizedBox(height: 28),
               BoxtingButton(
                 child: Text('Verificar'),
                 width: double.infinity,
                 onPressed: () {
-                  if (_formKey.currentState.validate()) {}
+                  if (_formKey.currentState.validate()) {
+                    BoxtingLoadingDialog.show(
+                      context,
+                      futureBuilder: () async {},
+                      onSuccess: () =>
+                          ForgotPasswordCreateScreen.navigate(context),
+                      onError: (e) async => BoxtingModal.show(
+                        context,
+                        title: 'Error!',
+                        message: 'El codigo no es correcto',
+                      ),
+                    );
+                  }
                 },
-                height: 50,
               ),
             ],
           ),

@@ -108,7 +108,6 @@ class ForgotPasswordMailScreen extends HookWidget {
                   // );
                 }
               },
-              height: 50,
             ),
           ],
         ),

@@ -12,4 +12,8 @@ class ForgotPasswordBloc extends ChangeNotifier {
       throw Exception(e);
     }
   }
+
+  void verifyCode(String verificationCode) async {}
+
+  void createNewPassword(String password) async {}
 }

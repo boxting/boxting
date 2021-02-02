@@ -75,7 +75,6 @@ class ForgotPasswordCreateScreen extends HookWidget {
                     // );
                   }
                 },
-                height: 50,
               ),
             ],
           ),
