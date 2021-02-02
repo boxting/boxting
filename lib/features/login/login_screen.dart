@@ -2,7 +2,8 @@ import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:boxting/domain/repository/biometric_repository.dart';
 import 'package:boxting/features/biometric/biometric_bloc.dart';
 import 'package:boxting/features/biometric/biometric_screen.dart';
-import 'package:boxting/features/forgot_password/forgot_password_screen.dart';
+import 'package:boxting/features/forgot_password/forgot_password_mail.dart';
+
 import 'package:boxting/features/home/home_screen.dart';
 import 'package:boxting/features/register/identifier_register_screen.dart';
 import 'package:boxting/service_locator.dart';
@@ -170,7 +171,7 @@ class LoginScreen extends HookWidget {
             ),
             SizedBox(height: 16),
             InkWell(
-              onTap: () => goToForgotPassword(context),
+              onTap: () => ForgotPasswordMailScreen.navigate(context),
               child: Text(
                 'Olvide mi contraseña',
                 textAlign: TextAlign.end,
@@ -211,9 +212,4 @@ class LoginScreen extends HookWidget {
       ),
     );
   }
-
-  Future<void> goToForgotPassword(BuildContext context) => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => ForgotPasswordScreen.init(context)),
-      );
 }

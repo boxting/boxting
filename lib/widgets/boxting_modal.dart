@@ -18,7 +18,7 @@ class BoxtingModal extends StatelessWidget {
     this.buttonBackgroundColor,
     this.buttonContent,
     this.onButtonPressed,
-    this.color = Colors.pink,
+    this.color = Colors.red,
   })  : assert(title != null),
         assert(body != null),
         assert(color != null),
