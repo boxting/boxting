@@ -2,7 +2,10 @@ import 'package:boxting/data/error/error_handler.dart';
 import 'package:boxting/data/network/boxting_client.dart';
 import 'package:boxting/data/network/request/forgot_password/forgot_password_request.dart';
 import 'package:boxting/data/network/request/login_request/login_request.dart';
+import 'package:boxting/data/network/request/new_password_request/new_password_request.dart';
 import 'package:boxting/data/network/request/register_request/register_request.dart';
+import 'package:boxting/data/network/request/validate_token_request/validate_token_request.dart';
+import 'package:boxting/data/network/response/default_response/default_response.dart';
 import 'package:boxting/data/network/response/dni_response/dni_response.dart';
 import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:dio/dio.dart';
@@ -94,10 +97,38 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> sendForgotPassword(String mail) async {
+  Future<DefaultResponse> sendForgotPassword(String mail) async {
     try {
       final request = ForgotPasswordRequest(mail: mail);
-      await boxtingClient.sendForgotPassword(request);
+      return await boxtingClient.sendForgotPassword(request);
+    } on BoxtingFailure catch (e) {
+      throw BoxtingFailure(statusCode: e?.statusCode ?? UNKNOWN_ERROR);
+    }
+  }
+
+  @override
+  Future<DefaultResponse> setNewPassword(
+    String mail,
+    String token,
+    String password,
+  ) async {
+    try {
+      final request =
+          NewPasswordRequest(mail: mail, token: token, newPassword: password);
+      return await boxtingClient.setNewPassword(request);
+    } on BoxtingFailure catch (e) {
+      throw BoxtingFailure(statusCode: e?.statusCode ?? UNKNOWN_ERROR);
+    }
+  }
+
+  @override
+  Future<DefaultResponse> validatePasswordToken(
+    String mail,
+    String token,
+  ) async {
+    try {
+      final request = ValidateTokenRequest(mail: mail, token: token);
+      return await boxtingClient.validatePasswordToken(request);
     } on BoxtingFailure catch (e) {
       throw BoxtingFailure(statusCode: e?.statusCode ?? UNKNOWN_ERROR);
     }

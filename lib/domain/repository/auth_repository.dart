@@ -1,3 +1,4 @@
+import 'package:boxting/data/network/response/default_response/default_response.dart';
 import 'package:boxting/data/network/response/dni_response/dni_response.dart';
 
 abstract class AuthRepository {
@@ -13,5 +14,11 @@ abstract class AuthRepository {
     String password,
   );
   Future<DniResponseData> fetchInformationFromReniec(String dni);
-  Future<void> sendForgotPassword(String mail);
+  Future<DefaultResponse> sendForgotPassword(String mail);
+  Future<DefaultResponse> validatePasswordToken(String mail, String token);
+  Future<DefaultResponse> setNewPassword(
+    String mail,
+    String token,
+    String password,
+  );
 }
