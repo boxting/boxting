@@ -1,4 +1,3 @@
-import 'package:boxting/domain/repository/biometric_repository.dart';
 import 'package:boxting/features/biometric/biometric_screen.dart';
 import 'package:boxting/features/faq/faq_screen.dart';
 import 'package:boxting/features/settings/settings_bloc.dart';
@@ -14,8 +13,7 @@ class SettingsScreen extends HookWidget {
   SettingsScreen._();
   static Widget init(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SettingsBloc(repository: getIt.get<BiometricRepository>())
-        ..loadBiometricInformation(),
+      create: (_) => getIt.get<SettingsBloc>()..loadBiometricInformation(),
       builder: (_, __) => SettingsScreen._(),
     );
   }

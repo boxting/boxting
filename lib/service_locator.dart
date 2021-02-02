@@ -3,7 +3,11 @@ import 'package:boxting/data/repository/auth_repository_impl.dart';
 import 'package:boxting/data/repository/biometric_repository_impl.dart';
 import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:boxting/domain/repository/biometric_repository.dart';
+import 'package:boxting/features/biometric/biometric_bloc.dart';
 import 'package:boxting/features/forgot_password/forgot_password_bloc.dart';
+import 'package:boxting/features/login/login_bloc.dart';
+import 'package:boxting/features/register/register_bloc.dart';
+import 'package:boxting/features/settings/settings_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:local_auth/local_auth.dart';
@@ -38,6 +42,24 @@ void _setupRepositories(BoxtingClient boxtingClient) {
 void _setupBlocs() {
   getIt.registerSingleton<ForgotPasswordBloc>(
     ForgotPasswordBloc(authRepository: getIt.get<AuthRepository>()),
+  );
+  getIt.registerSingleton<RegisterBloc>(
+    RegisterBloc(authRepository: getIt.get<AuthRepository>()),
+  );
+  getIt.registerSingleton<SettingsBloc>(
+    SettingsBloc(repository: getIt.get<BiometricRepository>()),
+  );
+  getIt.registerSingleton<BiometricBloc>(
+    BiometricBloc(
+      getIt.get<BiometricRepository>(),
+      getIt.get<LocalAuthentication>(),
+    ),
+  );
+  getIt.registerSingleton<LoginBloc>(
+    LoginBloc(
+      authRepository: getIt.get<AuthRepository>(),
+      biometricRepository: getIt.get<BiometricRepository>(),
+    ),
   );
 }
 
