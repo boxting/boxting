@@ -1,5 +1,4 @@
 import 'package:boxting/domain/entities/documents.dart';
-import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:boxting/features/register/register_bloc.dart';
 import 'package:boxting/features/register/register_screen.dart';
 import 'package:boxting/service_locator.dart';
@@ -10,17 +9,18 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 
 class IdentifierRegisterScreen extends HookWidget {
-  const IdentifierRegisterScreen({
-    Key key,
-  }) : super(key: key);
-
-  IdentifierRegisterScreen._();
+  const IdentifierRegisterScreen({Key key}) : super(key: key);
 
   static Widget init(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => RegisterBloc(authRepository: getIt.get<AuthRepository>()),
-      builder: (_, __) => IdentifierRegisterScreen._(),
+    return ChangeNotifierProvider.value(
+      value: getIt.get<RegisterBloc>(),
+      builder: (_, __) => IdentifierRegisterScreen(),
     );
+  }
+
+  static Future<void> navigate(BuildContext context) async {
+    await BoxtingNavigation.goto(
+        context, (_) => IdentifierRegisterScreen.init(context));
   }
 
   @override
@@ -111,7 +111,7 @@ class IdentifierRegisterScreen extends HookWidget {
                                               documentController.text.trim(),
                                             ),
                                         onSuccess: () =>
-                                            goToRegisterForm(context),
+                                            RegisterScreen.navigate(context),
                                         onError: (e) async =>
                                             await BoxtingModal.show(context,
                                                 title: 'Error!',
@@ -137,13 +137,6 @@ class IdentifierRegisterScreen extends HookWidget {
     );
   }
 }
-
-void goToRegisterForm(BuildContext context) => Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => RegisterScreen.init(context),
-      ),
-    );
 
 void getUserInformation(BuildContext context, String identifier) async {
   final bloc = context.read<RegisterBloc>();

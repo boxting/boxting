@@ -1,9 +1,6 @@
-import 'package:boxting/domain/repository/auth_repository.dart';
-import 'package:boxting/domain/repository/biometric_repository.dart';
 import 'package:boxting/features/biometric/biometric_bloc.dart';
 import 'package:boxting/features/biometric/biometric_screen.dart';
 import 'package:boxting/features/forgot_password/forgot_password_mail.dart';
-
 import 'package:boxting/features/home/home_screen.dart';
 import 'package:boxting/features/register/identifier_register_screen.dart';
 import 'package:boxting/service_locator.dart';
@@ -14,30 +11,17 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'login_bloc.dart';
 
 class LoginScreen extends HookWidget {
-  LoginScreen._();
-
   static Widget init(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<LoginBloc>(
-          create: (_) => LoginBloc(
-            authRepository: getIt.get<AuthRepository>(),
-            biometricRepository: getIt.get<BiometricRepository>(),
-          ),
-        ),
-        ChangeNotifierProvider<BiometricBloc>(
-          create: (_) => BiometricBloc(
-            getIt.get<BiometricRepository>(),
-            getIt.get<LocalAuthentication>(),
-          ),
-        )
+        ChangeNotifierProvider.value(value: getIt.get<LoginBloc>()),
+        ChangeNotifierProvider.value(value: getIt.get<BiometricBloc>())
       ],
-      builder: (_, __) => LoginScreen._(),
+      builder: (_, __) => LoginScreen(),
     );
   }
 
