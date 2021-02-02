@@ -72,7 +72,7 @@ class ForgotPasswordMailScreen extends HookWidget {
               type: BoxtingInputType.email,
               validator: (value) {
                 if (value.isEmpty) {
-                  return 'Debe ingresar un documento';
+                  return 'Debe ingresar un correo';
                 }
                 if (!RegExp(EMAIL_REGEX).hasMatch(value)) {
                   return 'Ingrese un correo válido';
@@ -96,16 +96,6 @@ class ForgotPasswordMailScreen extends HookWidget {
                         ForgotPasswordVerifyScreen.navigate(context),
                     onError: (e) async => showErrorModal(context),
                   );
-
-                  //     final provider =
-                  //         context.read<ForgotPwRepo>(forgotPwProvider);
-                  //     await provider.recoverPassword(documentController.text);
-                  //   },
-                  //   onSuccess: () =>
-                  //       ForgotPasswordVerifyScreen.navigate(context),
-                  //   onError: (err) async {
-                  //   },
-                  // );
                 }
               },
             ),
