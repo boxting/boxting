@@ -10,11 +10,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends HookWidget {
-  SettingsScreen._();
   static Widget init(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => getIt.get<SettingsBloc>()..loadBiometricInformation(),
-      builder: (_, __) => SettingsScreen._(),
+    return ChangeNotifierProvider.value(
+      value: getIt.get<SettingsBloc>()..loadBiometricInformation(),
+      builder: (_, __) => SettingsScreen(),
     );
   }
 
