@@ -10,8 +10,8 @@ class RegisterBloc extends ChangeNotifier {
   final AuthRepository authRepository;
 
   var registerState = RegisterState.initial;
-  BoxtingFailure _boxtingFailure;
-  BoxtingFailure get failure => _boxtingFailure;
+  BoxtingException _boxtingFailure;
+  BoxtingException get failure => _boxtingFailure;
 
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
@@ -51,9 +51,9 @@ class RegisterBloc extends ChangeNotifier {
           await authRepository.fetchInformationFromReniec(identifier);
       _successNotifier();
       return result;
-    } on BoxtingFailure catch (e) {
+    } on BoxtingException catch (e) {
       _errorNotifier(e);
-      throw BoxtingFailure(statusCode: e.statusCode);
+      throw BoxtingException(statusCode: e.statusCode);
     }
   }
 

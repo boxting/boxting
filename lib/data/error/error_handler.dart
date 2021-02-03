@@ -12,10 +12,10 @@ const REGISTER_DNI_ERROR = 2006;
 const REGISTER_MAIL_ERROR = 2005;
 const REGISTER_OBLIGATORY_ERROR = 2003;
 
-class BoxtingFailure implements Exception {
+class BoxtingException implements Exception {
   final int statusCode;
   String message;
-  BoxtingFailure({@required this.statusCode}) {
+  BoxtingException({@required this.statusCode}) {
     switch (statusCode) {
       case UNKNOWN_ERROR:
         message = 'Ocurrió un error desconocido';
