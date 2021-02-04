@@ -44,7 +44,8 @@ class RegisterBloc extends ChangeNotifier {
   }
 
   Future<DniResponseData> retrieveIdentifierInformation(
-      String identifier) async {
+    String identifier,
+  ) async {
     try {
       _loadingNotifier();
       final result =

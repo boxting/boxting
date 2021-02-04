@@ -104,9 +104,7 @@ class IdentifierRegisterScreen extends HookWidget {
                             BoxtingSwitch(
                               value: termsAccepted.value,
                               title: LinkedText(
-                                prefix: Text(
-                                  'Estas aceptando los ',
-                                ),
+                                prefix: Text('Estas aceptando los '),
                                 link: Text('Terminos y condiciones'),
                                 onTap: () => TermsScreen.navigate(context),
                               ),
