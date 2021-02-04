@@ -11,8 +11,8 @@ class LoginBloc extends ChangeNotifier {
   final BiometricRepository biometricRepository;
   var loginState = LoginState.initial;
 
-  BoxtingFailure _boxtingFailure;
-  BoxtingFailure get failure => _boxtingFailure;
+  BoxtingException _boxtingFailure;
+  BoxtingException get failure => _boxtingFailure;
 
   LoginBloc({
     @required this.authRepository,
@@ -42,7 +42,7 @@ class LoginBloc extends ChangeNotifier {
       notifyListeners();
 
       return loginResponse;
-    } on BoxtingFailure catch (e) {
+    } on BoxtingException catch (e) {
       loginState = LoginState.initial;
       _boxtingFailure = e;
       notifyListeners();

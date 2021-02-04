@@ -14,7 +14,7 @@ class BoxtingAppBar extends AppBar {
           leading: leading,
           backgroundColor: backgroundColor,
           elevation: elevation,
-          title: title ?? BoxtingIcon(width: 40, height: 40),
+          title: Center(child: title ?? BoxtingIcon(width: 40, height: 40)),
           titleSpacing: 0,
           iconTheme: IconThemeData(
             color: Colors.grey,

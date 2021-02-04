@@ -1,7 +1,5 @@
-import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:boxting/features/register/register_bloc.dart';
 import 'package:boxting/service_locator.dart';
-import 'package:boxting/widgets/boxting_password_input.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
@@ -9,16 +7,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends HookWidget {
-  RegisterScreen._();
-
-  static Widget init(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => RegisterBloc(authRepository: getIt.get<AuthRepository>()),
-      builder: (_, __) => RegisterScreen._(),
-    );
-  }
-
   final _formKey = GlobalKey<FormState>();
+
+  final EMAIL_REGEX =
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 
   void register(BuildContext context) async {
     final bloc = context.read<RegisterBloc>();
@@ -58,7 +50,7 @@ class RegisterScreen extends HookWidget {
   Widget build(BuildContext context) {
     final bloc = context.watch<RegisterBloc>();
     return BoxtingScaffold(
-      appBar: AppBar(),
+      appBar: BoxtingAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(32.0),
         child: Form(
@@ -66,8 +58,11 @@ class RegisterScreen extends HookWidget {
           child: ListView(
             children: [
               Text(
-                'Crear cuenta',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                'Registrate dentro de Boxting!',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
               const SizedBox(height: 16),
               Text(
@@ -75,22 +70,6 @@ class RegisterScreen extends HookWidget {
                 style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 16),
-              BoxtingInput(
-                labelText: 'Nombre',
-                controller: bloc.nameController,
-                validator: (value) {
-                  return value.isEmpty ? 'Debe ingresar información' : null;
-                },
-              ),
-              SizedBox(height: 16),
-              BoxtingInput(
-                labelText: 'Apellido',
-                controller: bloc.lastnameController,
-                validator: (value) {
-                  return value.isEmpty ? 'Debe ingresar información' : null;
-                },
-              ),
-              SizedBox(height: 16),
               BoxtingInput(
                 labelText: 'Usuario',
                 controller: bloc.usernameController,
@@ -100,35 +79,14 @@ class RegisterScreen extends HookWidget {
                       : null;
                 },
               ),
-              SizedBox(height: 16),
-              // BoxtingPasswordInput(
-              //   controller: bloc.passwordController,
-              //   validator: (value) {
-              //     return value.isEmpty || value.length < 6
-              //         ? 'Ingrese una contraseña de un tamaño válido'
-              //         : null;
-              //   },
-              // ),
-              // SizedBox(height: 16),
-              // BoxtingInput(
-              //   labelText: 'DNI',
-              //   suffix: Icon(Icons.perm_identity),
-              //   controller: bloc.dniController,
-              //   type: BoxtingInputType.numeric,
-              //   validator: (value) {
-              //     return value.length != 8 ? 'Error de longitud' : null;
-              //   },
-              // ),
-              // SizedBox(height: 16),
+              const SizedBox(height: 16),
               BoxtingInput(
                 labelText: 'Correo',
                 suffix: Icon(Icons.email),
                 controller: bloc.mailController,
                 type: BoxtingInputType.email,
                 validator: (value) {
-                  return RegExp(
-                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-                  ).hasMatch(value)
+                  return RegExp(EMAIL_REGEX).hasMatch(value)
                       ? null
                       : 'Ingrese un correo válido';
                 },
@@ -161,6 +119,17 @@ class RegisterScreen extends HookWidget {
           ),
         ),
       ),
+    );
+  }
+
+  static Future<void> navigate(BuildContext context) async {
+    await BoxtingNavigation.goto(context, (_) => RegisterScreen.init(context));
+  }
+
+  static Widget init(BuildContext context) {
+    return ChangeNotifierProvider.value(
+      value: getIt.get<RegisterBloc>(),
+      builder: (_, __) => RegisterScreen(),
     );
   }
 }

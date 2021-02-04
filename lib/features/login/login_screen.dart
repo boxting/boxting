@@ -1,42 +1,27 @@
-import 'package:boxting/domain/repository/auth_repository.dart';
-import 'package:boxting/domain/repository/biometric_repository.dart';
 import 'package:boxting/features/biometric/biometric_bloc.dart';
 import 'package:boxting/features/biometric/biometric_screen.dart';
-import 'package:boxting/features/forgot_password/forgot_password_screen.dart';
+import 'package:boxting/features/forgot_password/forgot_password_mail.dart';
 import 'package:boxting/features/home/home_screen.dart';
-import 'package:boxting/features/register/register_screen.dart';
+import 'package:boxting/features/register/identifier_register_screen.dart';
 import 'package:boxting/service_locator.dart';
+import 'package:boxting/widgets/boxting_icon.dart';
 import 'package:boxting/widgets/boxting_password_input.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
-
 import 'login_bloc.dart';
 
 class LoginScreen extends HookWidget {
-  LoginScreen._();
-
   static Widget init(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<LoginBloc>(
-          create: (_) => LoginBloc(
-            authRepository: getIt.get<AuthRepository>(),
-            biometricRepository: getIt.get<BiometricRepository>(),
-          ),
-        ),
-        ChangeNotifierProvider<BiometricBloc>(
-          create: (_) => BiometricBloc(
-            getIt.get<BiometricRepository>(),
-            getIt.get<LocalAuthentication>(),
-          ),
-        )
+        ChangeNotifierProvider.value(value: getIt.get<LoginBloc>()),
+        ChangeNotifierProvider.value(value: getIt.get<BiometricBloc>())
       ],
-      builder: (_, __) => LoginScreen._(),
+      builder: (_, __) => LoginScreen(),
     );
   }
 
@@ -46,6 +31,28 @@ class LoginScreen extends HookWidget {
 
     final loginBloc = context.watch<LoginBloc>();
     final biometricBloc = context.watch<BiometricBloc>();
+
+    void showErrorAlert({String title, String text}) async =>
+        await CoolAlert.show(
+          context: context,
+          type: CoolAlertType.error,
+          title: title,
+          text: text,
+        );
+
+    void goToHomeScreen(BuildContext context) async =>
+        await Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => HomeScreen.init(context)),
+        );
+
+    void goToBiometricScreen(BuildContext context) async =>
+        await Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => BiometricScreen.init(context, settings: false),
+          ),
+        );
 
     void login(BuildContext context) async {
       if (loginBloc.usernameController.text.trim().isEmpty ||
@@ -63,37 +70,23 @@ class LoginScreen extends HookWidget {
       final loginResult = await loginBloc.login();
 
       if (loginBloc.failure != null) {
-        await CoolAlert.show(
-          context: context,
-          type: CoolAlertType.error,
+        showErrorAlert(
           title: 'Ocurrio un error!',
           text: loginBloc.failure.message,
         );
       } else {
         if (loginResult) {
           if (fingerprintLogin) {
-            await Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => HomeScreen.init(context)),
-            );
+            goToHomeScreen(context);
           } else {
             if (isFirstTimeLogin) {
-              await Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => BiometricScreen.init(context)),
-              );
+              goToBiometricScreen(context);
             } else {
-              await Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => HomeScreen.init(context)),
-              );
+              goToHomeScreen(context);
             }
           }
         } else {
-          await CoolAlert.show(
-            context: context,
-            type: CoolAlertType.error,
+          showErrorAlert(
             title: 'Algo salio mal',
             text: 'Error al iniciar sesión. Usuario o contraseña incorrectos.',
           );
@@ -104,13 +97,12 @@ class LoginScreen extends HookWidget {
     void goToRegister(BuildContext context) => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => RegisterScreen.init(context),
+          builder: (_) => IdentifierRegisterScreen.init(context),
         ));
 
     void authenticateBiometrical(BuildContext context) async {
       final bloc = context.read<LoginBloc>();
       final biometricLoginEnabled = await bloc.loadBiometricInformation();
-
       if (biometricLoginEnabled) {
         await biometricBloc.checkBiometrics();
         await biometricBloc.getAvailableBiometrics();
@@ -122,15 +114,13 @@ class LoginScreen extends HookWidget {
             onSuccess: () => CoolAlert.show(
                 context: context,
                 type: CoolAlertType.success,
-                title: 'Perfecto',
+                title: 'Perfecto!',
                 text: 'Tu huella digital ha sido validada',
                 confirmBtnText: 'Continuar',
                 barrierDismissible: false,
                 onConfirmBtnTap: () =>
                     biometricBloc.goToHomeScreen(context, dialog: true)),
-            onFailure: (PlatformException e) => CoolAlert.show(
-              context: context,
-              type: CoolAlertType.error,
+            onFailure: (PlatformException e) => showErrorAlert(
               title: 'Algo malio sal',
               text: e.message,
             ),
@@ -153,12 +143,8 @@ class LoginScreen extends HookWidget {
         padding: const EdgeInsets.all(32.0),
         child: ListView(
           children: <Widget>[
-            Image.asset(
-              'assets/images/boxting_icon_white.png',
-              width: 120,
-              height: 120,
-            ),
-            SizedBox(height: 32),
+            BoxtingIcon(),
+            const SizedBox(height: 32),
             BoxtingInput(
               labelText: 'Usuario',
               controller: loginBloc.usernameController,
@@ -169,7 +155,7 @@ class LoginScreen extends HookWidget {
             ),
             SizedBox(height: 16),
             InkWell(
-              onTap: () => goToForgotPassword(context),
+              onTap: () => ForgotPasswordMailScreen.navigate(context),
               child: Text(
                 'Olvide mi contraseña',
                 textAlign: TextAlign.end,
@@ -210,11 +196,4 @@ class LoginScreen extends HookWidget {
       ),
     );
   }
-
-  Future<void> goToForgotPassword(BuildContext context) => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => ForgotPasswordScreen.init(context),
-        ),
-      );
 }
