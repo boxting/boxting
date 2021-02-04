@@ -65,7 +65,7 @@ class BoxtingButton extends StatelessWidget {
       child: Align(
         alignment: Alignment.center,
         child: GestureDetector(
-          onTap: onPressed,
+          onTap: isDisabled ? null : onPressed,
           child: Container(
             width: width,
             height: height,
