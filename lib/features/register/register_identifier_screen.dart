@@ -30,7 +30,6 @@ class IdentifierRegisterScreen extends HookWidget {
     final _formKey = GlobalKey<FormState>();
     final documentTypeSelected = useState();
     final documentController = useTextEditingController();
-    final bloc = context.watch<RegisterBloc>();
     final termsAccepted = useState<bool>(false);
 
     return BoxtingScaffold(
@@ -112,26 +111,30 @@ class IdentifierRegisterScreen extends HookWidget {
                                   termsAccepted.value = value,
                             ),
                             const SizedBox(height: 24),
-                            bloc.registerState == RegisterState.loading
-                                ? CircularProgressIndicator()
-                                : BoxtingButton(
-                                    child: Text('Continuar'),
-                                    width: double.infinity,
-                                    disabled: !termsAccepted.value,
-                                    onPressed: () => BoxtingLoadingDialog.show(
+                            BoxtingButton(
+                                child: Text('Continuar'),
+                                width: double.infinity,
+                                disabled: !termsAccepted.value,
+                                onPressed: () async {
+                                  if (_formKey.currentState.validate()) {
+                                    await BoxtingLoadingDialog.show(
+                                      context,
+                                      futureBuilder: () async =>
+                                          getUserInformation(
                                         context,
-                                        futureBuilder: () async =>
-                                            getUserInformation(
-                                              context,
-                                              documentController.text.trim(),
-                                            ),
-                                        onSuccess: () =>
-                                            RegisterScreen.navigate(context),
-                                        onError: (e) async =>
-                                            await BoxtingModal.show(context,
-                                                title: 'Error!',
-                                                message: e.message)),
-                                  ),
+                                        documentController.text.trim(),
+                                      ),
+                                      onSuccess: () =>
+                                          RegisterScreen.navigate(context),
+                                      onError: (e) async =>
+                                          await BoxtingModal.show(
+                                        context,
+                                        title: 'Error!',
+                                        message: e,
+                                      ),
+                                    );
+                                  }
+                                }),
                           ],
                         ),
                       ),

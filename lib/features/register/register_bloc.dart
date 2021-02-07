@@ -1,77 +1,76 @@
 import 'package:boxting/data/error/error_handler.dart';
+import 'package:boxting/data/network/request/register_request/register_request.dart';
 import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:boxting/data/network/response/dni_response/dni_response.dart';
 
 import 'package:flutter/material.dart';
 
-enum RegisterState { initial, loading }
-
 class RegisterBloc extends ChangeNotifier {
   final AuthRepository authRepository;
 
-  var registerState = RegisterState.initial;
   BoxtingException _boxtingFailure;
   BoxtingException get failure => _boxtingFailure;
 
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
-  final nameController = TextEditingController();
-  final lastnameController = TextEditingController();
-  final mailController = TextEditingController();
-  final phoneController = TextEditingController();
-  final dniController = TextEditingController();
+  RegisterRequest _registerRequest;
 
-  RegisterBloc({@required this.authRepository});
+  RegisterBloc({@required this.authRepository}) {
+    _registerRequest = RegisterRequest();
+  }
 
-  Future<bool> register() async {
+  Future<void> _register() async {
     try {
-      _loadingNotifier();
-      final loginResponse = await authRepository.registerUser(
-        nameController.text.trim(),
-        lastnameController.text.trim(),
-        dniController.text.trim(),
-        phoneController.text.trim(),
-        mailController.text.trim(),
-        usernameController.text.trim(),
-        passwordController.text.trim(),
+      return await authRepository.registerUser(
+        _registerRequest.voter.firstName,
+        _registerRequest.voter.lastName,
+        _registerRequest.voter.dni,
+        _registerRequest.voter.phone,
+        _registerRequest.mail,
+        _registerRequest.username,
+        _registerRequest.password,
       );
-      _successNotifier();
-      return loginResponse;
-    } catch (e) {
-      _errorNotifier(e);
-      return false;
+    } on BoxtingException catch (e) {
+      throw Exception(e.message);
     }
   }
 
-  Future<DniResponseData> retrieveIdentifierInformation(
+  Future<void> _registerIdentifierInformation(DniResponseData data) async {
+    _registerRequest.voter.dni = data.dni;
+    _registerRequest.voter.firstName = data.names;
+    _registerRequest.voter.lastName = data.fatherLastname + data.motherLastname;
+  }
+
+  Future<void> registerPersonalInformation(
+    String mail,
+    String phone,
+    String username,
+  ) async {
+    try {
+      _registerRequest.username = username;
+      _registerRequest.mail = mail;
+      _registerRequest.voter.phone = phone;
+    } on BoxtingException catch (e) {
+      throw Exception(e.message);
+    }
+  }
+
+  Future<void> registerPassword(String password) async {
+    try {
+      _registerRequest.password = password;
+      await _register();
+    } on BoxtingException catch (e) {
+      throw Exception(e.message);
+    }
+  }
+
+  Future<void> retrieveIdentifierInformation(
     String identifier,
   ) async {
     try {
-      _loadingNotifier();
       final result =
           await authRepository.fetchInformationFromReniec(identifier);
-      _successNotifier();
-      return result;
+      await _registerIdentifierInformation(result);
     } on BoxtingException catch (e) {
-      _errorNotifier(e);
-      throw BoxtingException(statusCode: e.statusCode);
+      throw Exception(e.message);
     }
-  }
-
-  void _successNotifier() {
-    registerState = RegisterState.initial;
-    notifyListeners();
-  }
-
-  void _loadingNotifier() {
-    _boxtingFailure = null;
-    registerState = RegisterState.loading;
-    notifyListeners();
-  }
-
-  void _errorNotifier(Exception e) {
-    registerState = RegisterState.initial;
-    _boxtingFailure = e;
-    notifyListeners();
   }
 }

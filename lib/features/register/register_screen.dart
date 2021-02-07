@@ -1,7 +1,8 @@
 import 'package:boxting/features/register/register_bloc.dart';
+import 'package:boxting/features/register/register_password_screen.dart';
 import 'package:boxting/service_locator.dart';
+import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/widgets.dart';
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
@@ -12,43 +13,21 @@ class RegisterScreen extends HookWidget {
   final EMAIL_REGEX =
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 
-  void register(BuildContext context) async {
+  void registerPersonalInfo(
+    BuildContext context,
+    String mail,
+    String phone,
+    String username,
+  ) async {
     final bloc = context.read<RegisterBloc>();
-    final registerResponse = await bloc.register();
-    if (bloc.failure != null) {
-      await CoolAlert.show(
-        context: context,
-        type: CoolAlertType.error,
-        title: 'Ocurrió un error!',
-        text: bloc.failure.message,
-      );
-    } else {
-      if (registerResponse) {
-        await CoolAlert.show(
-          context: context,
-          type: CoolAlertType.success,
-          title: 'Usuario registrado exitosamente!',
-          text: 'Ya puedes iniciar sesión dentro de la aplicación',
-          onConfirmBtnTap: () {
-            Navigator.pop(context);
-            Navigator.pop(context);
-          },
-        );
-      } else {
-        await CoolAlert.show(
-          context: context,
-          type: CoolAlertType.error,
-          title: 'Error al registrar usuario',
-          text:
-              'Ocurrió un error durante el registro del usuario. Intentelo de nuevo.',
-        );
-      }
-    }
+    await bloc.registerPersonalInformation(mail, phone, username);
   }
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.watch<RegisterBloc>();
+    final usernameController = useTextEditingController();
+    final mailController = useTextEditingController();
+    final phoneController = useTextEditingController();
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: Padding(
@@ -72,7 +51,7 @@ class RegisterScreen extends HookWidget {
               const SizedBox(height: 16),
               BoxtingInput(
                 labelText: 'Usuario',
-                controller: bloc.usernameController,
+                controller: usernameController,
                 validator: (value) {
                   return value.length < 3 || value.length > 25
                       ? 'Ingrese un usuario de un tamaño valido'
@@ -83,7 +62,7 @@ class RegisterScreen extends HookWidget {
               BoxtingInput(
                 labelText: 'Correo',
                 suffix: Icon(Icons.email),
-                controller: bloc.mailController,
+                controller: mailController,
                 type: BoxtingInputType.email,
                 validator: (value) {
                   return RegExp(EMAIL_REGEX).hasMatch(value)
@@ -95,26 +74,40 @@ class RegisterScreen extends HookWidget {
               BoxtingInput(
                 labelText: 'Telefono',
                 suffix: Icon(Icons.phone),
-                controller: bloc.phoneController,
+                controller: phoneController,
                 type: BoxtingInputType.numeric,
                 validator: (value) {
                   return value.isEmpty ? 'Debe ingresar información' : null;
                 },
               ),
-              SizedBox(height: 16),
-              bloc.registerState == RegisterState.initial
-                  ? BoxtingButton(
-                      child: Text(
-                        'Registrar'.toUpperCase(),
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+              const SizedBox(height: 16),
+              BoxtingButton(
+                child: Text(
+                  'Registrar'.toUpperCase(),
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                onPressed: () async {
+                  if (_formKey.currentState.validate()) {
+                    await BoxtingLoadingDialog.show(
+                      context,
+                      futureBuilder: () async => registerPersonalInfo(
+                        context,
+                        mailController.text.trim(),
+                        phoneController.text.trim(),
+                        usernameController.text.trim(),
                       ),
-                      onPressed: () => _formKey.currentState.validate()
-                          ? register(context)
-                          : null,
-                    )
-                  : Center(child: CircularProgressIndicator())
+                      onSuccess: () => RegisterPasswordScreen.navigate(context),
+                      onError: (e) async => await BoxtingModal.show(
+                        context,
+                        title: 'Error al registrar información del usuario',
+                        message: 'Verifique los campos',
+                      ),
+                    );
+                  }
+                },
+              )
             ],
           ),
         ),
