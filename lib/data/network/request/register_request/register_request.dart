@@ -4,22 +4,24 @@ part 'register_request.g.dart';
 
 @JsonSerializable()
 class RegisterRequest {
-  final String username;
-  final String password;
-  final String mail;
-  final VoterRequest voter;
+  String username;
+  String password;
+  String mail;
+  VoterRequest voter;
 
-  RegisterRequest({this.username, this.password, this.voter, this.mail});
+  RegisterRequest({this.username, this.password, this.voter, this.mail}) {
+    voter ??= VoterRequest();
+  }
 
   Map<String, dynamic> toJson() => _$RegisterRequestToJson(this);
 }
 
 @JsonSerializable()
 class VoterRequest {
-  final String firstName;
-  final String lastName;
-  final String dni;
-  final String phone;
+  String firstName;
+  String lastName;
+  String dni;
+  String phone;
 
   VoterRequest({
     this.firstName,
