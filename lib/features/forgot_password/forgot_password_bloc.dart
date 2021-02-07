@@ -1,3 +1,6 @@
+import 'package:boxting/data/network/request/forgot_password/forgot_password_request.dart';
+import 'package:boxting/data/network/request/new_password_request/new_password_request.dart';
+import 'package:boxting/data/network/request/validate_token_request/validate_token_request.dart';
 import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +16,8 @@ class ForgotPasswordBloc extends ChangeNotifier {
 
   void forgotPassword(String mail) async {
     try {
-      await authRepository.sendForgotPassword(mail);
+      final request = ForgotPasswordRequest(mail: mail);
+      await authRepository.sendForgotPassword(request);
       _forgotPasswordMail = mail;
     } catch (e) {
       throw Exception(e);
@@ -22,7 +26,11 @@ class ForgotPasswordBloc extends ChangeNotifier {
 
   void verifyCode(String token) async {
     try {
-      await authRepository.validatePasswordToken(_forgotPasswordMail, token);
+      final request = ValidateTokenRequest(
+        mail: _forgotPasswordMail,
+        token: token,
+      );
+      await authRepository.validatePasswordToken(request);
       _forgotPasswordToken = token;
     } catch (e) {
       throw Exception(e);
@@ -31,11 +39,12 @@ class ForgotPasswordBloc extends ChangeNotifier {
 
   void createNewPassword(String password) async {
     try {
-      await authRepository.setNewPassword(
-        _forgotPasswordMail,
-        _forgotPasswordToken,
-        password,
+      final request = NewPasswordRequest(
+        mail: _forgotPasswordMail,
+        token: _forgotPasswordToken,
+        newPassword: password,
       );
+      await authRepository.setNewPassword(request);
     } catch (e) {
       throw Exception(e);
     }

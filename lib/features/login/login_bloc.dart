@@ -1,4 +1,5 @@
 import 'package:boxting/data/error/error_handler.dart';
+import 'package:boxting/data/network/request/login_request/login_request.dart';
 import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:boxting/domain/repository/biometric_repository.dart';
 
@@ -34,10 +35,11 @@ class LoginBloc extends ChangeNotifier {
       _boxtingFailure = null;
       loginState = LoginState.loading;
       notifyListeners();
-      final loginResponse = await authRepository.login(
-        usernameController.text.trim(),
-        passwordController.text.trim(),
+      final loginRequest = LoginRequest(
+        username: usernameController.text.trim(),
+        password: passwordController.text.trim(),
       );
+      final loginResponse = await authRepository.login(loginRequest);
       loginState = LoginState.initial;
       notifyListeners();
 

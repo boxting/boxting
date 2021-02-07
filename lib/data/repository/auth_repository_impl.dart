@@ -41,9 +41,8 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<bool> login(String username, String password) async {
+  Future<bool> login(LoginRequest loginRequest) async {
     try {
-      final loginRequest = LoginRequest(username: username, password: password);
       final loginResponse = await boxtingClient.login(loginRequest);
       if (loginResponse.error != null) {
         throw Exception();
@@ -60,20 +59,8 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<bool> registerUser(String name, String lastname, String dni,
-      String phone, String email, String username, String password) async {
+  Future<bool> registerUser(RegisterRequest registerRequest) async {
     try {
-      final registerRequest = RegisterRequest(
-        username: username,
-        password: password,
-        mail: email,
-        voter: VoterRequest(
-          dni: dni,
-          phone: phone,
-          firstName: name,
-          lastName: lastname,
-        ),
-      );
       final registerResponse = await boxtingClient.register(registerRequest);
       // TODO: Save user information
       return registerResponse.success;
@@ -84,10 +71,11 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<DefaultResponse> sendForgotPassword(String mail) async {
+  Future<DefaultResponse> sendForgotPassword(
+    ForgotPasswordRequest forgotPasswordRequest,
+  ) async {
     try {
-      final request = ForgotPasswordRequest(mail: mail);
-      return await boxtingClient.sendForgotPassword(request);
+      return await boxtingClient.sendForgotPassword(forgotPasswordRequest);
     } on BoxtingException catch (e) {
       throw BoxtingException(statusCode: e?.statusCode ?? UNKNOWN_ERROR);
     }
@@ -95,14 +83,10 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<DefaultResponse> setNewPassword(
-    String mail,
-    String token,
-    String password,
+    NewPasswordRequest newPasswordRequest,
   ) async {
     try {
-      final request =
-          NewPasswordRequest(mail: mail, token: token, newPassword: password);
-      return await boxtingClient.setNewPassword(request);
+      return await boxtingClient.setNewPassword(newPasswordRequest);
     } on BoxtingException catch (e) {
       throw BoxtingException(statusCode: e?.statusCode ?? UNKNOWN_ERROR);
     }
@@ -110,12 +94,10 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<DefaultResponse> validatePasswordToken(
-    String mail,
-    String token,
+    ValidateTokenRequest validateTokenRequest,
   ) async {
     try {
-      final request = ValidateTokenRequest(mail: mail, token: token);
-      return await boxtingClient.validatePasswordToken(request);
+      return await boxtingClient.validatePasswordToken(validateTokenRequest);
     } on BoxtingException catch (e) {
       throw BoxtingException(statusCode: e?.statusCode ?? UNKNOWN_ERROR);
     }
