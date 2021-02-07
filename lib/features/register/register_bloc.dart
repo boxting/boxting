@@ -19,15 +19,7 @@ class RegisterBloc extends ChangeNotifier {
 
   Future<void> _register() async {
     try {
-      return await authRepository.registerUser(
-        _registerRequest.voter.firstName,
-        _registerRequest.voter.lastName,
-        _registerRequest.voter.dni,
-        _registerRequest.voter.phone,
-        _registerRequest.mail,
-        _registerRequest.username,
-        _registerRequest.password,
-      );
+      return await authRepository.registerUser(_registerRequest);
     } on BoxtingException catch (e) {
       throw Exception(e.message);
     }
