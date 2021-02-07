@@ -2,7 +2,7 @@ import 'package:boxting/features/biometric/biometric_bloc.dart';
 import 'package:boxting/features/biometric/biometric_screen.dart';
 import 'package:boxting/features/forgot_password/forgot_password_mail.dart';
 import 'package:boxting/features/home/home_screen.dart';
-import 'package:boxting/features/register/identifier_register_screen.dart';
+import 'package:boxting/features/register/register_identifier_screen.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/boxting_icon.dart';
 import 'package:boxting/widgets/boxting_password_input.dart';
