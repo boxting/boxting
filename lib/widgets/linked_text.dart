@@ -25,16 +25,15 @@ class LinkedText extends StatelessWidget {
       children: [
         if (prefix != null) ...[
           DefaultTextStyle(
-            style: TextStyle(fontSize: 16, color: Colors.grey),
+            style: TextStyle(fontSize: 12, color: Colors.grey),
             child: prefix,
           ),
-          SizedBox(width: 8),
         ],
         InkWell(
           onTap: onTap,
           child: DefaultTextStyle(
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 12,
               fontWeight: FontWeight.w600,
               decoration: TextDecoration.underline,
               color: linkColor ?? Colors.grey,

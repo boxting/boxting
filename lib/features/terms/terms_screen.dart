@@ -31,4 +31,8 @@ class TermsScreen extends HookWidget {
       ),
     );
   }
+
+  static Future<void> navigate(BuildContext context) async {
+    await BoxtingNavigation.goto(context, (_) => TermsScreen());
+  }
 }

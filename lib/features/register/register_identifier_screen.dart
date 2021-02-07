@@ -1,8 +1,10 @@
 import 'package:boxting/domain/entities/documents.dart';
 import 'package:boxting/features/register/register_bloc.dart';
 import 'package:boxting/features/register/register_screen.dart';
+import 'package:boxting/features/terms/terms_screen.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
+import 'package:boxting/widgets/boxting_switch.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -28,7 +30,7 @@ class IdentifierRegisterScreen extends HookWidget {
     final _formKey = GlobalKey<FormState>();
     final documentTypeSelected = useState();
     final documentController = useTextEditingController();
-    final bloc = context.watch<RegisterBloc>();
+    final termsAccepted = useState<bool>(false);
 
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
@@ -81,7 +83,7 @@ class IdentifierRegisterScreen extends HookWidget {
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: 16),
+                                const SizedBox(width: 16),
                                 Expanded(
                                   flex: 5,
                                   child: BoxtingInput(
@@ -98,25 +100,41 @@ class IdentifierRegisterScreen extends HookWidget {
                               ],
                             ),
                             const SizedBox(height: 24),
-                            bloc.registerState == RegisterState.loading
-                                ? CircularProgressIndicator()
-                                : BoxtingButton(
-                                    child: Text('Continuar'),
-                                    width: double.infinity,
-                                    onPressed: () => BoxtingLoadingDialog.show(
+                            BoxtingSwitch(
+                              value: termsAccepted.value,
+                              title: LinkedText(
+                                prefix: Text('Estas aceptando los '),
+                                link: Text('Terminos y condiciones'),
+                                onTap: () => TermsScreen.navigate(context),
+                              ),
+                              onChanged: (bool value) =>
+                                  termsAccepted.value = value,
+                            ),
+                            const SizedBox(height: 24),
+                            BoxtingButton(
+                                child: Text('Continuar'),
+                                width: double.infinity,
+                                disabled: !termsAccepted.value,
+                                onPressed: () async {
+                                  if (_formKey.currentState.validate()) {
+                                    await BoxtingLoadingDialog.show(
+                                      context,
+                                      futureBuilder: () async =>
+                                          getUserInformation(
                                         context,
-                                        futureBuilder: () async =>
-                                            getUserInformation(
-                                              context,
-                                              documentController.text.trim(),
-                                            ),
-                                        onSuccess: () =>
-                                            RegisterScreen.navigate(context),
-                                        onError: (e) async =>
-                                            await BoxtingModal.show(context,
-                                                title: 'Error!',
-                                                message: e.message)),
-                                  ),
+                                        documentController.text.trim(),
+                                      ),
+                                      onSuccess: () =>
+                                          RegisterScreen.navigate(context),
+                                      onError: (e) async =>
+                                          await BoxtingModal.show(
+                                        context,
+                                        title: 'Error!',
+                                        message: e,
+                                      ),
+                                    );
+                                  }
+                                }),
                           ],
                         ),
                       ),
