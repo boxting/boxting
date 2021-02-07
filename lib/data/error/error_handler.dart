@@ -5,6 +5,8 @@ const UNKNOWN_ERROR = 999;
 const LOGIN_USERNAME_ERROR = 1001;
 const PASSWORD_LOGIN_ERROR = 1002;
 const LOGIN_CREDENTIALS_ERROR = 1003;
+// Forgot password error
+const INVALID_TOKEN_ERROR = 1006;
 // Register error
 const REGISTER_USERNAME_ERROR = 2001;
 const REGISTER_PASSWORD_ERROR = 2002;
@@ -46,6 +48,9 @@ class BoxtingException implements Exception {
         break;
       case REGISTER_MAIL_ERROR:
         message = 'El mail ingresado ya existe';
+        break;
+      case INVALID_TOKEN_ERROR:
+        message = 'El token ingresado es incorrecto';
         break;
       default:
         message = 'Ocurrió un error desconocido';
