@@ -23,8 +23,11 @@ class AuthRepositoryImpl implements AuthRepository {
         throw BoxtingException(statusCode: dniResponse.error.statusCode);
       }
       return dniResponse.data;
-    } on BoxtingException catch (e) {
-      throw BoxtingException(statusCode: e?.statusCode ?? UNKNOWN_ERROR);
+    } on DioError catch (e) {
+      final errorCode = e.response.data['error']['errorCode'] ?? UNKNOWN_ERROR;
+      throw BoxtingException(statusCode: errorCode);
+    } catch (e) {
+      throw BoxtingException(statusCode: UNKNOWN_ERROR);
     }
   }
 
@@ -50,9 +53,8 @@ class AuthRepositoryImpl implements AuthRepository {
       await _saveFirstTimeLogin();
       return loginResponse.success;
     } on DioError catch (e) {
-      final statusCodeError =
-          e.response.data['error']['errorCode'] ?? UNKNOWN_ERROR;
-      throw BoxtingException(statusCode: statusCodeError);
+      final errorCode = e.response.data['error']['errorCode'] ?? UNKNOWN_ERROR;
+      throw BoxtingException(statusCode: errorCode);
     } catch (e) {
       throw BoxtingException(statusCode: UNKNOWN_ERROR);
     }
@@ -65,8 +67,10 @@ class AuthRepositoryImpl implements AuthRepository {
       // TODO: Save user information
       return registerResponse.success;
     } on DioError catch (e) {
-      final statusCodeError = e.response.data['error']['errorCode'];
-      throw BoxtingException(statusCode: statusCodeError ?? UNKNOWN_ERROR);
+      final errorCode = e.response.data['error']['errorCode'] ?? UNKNOWN_ERROR;
+      throw BoxtingException(statusCode: errorCode);
+    } catch (e) {
+      throw BoxtingException(statusCode: UNKNOWN_ERROR);
     }
   }
 
@@ -76,8 +80,11 @@ class AuthRepositoryImpl implements AuthRepository {
   ) async {
     try {
       return await boxtingClient.sendForgotPassword(forgotPasswordRequest);
-    } on BoxtingException catch (e) {
-      throw BoxtingException(statusCode: e?.statusCode ?? UNKNOWN_ERROR);
+    } on DioError catch (e) {
+      final errorCode = e.response.data['error']['errorCode'] ?? UNKNOWN_ERROR;
+      throw BoxtingException(statusCode: errorCode);
+    } catch (e) {
+      throw BoxtingException(statusCode: UNKNOWN_ERROR);
     }
   }
 
@@ -87,8 +94,11 @@ class AuthRepositoryImpl implements AuthRepository {
   ) async {
     try {
       return await boxtingClient.setNewPassword(newPasswordRequest);
-    } on BoxtingException catch (e) {
-      throw BoxtingException(statusCode: e?.statusCode ?? UNKNOWN_ERROR);
+    } on DioError catch (e) {
+      final errorCode = e.response.data['error']['errorCode'] ?? UNKNOWN_ERROR;
+      throw BoxtingException(statusCode: errorCode);
+    } catch (e) {
+      throw BoxtingException(statusCode: UNKNOWN_ERROR);
     }
   }
 
@@ -98,8 +108,11 @@ class AuthRepositoryImpl implements AuthRepository {
   ) async {
     try {
       return await boxtingClient.validatePasswordToken(validateTokenRequest);
-    } on BoxtingException catch (e) {
-      throw BoxtingException(statusCode: e?.statusCode ?? UNKNOWN_ERROR);
+    } on DioError catch (e) {
+      final errorCode = e.response.data['error']['errorCode'] ?? UNKNOWN_ERROR;
+      throw BoxtingException(statusCode: errorCode);
+    } catch (e) {
+      throw BoxtingException(statusCode: UNKNOWN_ERROR);
     }
   }
 }

@@ -5,6 +5,7 @@ import 'package:boxting/features/home/home_screen.dart';
 import 'package:boxting/features/register/register_identifier_screen.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/boxting_icon.dart';
+import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/boxting_password_input.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:cool_alert/cool_alert.dart';
@@ -15,6 +16,8 @@ import 'package:provider/provider.dart';
 import 'login_bloc.dart';
 
 class LoginScreen extends HookWidget {
+  final _formKey = GlobalKey<FormState>();
+
   static Widget init(BuildContext context) {
     return MultiProvider(
       providers: [
@@ -28,7 +31,6 @@ class LoginScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final _isAuthenticating = useState<bool>(false);
-
     final loginBloc = context.watch<LoginBloc>();
     final biometricBloc = context.watch<BiometricBloc>();
 
@@ -40,70 +42,32 @@ class LoginScreen extends HookWidget {
           text: text,
         );
 
-    void goToHomeScreen(BuildContext context) async =>
-        await Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => HomeScreen.init(context)),
-        );
-
-    void goToBiometricScreen(BuildContext context) async =>
-        await Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (_) => BiometricScreen.init(context, settings: false),
-          ),
-        );
-
     void login(BuildContext context) async {
-      if (loginBloc.usernameController.text.trim().isEmpty ||
-          loginBloc.passwordController.text.trim().isEmpty) {
-        await BoxtingModal.show(
-          context,
-          title: 'Ocurrio un error!',
-          message: 'Debe llenar los campos obligatiorios',
-        );
-        return;
-      }
-
+      await loginBloc.login();
       final isFirstTimeLogin = await loginBloc.isFirstTimeLogin();
       final fingerprintLogin = await loginBloc.loadBiometricInformation();
-      final loginResult = await loginBloc.login();
-
       if (loginBloc.failure != null) {
         showErrorAlert(
           title: 'Ocurrio un error!',
           text: loginBloc.failure.message,
         );
       } else {
-        if (loginResult) {
-          if (fingerprintLogin) {
-            goToHomeScreen(context);
-          } else {
-            if (isFirstTimeLogin) {
-              goToBiometricScreen(context);
-            } else {
-              goToHomeScreen(context);
-            }
-          }
+        if (fingerprintLogin) {
+          await HomeScreen.navigate(context);
         } else {
-          showErrorAlert(
-            title: 'Algo salio mal',
-            text: 'Error al iniciar sesión. Usuario o contraseña incorrectos.',
-          );
+          if (isFirstTimeLogin) {
+            await BiometricScreen.navigate(context);
+          } else {
+            await HomeScreen.navigate(context);
+          }
         }
       }
     }
 
-    void goToRegister(BuildContext context) => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => IdentifierRegisterScreen.init(context),
-        ));
-
     void authenticateBiometrical(BuildContext context) async {
-      final bloc = context.read<LoginBloc>();
-      final biometricLoginEnabled = await bloc.loadBiometricInformation();
-      if (biometricLoginEnabled) {
+      try {
+        final bloc = context.read<LoginBloc>();
+        await bloc.loadBiometricInformation();
         await biometricBloc.checkBiometrics();
         await biometricBloc.getAvailableBiometrics();
         if (_isAuthenticating.value) {
@@ -126,7 +90,7 @@ class LoginScreen extends HookWidget {
             ),
           );
         }
-      } else {
+      } catch (e) {
         await CoolAlert.show(
           context: context,
           type: CoolAlertType.error,
@@ -141,57 +105,74 @@ class LoginScreen extends HookWidget {
     return BoxtingScaffold(
       body: Padding(
         padding: const EdgeInsets.all(32.0),
-        child: ListView(
-          children: <Widget>[
-            BoxtingIcon(),
-            const SizedBox(height: 32),
-            BoxtingInput(
-              labelText: 'Usuario',
-              controller: loginBloc.usernameController,
-            ),
-            SizedBox(height: 16),
-            BoxtingPasswordInput(
-              controller: loginBloc.passwordController,
-            ),
-            SizedBox(height: 16),
-            InkWell(
-              onTap: () => ForgotPasswordMailScreen.navigate(context),
-              child: Text(
-                'Olvide mi contraseña',
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                  fontSize: 16,
-                  decoration: TextDecoration.underline,
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            children: <Widget>[
+              const BoxtingIcon(),
+              const SizedBox(height: 32),
+              BoxtingInput(
+                labelText: 'Usuario',
+                controller: loginBloc.usernameController,
+                validator: (value) =>
+                    value.isEmpty ? 'Debe ingresar un usuario' : null,
+              ),
+              SizedBox(height: 16),
+              BoxtingPasswordInput(
+                controller: loginBloc.passwordController,
+                validator: (value) =>
+                    value.isEmpty ? 'Debe ingresar una contraseña' : null,
+              ),
+              SizedBox(height: 16),
+              InkWell(
+                onTap: () => ForgotPasswordMailScreen.navigate(context),
+                child: Text(
+                  'Olvide mi contraseña',
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                    fontSize: 16,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 8),
-            FlatButton.icon(
-              onPressed: () => authenticateBiometrical(context),
-              icon: Icon(Icons.fingerprint_outlined),
-              label: Text('Autenticación biometrica'),
-            ),
-            SizedBox(height: 48),
-            loginBloc.loginState == LoginState.loading
-                ? Center(child: CircularProgressIndicator())
-                : BoxtingButton(
-                    onPressed: () => login(context),
-                    child: Text(
-                      'Ingresar'.toUpperCase(),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-            SizedBox(height: 32),
-            Center(
-              child: InkWell(
-                onTap: () => goToRegister(context),
-                child: Text('Aún no tienes una cuenta? Registrate aquí'),
+              const SizedBox(height: 8),
+              FlatButton.icon(
+                onPressed: () => authenticateBiometrical(context),
+                icon: Icon(Icons.fingerprint_outlined),
+                label: Text('Autenticación biometrica'),
               ),
-            ),
-          ],
+              const SizedBox(height: 48),
+              BoxtingButton(
+                onPressed: () async {
+                  if (_formKey.currentState.validate()) {
+                    await BoxtingLoadingDialog.show(
+                      context,
+                      futureBuilder: () async => login(context),
+                      onError: (e) async => await BoxtingModal.show(
+                        context,
+                        title: 'Ocurrio un error!',
+                        message: e,
+                      ),
+                    );
+                  }
+                },
+                child: Text(
+                  'Ingresar'.toUpperCase(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 32),
+              Center(
+                child: InkWell(
+                  onTap: () => IdentifierRegisterScreen.navigate(context),
+                  child: Text('Aún no tienes una cuenta? Registrate aquí'),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

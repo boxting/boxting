@@ -69,7 +69,7 @@ class ForgotPasswordCreateScreen extends HookWidget {
                       onError: (err) async => await BoxtingModal.show(
                         context,
                         title: 'Error',
-                        message: 'Los tokens son invalidos',
+                        message: err,
                       ),
                     );
                   }

@@ -37,7 +37,7 @@ class BoxtingLoadingDialog extends StatelessWidget {
           },
           onError: (err) async {
             BoxtingNavigation.pop<T>(context);
-            await onError?.call(err);
+            await onError?.call(err.message);
           },
         );
         return const BoxtingLoadingDialog();

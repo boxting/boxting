@@ -59,7 +59,7 @@ class ForgotPasswordMailScreen extends HookWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             BoxtingInput(
               labelText: 'Correo electronico',
               controller: mailController,
@@ -88,7 +88,11 @@ class ForgotPasswordMailScreen extends HookWidget {
                     ),
                     onSuccess: () =>
                         ForgotPasswordVerifyScreen.navigate(context),
-                    onError: (e) async => showErrorModal(context),
+                    onError: (e) async => await BoxtingModal.show(
+                      context,
+                      title: 'Error',
+                      message: e,
+                    ),
                   );
                 }
               },
@@ -98,12 +102,6 @@ class ForgotPasswordMailScreen extends HookWidget {
       ),
     );
   }
-
-  void showErrorModal(BuildContext context) async => await BoxtingModal.show(
-        context,
-        title: 'El correo no está registrado',
-        message: 'No existe usuario con el correo indicado',
-      );
 
   void sendVerificationCode(BuildContext context, String mail) async {
     final bloc = await context.read<ForgotPasswordBloc>();

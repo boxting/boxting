@@ -5,12 +5,9 @@ import 'package:boxting/domain/repository/biometric_repository.dart';
 
 import 'package:flutter/material.dart';
 
-enum LoginState { initial, loading, error }
-
 class LoginBloc extends ChangeNotifier {
   final AuthRepository authRepository;
   final BiometricRepository biometricRepository;
-  var loginState = LoginState.initial;
 
   BoxtingException _boxtingFailure;
   BoxtingException get failure => _boxtingFailure;
@@ -30,25 +27,15 @@ class LoginBloc extends ChangeNotifier {
   Future<bool> isFirstTimeLogin() async =>
       await authRepository.isFirstTimeLogin();
 
-  Future<bool> login() async {
+  Future<void> login() async {
     try {
-      _boxtingFailure = null;
-      loginState = LoginState.loading;
-      notifyListeners();
       final loginRequest = LoginRequest(
         username: usernameController.text.trim(),
         password: passwordController.text.trim(),
       );
-      final loginResponse = await authRepository.login(loginRequest);
-      loginState = LoginState.initial;
-      notifyListeners();
-
-      return loginResponse;
+      await authRepository.login(loginRequest);
     } on BoxtingException catch (e) {
-      loginState = LoginState.initial;
-      _boxtingFailure = e;
-      notifyListeners();
-      return false;
+      throw Exception(e.message);
     }
   }
 }

@@ -10,13 +10,15 @@ import 'package:provider/provider.dart';
 import 'home_bloc.dart';
 
 class HomeScreen extends HookWidget {
-  HomeScreen._();
-
   static Widget init(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => HomeBloc(),
-      builder: (_, __) => HomeScreen._(),
+      builder: (_, __) => HomeScreen(),
     );
+  }
+
+  static Future<void> navigate(BuildContext context) async {
+    await BoxtingNavigation.goto(context, (_) => HomeScreen.init(context));
   }
 
   @override
