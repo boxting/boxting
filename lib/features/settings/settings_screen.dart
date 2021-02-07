@@ -23,7 +23,7 @@ class SettingsScreen extends HookWidget {
       await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => BiometricScreen.init(context),
+          builder: (_) => BiometricScreen.init(context, true),
         ),
       );
     } else {

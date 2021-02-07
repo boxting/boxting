@@ -36,13 +36,9 @@ class RegisterBloc extends ChangeNotifier {
     String phone,
     String username,
   ) async {
-    try {
-      _registerRequest.username = username;
-      _registerRequest.mail = mail;
-      _registerRequest.voter.phone = phone;
-    } on BoxtingException catch (e) {
-      throw Exception(e.message);
-    }
+    _registerRequest.username = username;
+    _registerRequest.mail = mail;
+    _registerRequest.voter.phone = phone;
   }
 
   Future<void> registerPassword(String password) async {

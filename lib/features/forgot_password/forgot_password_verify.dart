@@ -87,7 +87,7 @@ class ForgotPasswordVerifyScreen extends HookWidget {
                       onError: (e) async => BoxtingModal.show(
                         context,
                         title: 'Error!',
-                        message: 'El codigo no es correcto',
+                        message: e,
                       ),
                     );
                   }

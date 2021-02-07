@@ -99,11 +99,6 @@ class RegisterScreen extends HookWidget {
                         usernameController.text.trim(),
                       ),
                       onSuccess: () => RegisterPasswordScreen.navigate(context),
-                      onError: (e) async => await BoxtingModal.show(
-                        context,
-                        title: 'Error al registrar información del usuario',
-                        message: 'Verifique los campos',
-                      ),
                     );
                   }
                 },

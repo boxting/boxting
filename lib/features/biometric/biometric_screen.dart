@@ -11,12 +11,17 @@ class BiometricScreen extends HookWidget {
   BiometricScreen._({this.comesFromSetting = true});
   final bool comesFromSetting;
 
-  static Widget init(BuildContext context, {bool settings}) {
+  static Widget init(BuildContext context, bool settings) {
     return ChangeNotifierProvider.value(
       value: getIt.get<BiometricBloc>(),
-      builder: (_, __) =>
-          BiometricScreen._(comesFromSetting: settings ?? false),
+      builder: (_, __) => BiometricScreen._(comesFromSetting: settings),
     );
+  }
+
+  static Future<void> navigate(BuildContext context,
+      {bool settings = false}) async {
+    await BoxtingNavigation.goto(
+        context, (_) => BiometricScreen.init(context, settings));
   }
 
   @override

@@ -1,3 +1,4 @@
+import 'package:boxting/data/error/error_handler.dart';
 import 'package:boxting/data/network/request/forgot_password/forgot_password_request.dart';
 import 'package:boxting/data/network/request/new_password_request/new_password_request.dart';
 import 'package:boxting/data/network/request/validate_token_request/validate_token_request.dart';
@@ -19,8 +20,8 @@ class ForgotPasswordBloc extends ChangeNotifier {
       final request = ForgotPasswordRequest(mail: mail);
       await authRepository.sendForgotPassword(request);
       _forgotPasswordMail = mail;
-    } catch (e) {
-      throw Exception(e);
+    } on BoxtingException catch (e) {
+      throw Exception(e.message);
     }
   }
 
@@ -32,8 +33,8 @@ class ForgotPasswordBloc extends ChangeNotifier {
       );
       await authRepository.validatePasswordToken(request);
       _forgotPasswordToken = token;
-    } catch (e) {
-      throw Exception(e);
+    } on BoxtingException catch (e) {
+      throw Exception(e.message);
     }
   }
 
@@ -45,8 +46,8 @@ class ForgotPasswordBloc extends ChangeNotifier {
         newPassword: password,
       );
       await authRepository.setNewPassword(request);
-    } catch (e) {
-      throw Exception(e);
+    } on BoxtingException catch (e) {
+      throw Exception(e.message);
     }
   }
 }
