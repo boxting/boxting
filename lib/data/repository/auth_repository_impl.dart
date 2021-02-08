@@ -27,27 +27,32 @@ class AuthRepositoryImpl implements AuthRepository {
       }
       return dniResponse.data;
     } on DioError catch (e) {
-      final errorCode = e.response.data['error']['errorCode'] ?? UNKNOWN_ERROR;
-      throw BoxtingException(statusCode: errorCode);
+      final code =
+          int.parse(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
+              .orDefaultErrorCode();
+      throw BoxtingException(statusCode: code);
     } catch (e) {
       throw BoxtingException(statusCode: UNKNOWN_ERROR);
     }
   }
 
   Future<void> _saveFirstTimeLogin() async {
-    var box = await Hive.openBox('BoxtingBox');
-    await box.put('isFirstTimeLogin', false);
+    var box = await Hive.openBox(Constants.HIVE_BOX_NAME);
+    await box.put(Constants.FIRST_LOGIN, false);
   }
 
   Future<void> _saveAuthToken(String token) async {
     final secureStorage = getIt.get<FlutterSecureStorage>();
-    await secureStorage.write(key: BoxtingConstants.AUTH_TOKEN, value: token);
+    await secureStorage.write(key: Constants.AUTH_TOKEN, value: token);
   }
 
   @override
   Future<bool> isFirstTimeLogin() async {
-    var box = await Hive.openBox('BoxtingBox');
-    var isFirstTimeLogin = box.get('isFirstTimeLogin', defaultValue: true);
+    var box = await Hive.openBox(Constants.HIVE_BOX_NAME);
+    var isFirstTimeLogin = box.get(
+      Constants.FIRST_LOGIN,
+      defaultValue: true,
+    );
     return isFirstTimeLogin;
   }
 
@@ -59,8 +64,10 @@ class AuthRepositoryImpl implements AuthRepository {
       await _saveAuthToken(loginResponse.data.token);
       return loginResponse.success;
     } on DioError catch (e) {
-      final errorCode = e.response.data['error']['errorCode'] ?? UNKNOWN_ERROR;
-      throw BoxtingException(statusCode: errorCode);
+      final code =
+          int.parse(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
+              .orDefaultErrorCode();
+      throw BoxtingException(statusCode: code);
     } catch (e) {
       throw BoxtingException(statusCode: UNKNOWN_ERROR);
     }
@@ -72,8 +79,10 @@ class AuthRepositoryImpl implements AuthRepository {
       final registerResponse = await boxtingClient.register(registerRequest);
       return registerResponse.success;
     } on DioError catch (e) {
-      final errorCode = e.response.data['error']['errorCode'] ?? UNKNOWN_ERROR;
-      throw BoxtingException(statusCode: errorCode);
+      final code =
+          int.parse(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
+              .orDefaultErrorCode();
+      throw BoxtingException(statusCode: code);
     } catch (e) {
       throw BoxtingException(statusCode: UNKNOWN_ERROR);
     }
@@ -86,8 +95,10 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       return await boxtingClient.sendForgotPassword(forgotPasswordRequest);
     } on DioError catch (e) {
-      final errorCode = e.response.data['error']['errorCode'] ?? UNKNOWN_ERROR;
-      throw BoxtingException(statusCode: errorCode);
+      final code =
+          int.parse(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
+              .orDefaultErrorCode();
+      throw BoxtingException(statusCode: code);
     } catch (e) {
       throw BoxtingException(statusCode: UNKNOWN_ERROR);
     }
@@ -100,8 +111,10 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       return await boxtingClient.setNewPassword(newPasswordRequest);
     } on DioError catch (e) {
-      final errorCode = e.response.data['error']['errorCode'] ?? UNKNOWN_ERROR;
-      throw BoxtingException(statusCode: errorCode);
+      final code =
+          int.parse(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
+              .orDefaultErrorCode();
+      throw BoxtingException(statusCode: code);
     } catch (e) {
       throw BoxtingException(statusCode: UNKNOWN_ERROR);
     }
@@ -114,10 +127,16 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       return await boxtingClient.validatePasswordToken(validateTokenRequest);
     } on DioError catch (e) {
-      final errorCode = e.response.data['error']['errorCode'] ?? UNKNOWN_ERROR;
-      throw BoxtingException(statusCode: errorCode);
+      final code =
+          int.parse(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
+              .orDefaultErrorCode();
+      throw BoxtingException(statusCode: code);
     } catch (e) {
       throw BoxtingException(statusCode: UNKNOWN_ERROR);
     }
   }
+}
+
+extension XInt on int {
+  int orDefaultErrorCode() => this ?? UNKNOWN_ERROR;
 }

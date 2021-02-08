@@ -1,5 +1,6 @@
 import 'package:boxting/domain/repository/biometric_repository.dart';
 import 'package:boxting/features/home/home_screen.dart';
+import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
@@ -51,20 +52,11 @@ class BiometricBloc extends ChangeNotifier {
     bool comesFromSettings = false,
   }) {
     if (comesFromSettings) {
-      // Pop the dialog
-      if (dialog) Navigator.pop(context);
-      // Pop the Biometric Screen
+      if (dialog) BoxtingNavigation.pop(context);
       Navigator.pop(context);
     } else {
-      // Pop the dialog
-      if (dialog) Navigator.pop(context);
-      // Go to HomeScreen
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => HomeScreen.init(context),
-        ),
-      );
+      if (dialog) BoxtingNavigation.pop(context);
+      HomeScreen.navigate(context);
     }
   }
 
