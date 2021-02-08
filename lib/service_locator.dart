@@ -1,4 +1,5 @@
 import 'package:boxting/data/network/boxting_client.dart';
+import 'package:boxting/data/network/interceptor/boxting_interceptor.dart';
 import 'package:boxting/data/repository/auth_repository_impl.dart';
 import 'package:boxting/data/repository/biometric_repository_impl.dart';
 import 'package:boxting/domain/repository/auth_repository.dart';
@@ -9,9 +10,9 @@ import 'package:boxting/features/login/login_bloc.dart';
 import 'package:boxting/features/register/register_bloc.dart';
 import 'package:boxting/features/settings/settings_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:local_auth/local_auth.dart';
-import 'data/network/boxting_interceptor.dart';
 
 final getIt = GetIt.I;
 
@@ -24,6 +25,7 @@ void setupGetIt() {
   final boxtingClient = _setupNetwork();
   _setupRepositories(boxtingClient);
   _setupBlocs();
+  _setupStorage();
 }
 
 BoxtingClient _setupNetwork() {
@@ -61,6 +63,10 @@ void _setupBlocs() {
       biometricRepository: getIt.get<BiometricRepository>(),
     ),
   );
+}
+
+void _setupStorage() {
+  getIt.registerSingleton<FlutterSecureStorage>(FlutterSecureStorage());
 }
 
 void setupGetItTesting() {
