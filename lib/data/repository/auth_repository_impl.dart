@@ -7,8 +7,11 @@ import 'package:boxting/data/network/request/register_request/register_request.d
 import 'package:boxting/data/network/request/validate_token_request/validate_token_request.dart';
 import 'package:boxting/data/network/response/default_response/default_response.dart';
 import 'package:boxting/data/network/response/dni_response/dni_response.dart';
+import 'package:boxting/domain/constants/constants.dart';
 import 'package:boxting/domain/repository/auth_repository.dart';
+import 'package:boxting/service_locator.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -36,6 +39,11 @@ class AuthRepositoryImpl implements AuthRepository {
     await box.put('isFirstTimeLogin', false);
   }
 
+  Future<void> _saveAuthToken(String token) async {
+    final secureStorage = getIt.get<FlutterSecureStorage>();
+    await secureStorage.write(key: BoxtingConstants.AUTH_TOKEN, value: token);
+  }
+
   @override
   Future<bool> isFirstTimeLogin() async {
     var box = await Hive.openBox('BoxtingBox');
@@ -47,10 +55,8 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<bool> login(LoginRequest loginRequest) async {
     try {
       final loginResponse = await boxtingClient.login(loginRequest);
-      if (loginResponse.error != null) {
-        throw Exception();
-      }
       await _saveFirstTimeLogin();
+      await _saveAuthToken(loginResponse.data.token);
       return loginResponse.success;
     } on DioError catch (e) {
       final errorCode = e.response.data['error']['errorCode'] ?? UNKNOWN_ERROR;
@@ -64,7 +70,6 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<bool> registerUser(RegisterRequest registerRequest) async {
     try {
       final registerResponse = await boxtingClient.register(registerRequest);
-      // TODO: Save user information
       return registerResponse.success;
     } on DioError catch (e) {
       final errorCode = e.response.data['error']['errorCode'] ?? UNKNOWN_ERROR;
