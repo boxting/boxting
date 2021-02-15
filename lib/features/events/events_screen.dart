@@ -5,11 +5,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 
 class EventsScreen extends HookWidget {
-  EventsScreen._();
   static Widget init(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => EventsBloc(),
-      builder: (_, __) => EventsScreen._(),
+      builder: (_, __) => EventsScreen(),
     );
   }
 
@@ -20,6 +19,10 @@ class EventsScreen extends HookWidget {
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Column(),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
       ),
     );
   }
