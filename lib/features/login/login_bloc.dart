@@ -17,9 +17,6 @@ class LoginBloc extends ChangeNotifier {
     @required this.biometricRepository,
   });
 
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
-
   Future<bool> loadBiometricInformation() async {
     return await biometricRepository.isFingerprintLoginEnabled();
   }
@@ -27,12 +24,9 @@ class LoginBloc extends ChangeNotifier {
   Future<bool> isFirstTimeLogin() async =>
       await authRepository.isFirstTimeLogin();
 
-  Future<void> login() async {
+  Future<void> login(String username, String password) async {
     try {
-      final loginRequest = LoginRequest(
-        username: usernameController.text.trim(),
-        password: passwordController.text.trim(),
-      );
+      final loginRequest = LoginRequest(username: username, password: password);
       await authRepository.login(loginRequest);
     } on BoxtingException catch (e) {
       throw Exception(e.message);
