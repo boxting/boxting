@@ -6,6 +6,7 @@ import 'package:boxting/data/network/request/subscribe_event_request/subscribe_e
 import 'package:boxting/data/network/request/validate_token_request/validate_token_request.dart';
 import 'package:boxting/data/network/response/default_response/default_response.dart';
 import 'package:boxting/data/network/response/dni_response/dni_response.dart';
+import 'package:boxting/data/network/response/event_response/event_response.dart';
 import 'package:boxting/data/network/response/login_response/login_response.dart';
 import 'package:boxting/data/network/response/subscribe_event_response/subscribe_event_response.dart';
 import 'package:dio/dio.dart';
@@ -46,4 +47,7 @@ abstract class BoxtingClient {
   Future<SubscribeEventResponse> subscribeNewEvent(
     @Body() SubscribeEventRequest subscribeEventRequest,
   );
+
+  @GET('/user/events')
+  Future<EventResponse> fetchEvents();
 }
