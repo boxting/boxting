@@ -1,4 +1,5 @@
 import 'package:boxting/domain/repository/event_repository.dart';
+import 'package:boxting/features/events/event_item.dart';
 import 'package:boxting/features/events/events_bloc.dart';
 import 'package:boxting/features/events/subscribe/subscribe_event_screen.dart';
 import 'package:boxting/service_locator.dart';
@@ -32,9 +33,8 @@ class EventsScreen extends HookWidget {
                   if (bloc.events != null) {
                     return ListView.builder(
                       itemCount: bloc.events.length,
-                      itemBuilder: (_, int index) => Text(
-                        bloc.events[index].code,
-                      ),
+                      itemBuilder: (_, int index) =>
+                          EventItem(event: bloc.events[index]),
                     );
                   }
                   return Center(child: CircularProgressIndicator());
