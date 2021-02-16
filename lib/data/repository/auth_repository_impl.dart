@@ -29,7 +29,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return dniResponse.data;
     } on DioError catch (e) {
       final code =
-          int.parse(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
+          cast<int>(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
               .orDefaultErrorCode();
       throw BoxtingException(statusCode: code);
     } catch (e) {
@@ -66,7 +66,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return loginResponse.success;
     } on DioError catch (e) {
       final code =
-          int.parse(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
+          cast<int>(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
               .orDefaultErrorCode();
       throw BoxtingException(statusCode: code);
     } catch (e) {
@@ -81,7 +81,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return registerResponse.success;
     } on DioError catch (e) {
       final code =
-          int.parse(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
+          cast<int>(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
               .orDefaultErrorCode();
       throw BoxtingException(statusCode: code);
     } catch (e) {
@@ -97,7 +97,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return await boxtingClient.sendForgotPassword(forgotPasswordRequest);
     } on DioError catch (e) {
       final code =
-          int.parse(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
+          cast<int>(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
               .orDefaultErrorCode();
       throw BoxtingException(statusCode: code);
     } catch (e) {
@@ -113,7 +113,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return await boxtingClient.setNewPassword(newPasswordRequest);
     } on DioError catch (e) {
       final code =
-          int.parse(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
+          cast<int>(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
               .orDefaultErrorCode();
       throw BoxtingException(statusCode: code);
     } catch (e) {
@@ -129,7 +129,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return await boxtingClient.validatePasswordToken(validateTokenRequest);
     } on DioError catch (e) {
       final code =
-          int.parse(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
+          cast<int>(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
               .orDefaultErrorCode();
       throw BoxtingException(statusCode: code);
     } catch (e) {
