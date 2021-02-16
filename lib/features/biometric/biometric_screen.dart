@@ -91,7 +91,7 @@ class BiometricScreen extends HookWidget {
                           title: 'Algo salio mal',
                           text: e.message,
                           onConfirmBtnTap: () {
-                            Navigator.pop(context);
+                            BoxtingNavigation.pop(context);
                             _isAuthenticating.value = false;
                           }),
                     );

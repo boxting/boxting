@@ -1,5 +1,4 @@
 import 'package:boxting/features/biometric/biometric_bloc.dart';
-import 'package:boxting/features/biometric/biometric_screen.dart';
 import 'package:boxting/features/forgot_password/forgot_password_mail.dart';
 import 'package:boxting/features/home/home_screen.dart';
 import 'package:boxting/features/register/register_identifier_screen.dart';
@@ -44,24 +43,24 @@ class LoginScreen extends HookWidget {
 
     void login(BuildContext context) async {
       await loginBloc.login();
-      final isFirstTimeLogin = await loginBloc.isFirstTimeLogin();
-      final fingerprintLogin = await loginBloc.loadBiometricInformation();
-      if (loginBloc.failure != null) {
-        showErrorAlert(
-          title: 'Ocurrio un error!',
-          text: loginBloc.failure.message,
-        );
-      } else {
-        if (fingerprintLogin) {
-          await HomeScreen.navigate(context);
-        } else {
-          if (isFirstTimeLogin) {
-            await BiometricScreen.navigate(context);
-          } else {
-            await HomeScreen.navigate(context);
-          }
-        }
-      }
+      // final isFirstTimeLogin = await loginBloc.isFirstTimeLogin();
+      // final fingerprintLogin = await loginBloc.loadBiometricInformation();
+      // if (loginBloc.failure != null) {
+      //   showErrorAlert(
+      //     title: 'Ocurrio un error!',
+      //     text: loginBloc.failure.message,
+      //   );
+      // } else {
+      //   if (fingerprintLogin) {
+      //     await HomeScreen.navigate(context);
+      //   } else {
+      //     if (isFirstTimeLogin) {
+      //       await BiometricScreen.navigate(context);
+      //     } else {
+      //       await HomeScreen.navigate(context);
+      //     }
+      //   }
+      // }
     }
 
     void authenticateBiometrical(BuildContext context) async {
@@ -97,7 +96,7 @@ class LoginScreen extends HookWidget {
           title: 'Ocurrió un error',
           text: 'Aún no has validado tu huella digital en este dispositivo.',
           confirmBtnText: 'Ok',
-          onConfirmBtnTap: () => Navigator.pop(context),
+          onConfirmBtnTap: () => BoxtingNavigation.pop(context),
         );
       }
     }
@@ -148,6 +147,7 @@ class LoginScreen extends HookWidget {
                     await BoxtingLoadingDialog.show(
                       context,
                       futureBuilder: () async => login(context),
+                      onSuccess: () => HomeScreen.navigate(context),
                       onError: (e) async => await BoxtingModal.show(
                         context,
                         title: 'Ocurrio un error!',

@@ -32,7 +32,7 @@ class SettingsScreen extends HookWidget {
         confirmBtnText: 'Sí',
         cancelBtnText: 'No',
         onConfirmBtnTap: () {
-          Navigator.pop(context);
+          BoxtingNavigation.pop(context);
           bloc.setBiometricInformation(enabled);
         },
         confirmBtnColor: Colors.green,

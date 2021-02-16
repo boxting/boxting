@@ -45,16 +45,19 @@ class EventListBody extends StatelessWidget {
   const EventListBody({Key key, this.events}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    if (events.isNotEmpty) {
+    if (events.isEmpty) {
       return EmptyEventList();
     } else {
       return Column(
         children: [
           Text('Las siguientes votaciones son:'),
           Expanded(
-            child: ListView.builder(
-              itemCount: events.length,
-              itemBuilder: (_, int index) => EventItem(event: events[index]),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: ListView.builder(
+                itemCount: events.length,
+                itemBuilder: (_, int index) => EventItem(event: events[index]),
+              ),
             ),
           ),
         ],

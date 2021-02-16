@@ -142,7 +142,7 @@ class IdentifierRegisterScreen extends HookWidget {
                     LinkedText(
                       prefix: Text('¿Ya tienes una cuenta?'),
                       link: Text('Ingresa aquí'),
-                      onTap: () => Navigator.pop(context),
+                      onTap: () => BoxtingNavigation.pop(context),
                     ),
                     SizedBox(height: 96),
                   ],

@@ -53,7 +53,7 @@ class BiometricBloc extends ChangeNotifier {
   }) {
     if (comesFromSettings) {
       if (dialog) BoxtingNavigation.pop(context);
-      Navigator.pop(context);
+      BoxtingNavigation.pop(context);
     } else {
       if (dialog) BoxtingNavigation.pop(context);
       HomeScreen.navigate(context);
