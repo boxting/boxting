@@ -60,11 +60,11 @@ class SubscribeEventScreen extends HookWidget {
                           accessCodeController.text.trim(),
                         );
                       },
-                      onSuccess: () {},
+                      onSuccess: () => BoxtingNavigation.pop(context),
                       onError: (e) => BoxtingModal.show(
                         context,
                         title: 'Error',
-                        message: e.message,
+                        message: e,
                       ),
                     );
                   }

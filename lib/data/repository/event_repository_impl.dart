@@ -16,9 +16,9 @@ class EventRepositoryImpl extends EventRepository {
       final result = await boxtingClient.subscribeNewEvent(request);
       return result.success;
     } on DioError catch (e) {
-      final code =
-          int.parse(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
-              .orDefaultErrorCode();
+      final code = cast<int>(
+        e.response.data[Constants.ERROR][Constants.ERROR_CODE],
+      ).orDefaultErrorCode();
       throw BoxtingException(statusCode: code);
     } catch (e) {
       throw BoxtingException(statusCode: UNKNOWN_ERROR);
