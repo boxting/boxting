@@ -20,11 +20,9 @@ class SettingsScreen extends HookWidget {
   void setBiometricInformation(BuildContext context, bool enabled) async {
     final bloc = context.read<SettingsBloc>();
     if (enabled) {
-      await Navigator.push(
+      await BoxtingNavigation.goto(
         context,
-        MaterialPageRoute(
-          builder: (_) => BiometricScreen.init(context, true),
-        ),
+        (_) => BiometricScreen.init(context, true),
       );
     } else {
       await CoolAlert.show(
@@ -91,11 +89,9 @@ class SettingsScreen extends HookWidget {
                     subtitle: Text(
                         'Conoce los terminos y condiciones de la aplicación'),
                     trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: () => Navigator.push(
+                    onTap: () => BoxtingNavigation.goto(
                       context,
-                      MaterialPageRoute(
-                        builder: (_) => TermsScreen(),
-                      ),
+                      (_) => TermsScreen(),
                     ),
                   ),
                   ListTile(
@@ -105,12 +101,9 @@ class SettingsScreen extends HookWidget {
                       'Conoce las respuestas a las preguntas más frecuentes acerca de la aplicación',
                     ),
                     trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: () => Navigator.push(
+                    onTap: () => BoxtingNavigation.goto(
                       context,
-                      MaterialPageRoute(
-                        // TODO: Goto faq screens
-                        builder: (_) => FaqScreen(),
-                      ),
+                      (_) => FaqScreen(),
                     ),
                   ),
                 ],

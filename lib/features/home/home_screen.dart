@@ -18,7 +18,7 @@ class HomeScreen extends HookWidget {
   }
 
   static Future<void> navigate(BuildContext context) async {
-    await BoxtingNavigation.goto(context, (_) => HomeScreen.init(context));
+    await BoxtingNavigation.replace(context, (_) => HomeScreen.init(context));
   }
 
   @override
