@@ -33,6 +33,9 @@ class LoginScreen extends HookWidget {
     final loginBloc = context.watch<LoginBloc>();
     final biometricBloc = context.watch<BiometricBloc>();
 
+    final usernameController = useTextEditingController();
+    final passwordController = useTextEditingController();
+
     void showErrorAlert({String title, String text}) async =>
         await CoolAlert.show(
           context: context,
@@ -42,7 +45,10 @@ class LoginScreen extends HookWidget {
         );
 
     void login(BuildContext context) async {
-      await loginBloc.login();
+      await loginBloc.login(
+        usernameController.text.trim(),
+        passwordController.text.trim(),
+      );
       // final isFirstTimeLogin = await loginBloc.isFirstTimeLogin();
       // final fingerprintLogin = await loginBloc.loadBiometricInformation();
       // if (loginBloc.failure != null) {
@@ -112,13 +118,13 @@ class LoginScreen extends HookWidget {
               const SizedBox(height: 32),
               BoxtingInput(
                 labelText: 'Usuario',
-                controller: loginBloc.usernameController,
+                controller: usernameController,
                 validator: (value) =>
                     value.isEmpty ? 'Debe ingresar un usuario' : null,
               ),
               SizedBox(height: 16),
               BoxtingPasswordInput(
-                controller: loginBloc.passwordController,
+                controller: passwordController,
                 validator: (value) =>
                     value.isEmpty ? 'Debe ingresar una contraseña' : null,
               ),
