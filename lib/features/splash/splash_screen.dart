@@ -26,26 +26,20 @@ class SplashScreen extends HookWidget {
           await Future.delayed(Duration(seconds: 1));
           await provider.isFirstTimeOpen();
           if (provider.isFirstTime) {
-            await Navigator.pushReplacement(
+            await BoxtingNavigation.replace(
               context,
-              MaterialPageRoute(
-                builder: (_) => LoginScreen.init(context),
-              ),
+              (_) => LoginScreen.init(context),
             );
           } else {
-            await Navigator.pushReplacement(
+            await BoxtingNavigation.replace(
               context,
-              MaterialPageRoute(
-                builder: (_) => LoginScreen.init(context),
-              ),
+              (_) => LoginScreen.init(context),
             );
           }
         } catch (_) {
-          await Navigator.pushReplacement(
+          await BoxtingNavigation.replace(
             context,
-            MaterialPageRoute(
-              builder: (_) => OnBoardingScreen(),
-            ),
+            (_) => OnBoardingScreen(),
           );
         }
       });

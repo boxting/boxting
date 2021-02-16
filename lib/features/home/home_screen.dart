@@ -18,7 +18,7 @@ class HomeScreen extends HookWidget {
   }
 
   static Future<void> navigate(BuildContext context) async {
-    await BoxtingNavigation.goto(context, (_) => HomeScreen.init(context));
+    await BoxtingNavigation.replace(context, (_) => HomeScreen.init(context));
   }
 
   @override
@@ -28,10 +28,10 @@ class HomeScreen extends HookWidget {
     Widget getChildByIndex(int index, BuildContext context) {
       switch (index) {
         case 0:
-          child.value = EventsScreen.init(context);
+          child.value = FeedScreen.init(context);
           break;
         case 1:
-          child.value = FeedScreen.init(context);
+          child.value = EventsScreen.init(context);
           break;
         case 2:
           child.value = SettingsScreen.init(context);
