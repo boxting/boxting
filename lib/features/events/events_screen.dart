@@ -17,11 +17,32 @@ class EventsScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.watch<EventsBloc>();
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
-        child: Column(),
+        child: Column(
+          children: [
+            Text('Las siguientes votaciones son:'),
+            Expanded(
+              child: FutureBuilder(
+                future: bloc.fetchEvents(),
+                builder: (_, __) {
+                  if (bloc.events != null) {
+                    return ListView.builder(
+                      itemCount: bloc.events.length,
+                      itemBuilder: (_, int index) => Text(
+                        bloc.events[index].code,
+                      ),
+                    );
+                  }
+                  return Center(child: CircularProgressIndicator());
+                },
+              ),
+            )
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => SubscribeEventScreen.navigate(context),
