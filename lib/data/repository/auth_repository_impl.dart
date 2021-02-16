@@ -13,6 +13,7 @@ import 'package:boxting/service_locator.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
+import 'utils.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final BoxtingClient boxtingClient;
@@ -135,8 +136,4 @@ class AuthRepositoryImpl implements AuthRepository {
       throw BoxtingException(statusCode: UNKNOWN_ERROR);
     }
   }
-}
-
-extension XInt on int {
-  int orDefaultErrorCode() => this ?? UNKNOWN_ERROR;
 }

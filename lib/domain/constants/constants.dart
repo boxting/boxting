@@ -1,7 +1,7 @@
 class Constants {
   static const AUTH_TOKEN = 'auth_token';
   static const AUTH_HEADER = 'Authorization';
-  static const AUTH_BEARER = 'Bearer';
+  static const AUTH_BEARER = 'Bearer ';
 
   static const HIVE_BOX_NAME = 'boxting_box';
   static const FIRST_LOGIN = 'first_time_login';
