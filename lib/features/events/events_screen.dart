@@ -4,10 +4,10 @@ import 'package:boxting/features/events/event_item.dart';
 import 'package:boxting/features/events/events_bloc.dart';
 import 'package:boxting/features/events/subscribe/subscribe_event_screen.dart';
 import 'package:boxting/service_locator.dart';
+import 'package:boxting/widgets/empty_screen.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class EventsScreen extends HookWidget {
@@ -23,11 +23,11 @@ class EventsScreen extends HookWidget {
     final bloc = context.watch<EventsBloc>();
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
-      body: FutureBuilder(
+      body: FutureBuilder<List<EventResponseData>>(
         future: bloc.fetchEvents(),
-        builder: (_, __) {
-          if (bloc.events != null) {
-            return Center(child: EventListBody(events: bloc.events));
+        builder: (_, events) {
+          if (events.hasData) {
+            return Center(child: EventListBody(events: events.data));
           }
           return Center(child: CircularProgressIndicator());
         },
@@ -42,11 +42,15 @@ class EventsScreen extends HookWidget {
 
 class EventListBody extends StatelessWidget {
   final List<EventResponseData> events;
+
   const EventListBody({Key key, this.events}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     if (events.isEmpty) {
-      return EmptyEventList();
+      return BoxtingEmptyScreen(
+        'Aún no estas registrado en ningún evento de votación',
+      );
     } else {
       return Column(
         children: [
@@ -63,25 +67,5 @@ class EventListBody extends StatelessWidget {
         ],
       );
     }
-  }
-}
-
-class EmptyEventList extends StatelessWidget {
-  const EmptyEventList({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Lottie.asset(
-          'assets/lottie/sad_empty_box.json',
-          width: 240,
-          height: 240,
-          fit: BoxFit.fill,
-        ),
-        Text('Aún no estas registrado en ningún evento de votación')
-      ],
-    );
   }
 }

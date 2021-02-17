@@ -55,7 +55,7 @@ class SubscribeEventScreen extends HookWidget {
                       context,
                       futureBuilder: () async {
                         final bloc = context.read<EventsBloc>();
-                        await bloc.subsribeEvent(
+                        await bloc.subscribeEvent(
                           eventCodeController.text.trim(),
                           accessCodeController.text.trim(),
                         );
