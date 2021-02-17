@@ -11,6 +11,7 @@ class EventRepositoryImpl extends EventRepository {
   final BoxtingClient boxtingClient;
 
   EventRepositoryImpl(this.boxtingClient);
+
   @override
   Future<bool> subscribeNewEvent(SubscribeEventRequest request) async {
     try {
@@ -27,9 +28,24 @@ class EventRepositoryImpl extends EventRepository {
   }
 
   @override
-  Future<EventResponse> fetchEvents() async {
+  Future<EventsResponse> fetchEvents() async {
     try {
       final result = await boxtingClient.fetchEvents();
+      return result;
+    } on DioError catch (e) {
+      final code = cast<int>(
+        e.response.data[Constants.ERROR][Constants.ERROR_CODE],
+      ).orDefaultErrorCode();
+      throw BoxtingException(statusCode: code);
+    } catch (e) {
+      throw BoxtingException(statusCode: UNKNOWN_ERROR);
+    }
+  }
+
+  @override
+  Future<SingleEventResponse> fetchEventById(String id) async {
+    try {
+      final result = await boxtingClient.fetchEventById(id);
       return result;
     } on DioError catch (e) {
       final code = cast<int>(
