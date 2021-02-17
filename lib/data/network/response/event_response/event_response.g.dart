@@ -6,8 +6,8 @@ part of 'event_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-EventResponse _$EventResponseFromJson(Map<String, dynamic> json) {
-  return EventResponse(
+EventsResponse _$EventsResponseFromJson(Map<String, dynamic> json) {
+  return EventsResponse(
     success: json['success'] as bool,
     data: (json['data'] as List)
         ?.map((e) => e == null
@@ -17,7 +17,23 @@ EventResponse _$EventResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$EventResponseToJson(EventResponse instance) =>
+Map<String, dynamic> _$EventsResponseToJson(EventsResponse instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'data': instance.data,
+    };
+
+SingleEventResponse _$SingleEventResponseFromJson(Map<String, dynamic> json) {
+  return SingleEventResponse(
+    success: json['success'] as bool,
+    data: json['data'] == null
+        ? null
+        : EventResponseData.fromJson(json['data'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$SingleEventResponseToJson(
+        SingleEventResponse instance) =>
     <String, dynamic>{
       'success': instance.success,
       'data': instance.data,

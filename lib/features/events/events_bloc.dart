@@ -9,26 +9,31 @@ class EventsBloc extends ChangeNotifier {
 
   EventsBloc(this.eventRepository);
 
-  List<EventResponseData> _events;
-  List<EventResponseData> get events => _events;
-
-  Future<void> fetchEvents() async {
+  Future<List<EventResponseData>> fetchEvents() async {
     try {
       final result = await eventRepository.fetchEvents();
-      _events = result.data;
+      return result.data;
     } on BoxtingException catch (e) {
-      _events = [];
       throw Exception(e.message);
     }
   }
 
-  Future<void> subsribeEvent(String eventCode, String accessCode) async {
+  Future<void> subscribeEvent(String eventCode, String accessCode) async {
     try {
       final request = SubscribeEventRequest(
         accessCode: accessCode,
         eventCode: eventCode,
       );
       return await eventRepository.subscribeNewEvent(request);
+    } on BoxtingException catch (e) {
+      throw Exception(e.message);
+    }
+  }
+
+  Future<EventResponseData> fetchEventById(String id) async {
+    try {
+      final result = await eventRepository.fetchEventById(id);
+      return result.data;
     } on BoxtingException catch (e) {
       throw Exception(e.message);
     }

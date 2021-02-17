@@ -161,7 +161,7 @@ class _BoxtingClient implements BoxtingClient {
   }
 
   @override
-  Future<EventResponse> fetchEvents() async {
+  Future<EventsResponse> fetchEvents() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -173,7 +173,43 @@ class _BoxtingClient implements BoxtingClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = EventResponse.fromJson(_result.data);
+    final value = EventsResponse.fromJson(_result.data);
     return value;
+  }
+
+  @override
+  Future<SingleEventResponse> fetchEventById(eventId) async {
+    ArgumentError.checkNotNull(eventId, 'eventId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/event/id/$eventId',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = SingleEventResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<void> fetchElectionsFromEvent(eventId) async {
+    ArgumentError.checkNotNull(eventId, 'eventId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    await _dio.request<void>('/election/event/$eventId',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    return null;
   }
 }

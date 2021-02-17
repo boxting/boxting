@@ -2,13 +2,23 @@ import 'package:json_annotation/json_annotation.dart';
 part 'event_response.g.dart';
 
 @JsonSerializable()
-class EventResponse {
+class EventsResponse {
   final bool success;
   final List<EventResponseData> data;
 
-  EventResponse({this.success, this.data});
-  factory EventResponse.fromJson(Map<String, dynamic> json) =>
-      _$EventResponseFromJson(json);
+  EventsResponse({this.success, this.data});
+  factory EventsResponse.fromJson(Map<String, dynamic> json) =>
+      _$EventsResponseFromJson(json);
+}
+
+@JsonSerializable()
+class SingleEventResponse {
+  final bool success;
+  final EventResponseData data;
+
+  SingleEventResponse({this.success, this.data});
+  factory SingleEventResponse.fromJson(Map<String, dynamic> json) =>
+      _$SingleEventResponseFromJson(json);
 }
 
 @JsonSerializable()

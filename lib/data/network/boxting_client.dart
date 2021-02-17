@@ -49,5 +49,11 @@ abstract class BoxtingClient {
   );
 
   @GET('/user/events')
-  Future<EventResponse> fetchEvents();
+  Future<EventsResponse> fetchEvents();
+
+  @GET('/event/id/{eventId}')
+  Future<SingleEventResponse> fetchEventById(@Path('eventId') String eventId);
+
+  @GET('/election/event/{eventId}')
+  Future<void> fetchElectionsFromEvent(@Path('eventId') String eventId);
 }
