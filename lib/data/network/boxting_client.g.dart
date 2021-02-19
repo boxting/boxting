@@ -212,4 +212,23 @@ class _BoxtingClient implements BoxtingClient {
         data: _data);
     return null;
   }
+
+  @override
+  Future<DefaultResponse> unsubscribeVoterFromEvent(eventId) async {
+    ArgumentError.checkNotNull(eventId, 'eventId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/event/$eventId/unsubscribe/voter',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'DELETE',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = DefaultResponse.fromJson(_result.data);
+    return value;
+  }
 }
