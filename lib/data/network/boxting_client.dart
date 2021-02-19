@@ -43,7 +43,7 @@ abstract class BoxtingClient {
     @Body() NewPasswordRequest newPasswordRequest,
   );
 
-  @POST('/event/suscribe/voter')
+  @POST('/event/subscribe/voter')
   Future<SubscribeEventResponse> subscribeNewEvent(
     @Body() SubscribeEventRequest subscribeEventRequest,
   );

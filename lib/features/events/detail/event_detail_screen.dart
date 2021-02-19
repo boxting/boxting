@@ -98,6 +98,12 @@ class SettingsModalBody extends StatelessWidget {
           onTap: () async => await BoxtingLoadingDialog.show(
             context,
             futureBuilder: () => bloc.unsubscribeFromEvent(eventId),
+            onSuccess: () => BoxtingNavigation.gotoRoot(context),
+            onError: (e) => BoxtingModal.show(
+              context,
+              title: 'Error',
+              message: e,
+            ),
           ),
         )
       ],

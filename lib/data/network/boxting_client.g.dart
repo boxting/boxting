@@ -148,7 +148,7 @@ class _BoxtingClient implements BoxtingClient {
     _data.addAll(subscribeEventRequest?.toJson() ?? <String, dynamic>{});
     _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
-        '/event/suscribe/voter',
+        '/event/subscribe/voter',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
