@@ -1,3 +1,4 @@
+import 'package:boxting/data/network/response/error_response/error_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'subscribe_event_response.g.dart';
 
@@ -5,8 +6,9 @@ part 'subscribe_event_response.g.dart';
 class SubscribeEventResponse {
   final bool success;
   final SubscribeEventResponseData data;
+  final ErrorResponse error;
 
-  SubscribeEventResponse({this.success, this.data});
+  SubscribeEventResponse({this.success, this.data, this.error});
   factory SubscribeEventResponse.fromJson(Map<String, dynamic> json) =>
       _$SubscribeEventResponseFromJson(json);
 }

@@ -1,3 +1,4 @@
+import 'package:boxting/data/network/response/error_response/error_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'event_response.g.dart';
 
@@ -5,8 +6,9 @@ part 'event_response.g.dart';
 class EventsResponse {
   final bool success;
   final List<EventResponseData> data;
+  final ErrorResponse error;
 
-  EventsResponse({this.success, this.data});
+  EventsResponse({this.success, this.data, this.error});
   factory EventsResponse.fromJson(Map<String, dynamic> json) =>
       _$EventsResponseFromJson(json);
 }
@@ -15,8 +17,9 @@ class EventsResponse {
 class SingleEventResponse {
   final bool success;
   final EventResponseData data;
+  final ErrorResponse error;
 
-  SingleEventResponse({this.success, this.data});
+  SingleEventResponse({this.success, this.data, this.error});
   factory SingleEventResponse.fromJson(Map<String, dynamic> json) =>
       _$SingleEventResponseFromJson(json);
 }
