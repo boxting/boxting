@@ -5,7 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hive/hive.dart';
 
 import 'onboarding_model.dart';
-import 'onboarding_pages.dart';
+// import 'onboarding_pages.dart';
 
 class OnBoardingScreen extends HookWidget {
   static Future<void> navigate(BuildContext context) async {
