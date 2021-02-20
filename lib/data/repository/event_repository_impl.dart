@@ -56,4 +56,19 @@ class EventRepositoryImpl extends EventRepository {
       throw BoxtingException(statusCode: UNKNOWN_ERROR);
     }
   }
+
+  @override
+  Future<bool> unsubscribeVoterFromEvent(String eventId) async {
+    try {
+      final result = await boxtingClient.unsubscribeVoterFromEvent(eventId);
+      return result.success;
+    } on DioError catch (e) {
+      final code = cast<int>(
+        e.response.data[Constants.ERROR][Constants.ERROR_CODE],
+      ).orDefaultErrorCode();
+      throw BoxtingException(statusCode: code);
+    } catch (e) {
+      throw BoxtingException(statusCode: UNKNOWN_ERROR);
+    }
+  }
 }

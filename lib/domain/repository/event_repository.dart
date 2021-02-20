@@ -5,4 +5,5 @@ abstract class EventRepository {
   Future<bool> subscribeNewEvent(SubscribeEventRequest request);
   Future<EventsResponse> fetchEvents();
   Future<SingleEventResponse> fetchEventById(String id);
+  Future<bool> unsubscribeVoterFromEvent(String eventId);
 }

@@ -28,6 +28,7 @@ dependencies:
   connectivity: ^2.0.2
   package_info: ^0.4.0+16
   flutter_secure_storage: ^3.3.5
+  modal_bottom_sheet: ^1.0.0+1
 
   # Firebase
   firebase_core: "^0.5.3"

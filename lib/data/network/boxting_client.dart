@@ -43,7 +43,7 @@ abstract class BoxtingClient {
     @Body() NewPasswordRequest newPasswordRequest,
   );
 
-  @POST('/event/suscribe/voter')
+  @POST('/event/subscribe/voter')
   Future<SubscribeEventResponse> subscribeNewEvent(
     @Body() SubscribeEventRequest subscribeEventRequest,
   );
@@ -56,4 +56,9 @@ abstract class BoxtingClient {
 
   @GET('/election/event/{eventId}')
   Future<void> fetchElectionsFromEvent(@Path('eventId') String eventId);
+
+  @DELETE('/event/{eventId}/unsubscribe/voter')
+  Future<DefaultResponse> unsubscribeVoterFromEvent(
+    @Path('eventId') String eventId,
+  );
 }

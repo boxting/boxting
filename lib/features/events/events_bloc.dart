@@ -38,4 +38,13 @@ class EventsBloc extends ChangeNotifier {
       throw Exception(e.message);
     }
   }
+
+  Future<void> unsubscribeFromEvent(String eventId) async {
+    try {
+      final result = await eventRepository.unsubscribeVoterFromEvent(eventId);
+      if (!result) throw BoxtingException(statusCode: 999);
+    } on BoxtingException catch (e) {
+      throw Exception(e.message);
+    }
+  }
 }
