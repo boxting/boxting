@@ -1,5 +1,7 @@
 class Constants {
   static const AUTH_TOKEN = 'auth_token';
+  static const REFRESH_TOKEN = 'refresh_token';
+  static const EMPTY_TOKEN = 'empty_token';
   static const AUTH_HEADER = 'Authorization';
   static const AUTH_BEARER = 'Bearer ';
 
