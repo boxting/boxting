@@ -7,6 +7,7 @@ import 'package:boxting/data/network/request/register_request/register_request.d
 import 'package:boxting/data/network/request/validate_token_request/validate_token_request.dart';
 import 'package:boxting/data/network/response/default_response/default_response.dart';
 import 'package:boxting/data/network/response/dni_response/dni_response.dart';
+import 'package:boxting/data/network/response/login_response/login_response.dart';
 import 'package:boxting/domain/constants/constants.dart';
 import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:boxting/service_locator.dart';
@@ -42,9 +43,11 @@ class AuthRepositoryImpl implements AuthRepository {
     await box.put(Constants.FIRST_LOGIN, false);
   }
 
-  Future<void> _saveAuthToken(String token) async {
+  Future<void> _saveAuthToken(LoginResponseData response) async {
     final secureStorage = getIt.get<FlutterSecureStorage>();
-    await secureStorage.write(key: Constants.AUTH_TOKEN, value: token);
+    await secureStorage.write(key: Constants.AUTH_TOKEN, value: response.token);
+    await secureStorage.write(
+        key: Constants.REFRESH_TOKEN, value: response.refreshToken);
   }
 
   @override
@@ -62,7 +65,7 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final loginResponse = await boxtingClient.login(loginRequest);
       await _saveFirstTimeLogin();
-      await _saveAuthToken(loginResponse.data.token);
+      await _saveAuthToken(loginResponse.data);
       return loginResponse.success;
     } on DioError catch (e) {
       final code =

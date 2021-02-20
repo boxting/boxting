@@ -1,6 +1,7 @@
 import 'package:boxting/data/network/request/forgot_password/forgot_password_request.dart';
 import 'package:boxting/data/network/request/login_request/login_request.dart';
 import 'package:boxting/data/network/request/new_password_request/new_password_request.dart';
+import 'package:boxting/data/network/request/refresh_token_request/refresh_token_request.dart';
 import 'package:boxting/data/network/request/register_request/register_request.dart';
 import 'package:boxting/data/network/request/subscribe_event_request/subscribe_event_request.dart';
 import 'package:boxting/data/network/request/validate_token_request/validate_token_request.dart';
@@ -37,6 +38,9 @@ abstract class BoxtingClient {
   Future<DefaultResponse> validatePasswordToken(
     @Body() ValidateTokenRequest validateTokenRequest,
   );
+
+  @POST('/login/token/refresh')
+  Future<void> refreshToken(@Body() RefreshTokenRequest refreshTokenRequest);
 
   @POST('/login/set/password')
   Future<DefaultResponse> setNewPassword(

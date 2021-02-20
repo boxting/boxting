@@ -118,6 +118,25 @@ class _BoxtingClient implements BoxtingClient {
   }
 
   @override
+  Future<void> refreshToken(refreshTokenRequest) async {
+    ArgumentError.checkNotNull(refreshTokenRequest, 'refreshTokenRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(refreshTokenRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    await _dio.request<void>('/login/token/refresh',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    return null;
+  }
+
+  @override
   Future<DefaultResponse> setNewPassword(newPasswordRequest) async {
     ArgumentError.checkNotNull(newPasswordRequest, 'newPasswordRequest');
     const _extra = <String, dynamic>{};

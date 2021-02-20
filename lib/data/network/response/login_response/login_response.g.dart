@@ -37,6 +37,7 @@ LoginResponseData _$LoginResponseDataFromJson(Map<String, dynamic> json) {
         : LoginResponseVoter.fromJson(json['voter'] as Map<String, dynamic>),
     token: json['token'] as String,
     mail: json['mail'] as String,
+    refreshToken: json['refreshToken'] as String,
   );
 }
 
@@ -48,6 +49,7 @@ Map<String, dynamic> _$LoginResponseDataToJson(LoginResponseData instance) =>
       'voter': instance.voter,
       'mail': instance.mail,
       'token': instance.token,
+      'refreshToken': instance.refreshToken,
     };
 
 LoginResponseRole _$LoginResponseRoleFromJson(Map<String, dynamic> json) {

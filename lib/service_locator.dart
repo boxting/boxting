@@ -32,7 +32,7 @@ void setupGetIt() {
 
 BoxtingClient _setupNetwork() {
   final dio = Dio(dioOptions);
-  dio.interceptors.add(BoxtingInterceptors());
+  dio.interceptors.add(BoxtingInterceptors(dio));
   getIt.registerSingleton<Dio>(dio);
   return BoxtingClient(getIt.get<Dio>());
 }
