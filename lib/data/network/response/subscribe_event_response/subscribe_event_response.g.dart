@@ -14,6 +14,9 @@ SubscribeEventResponse _$SubscribeEventResponseFromJson(
         ? null
         : SubscribeEventResponseData.fromJson(
             json['data'] as Map<String, dynamic>),
+    error: json['error'] == null
+        ? null
+        : ErrorResponse.fromJson(json['error'] as Map<String, dynamic>),
   );
 }
 
@@ -22,6 +25,7 @@ Map<String, dynamic> _$SubscribeEventResponseToJson(
     <String, dynamic>{
       'success': instance.success,
       'data': instance.data,
+      'error': instance.error,
     };
 
 SubscribeEventResponseData _$SubscribeEventResponseDataFromJson(

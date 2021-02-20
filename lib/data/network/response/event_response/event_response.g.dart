@@ -14,6 +14,9 @@ EventsResponse _$EventsResponseFromJson(Map<String, dynamic> json) {
             ? null
             : EventResponseData.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    error: json['error'] == null
+        ? null
+        : ErrorResponse.fromJson(json['error'] as Map<String, dynamic>),
   );
 }
 
@@ -21,6 +24,7 @@ Map<String, dynamic> _$EventsResponseToJson(EventsResponse instance) =>
     <String, dynamic>{
       'success': instance.success,
       'data': instance.data,
+      'error': instance.error,
     };
 
 SingleEventResponse _$SingleEventResponseFromJson(Map<String, dynamic> json) {
@@ -29,6 +33,9 @@ SingleEventResponse _$SingleEventResponseFromJson(Map<String, dynamic> json) {
     data: json['data'] == null
         ? null
         : EventResponseData.fromJson(json['data'] as Map<String, dynamic>),
+    error: json['error'] == null
+        ? null
+        : ErrorResponse.fromJson(json['error'] as Map<String, dynamic>),
   );
 }
 
@@ -37,6 +44,7 @@ Map<String, dynamic> _$SingleEventResponseToJson(
     <String, dynamic>{
       'success': instance.success,
       'data': instance.data,
+      'error': instance.error,
     };
 
 EventResponseData _$EventResponseDataFromJson(Map<String, dynamic> json) {
