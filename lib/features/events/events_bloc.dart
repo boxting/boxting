@@ -37,9 +37,9 @@ class EventsBloc extends ChangeNotifier {
     }
   }
 
-  Future<EventResponseData> fetchEventById(String id) async {
+  Future<EventResponseData> fetchEventById(String eventId) async {
     try {
-      final result = await eventRepository.fetchEventById(id);
+      final result = await eventRepository.fetchEventById(eventId);
       return result.data;
     } on BoxtingException catch (e) {
       throw Exception(e.message);
