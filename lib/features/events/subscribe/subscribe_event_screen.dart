@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/widgets.dart';
@@ -33,19 +35,27 @@ class SubscribeEventScreen extends HookWidget {
           key: _formKey,
           child: Column(
             children: [
-              Text('Suscribete a un nuevo evento de votación'),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24.0),
+                child: Text(
+                  'Suscribete a un nuevo evento de votación',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
               BoxtingInput(
                 controller: eventCodeController,
                 labelText: 'Código del evento',
                 validator: (value) =>
                     value.isEmpty ? 'Este campo no puede estar vacio' : null,
               ),
+              SizedBox(height: 16),
               BoxtingInput(
                 controller: accessCodeController,
                 labelText: 'Código de acceso',
                 validator: (value) =>
                     value.isEmpty ? 'Este campo no puede estar vacio' : null,
               ),
+              SizedBox(height: 32),
               BoxtingButton(
                 child: Text('Suscribirse'),
                 onPressed: () async {
