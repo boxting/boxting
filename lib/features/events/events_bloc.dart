@@ -9,13 +9,19 @@ class EventsBloc extends ChangeNotifier {
 
   EventsBloc(this.eventRepository);
 
-  Future<List<EventResponseData>> fetchEvents() async {
+  List<EventResponseData> _events;
+
+  List<EventResponseData> get events => _events;
+
+  Future<void> fetchEvents() async {
     try {
       final result = await eventRepository.fetchEvents();
-      return result.data;
+      _events = result.data;
     } on BoxtingException catch (e) {
+      _events = [];
       throw Exception(e.message);
     }
+    notifyListeners();
   }
 
   Future<void> subscribeEvent(String eventCode, String accessCode) async {
@@ -24,7 +30,8 @@ class EventsBloc extends ChangeNotifier {
         accessCode: accessCode,
         eventCode: eventCode,
       );
-      return await eventRepository.subscribeNewEvent(request);
+      await eventRepository.subscribeNewEvent(request);
+      await fetchEvents();
     } on BoxtingException catch (e) {
       throw Exception(e.message);
     }
@@ -41,8 +48,8 @@ class EventsBloc extends ChangeNotifier {
 
   Future<void> unsubscribeFromEvent(String eventId) async {
     try {
-      final result = await eventRepository.unsubscribeVoterFromEvent(eventId);
-      if (!result) throw BoxtingException(statusCode: 999);
+      await eventRepository.unsubscribeVoterFromEvent(eventId);
+      await fetchEvents();
     } on BoxtingException catch (e) {
       throw Exception(e.message);
     }

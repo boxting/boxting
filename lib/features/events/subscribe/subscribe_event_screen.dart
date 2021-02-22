@@ -1,4 +1,3 @@
-import 'package:boxting/domain/repository/event_repository.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/widgets.dart';
@@ -10,9 +9,9 @@ import '../events_bloc.dart';
 
 class SubscribeEventScreen extends HookWidget {
   static Widget init(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => EventsBloc(getIt.get<EventRepository>()),
-      builder: (_, __) => SubscribeEventScreen(),
+    return ChangeNotifierProvider.value(
+      value: getIt.get<EventsBloc>(),
+      child: SubscribeEventScreen(),
     );
   }
 

@@ -15,11 +15,9 @@ class EventDetailScreen extends HookWidget {
   EventDetailScreen({this.eventId});
 
   static Widget init(BuildContext context, String id) {
-    return ChangeNotifierProvider(
-      create: (_) => EventsBloc(getIt.get<EventRepository>()),
-      builder: (_, __) => EventDetailScreen(
-        eventId: id,
-      ),
+    return ChangeNotifierProvider.value(
+      value: getIt.get<EventsBloc>(),
+      child: EventDetailScreen(eventId: id),
     );
   }
 
@@ -97,7 +95,7 @@ class SettingsModalBody extends StatelessWidget {
           leading: Icon(Icons.delete, color: Colors.red),
           onTap: () async => await BoxtingLoadingDialog.show(
             context,
-            futureBuilder: () => bloc.unsubscribeFromEvent(eventId),
+            futureBuilder: () async => await bloc.unsubscribeFromEvent(eventId),
             onSuccess: () => BoxtingNavigation.gotoRoot(context),
             onError: (e) => BoxtingModal.show(
               context,
