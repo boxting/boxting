@@ -9,6 +9,7 @@ import 'package:boxting/data/network/response/dni_response/dni_response.dart';
 import 'package:boxting/data/network/response/event_response/event_response.dart';
 import 'package:boxting/data/network/response/login_response/login_response.dart';
 import 'package:boxting/data/network/response/subscribe_event_response/subscribe_event_response.dart';
+import 'package:boxting/data/network/response/user_response/user_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'response/register_response/register_response.dart';
@@ -61,4 +62,7 @@ abstract class BoxtingClient {
   Future<DefaultResponse> unsubscribeVoterFromEvent(
     @Path('eventId') String eventId,
   );
+
+  @GET('/user')
+  Future<UserResponse> getUserInformation();
 }
