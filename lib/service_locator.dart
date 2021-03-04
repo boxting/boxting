@@ -9,6 +9,7 @@ import 'package:boxting/domain/repository/event_repository.dart';
 import 'package:boxting/features/biometric/biometric_bloc.dart';
 import 'package:boxting/features/forgot_password/forgot_password_bloc.dart';
 import 'package:boxting/features/login/login_bloc.dart';
+import 'package:boxting/features/profile/profile_bloc.dart';
 import 'package:boxting/features/register/register_bloc.dart';
 import 'package:boxting/features/settings/settings_bloc.dart';
 import 'package:dio/dio.dart';
@@ -65,6 +66,9 @@ void _setupBlocs() {
       authRepository: getIt.get<AuthRepository>(),
       biometricRepository: getIt.get<BiometricRepository>(),
     ),
+  );
+  getIt.registerSingleton<ProfileBloc>(
+    ProfileBloc(getIt.get<AuthRepository>()),
   );
 }
 
