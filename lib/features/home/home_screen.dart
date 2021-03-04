@@ -1,6 +1,6 @@
 import 'package:boxting/features/events/events_screen.dart';
 import 'package:boxting/features/feed/feed_screen.dart';
-import 'package:boxting/features/settings/settings_screen.dart';
+import 'package:boxting/features/profile/profile_screen.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +34,7 @@ class HomeScreen extends HookWidget {
           child.value = EventsScreen.init(context);
           break;
         case 2:
-          child.value = SettingsScreen.init(context);
+          child.value = ProfileScreen.init(context);
           break;
         default:
       }
