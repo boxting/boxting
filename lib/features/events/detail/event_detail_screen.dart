@@ -1,6 +1,6 @@
 import 'package:boxting/data/network/response/event_response/event_response.dart';
 import 'package:boxting/domain/repository/event_repository.dart';
-import 'package:boxting/features/events/detail/elections/elections_screen.dart';
+import 'package:boxting/features/elections/elections_screen.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/widgets.dart';

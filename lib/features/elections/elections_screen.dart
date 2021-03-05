@@ -1,12 +1,12 @@
 import 'package:boxting/data/network/response/elections_response/elections_response.dart';
 import 'package:boxting/domain/repository/elections_repository.dart';
-import 'package:boxting/features/events/detail/elections/election_item.dart';
-import 'package:boxting/features/events/detail/elections/elections_bloc.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/empty_screen.dart';
-import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'election_item.dart';
+import 'elections_bloc.dart';
 
 class ElectionsScreen extends StatelessWidget {
   final String eventId;
