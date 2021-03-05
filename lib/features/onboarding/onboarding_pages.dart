@@ -57,7 +57,7 @@ class OnboardingPages extends HookWidget {
                 children: <Widget>[
                   Container(
                     alignment: Alignment.centerRight,
-                    child: TextButton(
+                    child: FlatButton(
                       onPressed: () {
                         skipClicked('Skip Tapped');
                       },
