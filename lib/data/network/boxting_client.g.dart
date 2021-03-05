@@ -178,13 +178,12 @@ class _BoxtingClient implements BoxtingClient {
   }
 
   @override
-  Future<SingleEventResponse> fetchEventById(eventId) async {
-    ArgumentError.checkNotNull(eventId, 'eventId');
+  Future<SingleEventResponse> fetchEventById(id) async {
+    ArgumentError.checkNotNull(id, 'id');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>(
-        '/event/id/$eventId',
+    final _result = await _dio.request<Map<String, dynamic>>('/event/id/$id',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -197,12 +196,13 @@ class _BoxtingClient implements BoxtingClient {
   }
 
   @override
-  Future<void> fetchElectionsFromEvent(eventId) async {
-    ArgumentError.checkNotNull(eventId, 'eventId');
+  Future<ElectionsResponse> fetchElectionsFromEvent(id) async {
+    ArgumentError.checkNotNull(id, 'id');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    await _dio.request<void>('/election/event/$eventId',
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/election/event/$id',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -210,17 +210,18 @@ class _BoxtingClient implements BoxtingClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    return null;
+    final value = ElectionsResponse.fromJson(_result.data);
+    return value;
   }
 
   @override
-  Future<DefaultResponse> unsubscribeVoterFromEvent(eventId) async {
-    ArgumentError.checkNotNull(eventId, 'eventId');
+  Future<DefaultResponse> unsubscribeVoterFromEvent(id) async {
+    ArgumentError.checkNotNull(id, 'id');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.request<Map<String, dynamic>>(
-        '/event/$eventId/unsubscribe/voter',
+        '/event/$id/unsubscribe/voter',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'DELETE',

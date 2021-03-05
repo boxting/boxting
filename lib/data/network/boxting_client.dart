@@ -6,6 +6,7 @@ import 'package:boxting/data/network/request/subscribe_event_request/subscribe_e
 import 'package:boxting/data/network/request/validate_token_request/validate_token_request.dart';
 import 'package:boxting/data/network/response/default_response/default_response.dart';
 import 'package:boxting/data/network/response/dni_response/dni_response.dart';
+import 'package:boxting/data/network/response/elections_response/elections_response.dart';
 import 'package:boxting/data/network/response/event_response/event_response.dart';
 import 'package:boxting/data/network/response/login_response/login_response.dart';
 import 'package:boxting/data/network/response/subscribe_event_response/subscribe_event_response.dart';
@@ -52,13 +53,11 @@ abstract class BoxtingClient {
   Future<EventsResponse> fetchEvents();
 
   @GET('/event/id/{eventId}')
-  Future<SingleEventResponse> fetchEventById(@Path('eventId') String eventId);
+  Future<SingleEventResponse> fetchEventById(@Path('eventId') String id);
 
   @GET('/election/event/{eventId}')
-  Future<void> fetchElectionsFromEvent(@Path('eventId') String eventId);
+  Future<ElectionsResponse> fetchElectionsFromEvent(@Path('eventId') String id);
 
   @DELETE('/event/{eventId}/unsubscribe/voter')
-  Future<DefaultResponse> unsubscribeVoterFromEvent(
-    @Path('eventId') String eventId,
-  );
+  Future<DefaultResponse> unsubscribeVoterFromEvent(@Path('eventId') String id);
 }

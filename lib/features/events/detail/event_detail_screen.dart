@@ -1,5 +1,6 @@
 import 'package:boxting/data/network/response/event_response/event_response.dart';
 import 'package:boxting/domain/repository/event_repository.dart';
+import 'package:boxting/features/events/detail/elections/elections_screen.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/widgets.dart';
@@ -17,9 +18,7 @@ class EventDetailScreen extends HookWidget {
   static Widget init(BuildContext context, String id) {
     return ChangeNotifierProvider(
       create: (_) => EventsBloc(getIt.get<EventRepository>()),
-      builder: (_, __) => EventDetailScreen(
-        eventId: id,
-      ),
+      builder: (_, __) => EventDetailScreen(eventId: id),
     );
   }
 
@@ -67,7 +66,9 @@ class EventDetailBody extends HookWidget {
           Text(event.name),
           Text(event.information),
           Text(event.code),
-          Text('${event.startDate} - ${event.endDate}')
+          Text('${event.startDate} - ${event.endDate}'),
+          const SizedBox(height: 24),
+          Expanded(child: ElectionsScreen.init(context, event.id.toString())),
         ],
       ),
     );
