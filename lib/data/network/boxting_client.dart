@@ -58,6 +58,12 @@ abstract class BoxtingClient {
   @GET('/election/event/{eventId}')
   Future<ElectionsResponse> fetchElectionsFromEvent(@Path('eventId') String id);
 
+  @GET('/election/{electionId}/event/{eventId}')
+  Future<SingleElectionResponse> fetchElectionsById(
+    @Path('eventId') String event,
+    @Path('electionId') String election,
+  );
+
   @DELETE('/event/{eventId}/unsubscribe/voter')
   Future<DefaultResponse> unsubscribeVoterFromEvent(@Path('eventId') String id);
 }

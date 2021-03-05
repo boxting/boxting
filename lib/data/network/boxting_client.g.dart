@@ -215,6 +215,26 @@ class _BoxtingClient implements BoxtingClient {
   }
 
   @override
+  Future<SingleElectionResponse> fetchElectionsById(event, election) async {
+    ArgumentError.checkNotNull(event, 'event');
+    ArgumentError.checkNotNull(election, 'election');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/election/$election/event/$event',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = SingleElectionResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
   Future<DefaultResponse> unsubscribeVoterFromEvent(id) async {
     ArgumentError.checkNotNull(id, 'id');
     const _extra = <String, dynamic>{};

@@ -12,6 +12,17 @@ class ElectionsResponse {
 }
 
 @JsonSerializable()
+class SingleElectionResponse {
+  final bool success;
+  final ElectionResponseData data;
+
+  SingleElectionResponse({this.success, this.data});
+
+  factory SingleElectionResponse.fromJson(Map<String, dynamic> json) =>
+      _$SingleElectionResponseFromJson(json);
+}
+
+@JsonSerializable()
 class ElectionResponseData {
   final int id;
   final String name;

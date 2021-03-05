@@ -24,4 +24,25 @@ class ElectionsRepositoryImpl extends ElectionsRepository {
       throw BoxtingException(statusCode: UNKNOWN_ERROR);
     }
   }
+
+  @override
+  Future<SingleElectionResponse> fetchElectionsById(
+    String eventId,
+    String electionId,
+  ) async {
+    try {
+      final result = await boxtingClient.fetchElectionsById(
+        eventId,
+        electionId,
+      );
+      return result;
+    } on DioError catch (e) {
+      final code = cast<int>(
+        e.response.data[Constants.ERROR][Constants.ERROR_CODE],
+      ).orDefaultErrorCode();
+      throw BoxtingException(statusCode: code);
+    } catch (e) {
+      throw BoxtingException(statusCode: UNKNOWN_ERROR);
+    }
+  }
 }
