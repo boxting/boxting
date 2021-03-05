@@ -20,7 +20,7 @@ class BoxtingNavigation {
   }
 
   static void snackBar<T>(BuildContext context, {Widget content, String text}) {
-    ScaffoldMessenger.of(context).showSnackBar(
+    Scaffold.of(context).showSnackBar(
       SnackBar(content: content ?? Text(text ?? 'Unimplemented')),
     );
   }
