@@ -140,7 +140,7 @@ class LoginScreen extends HookWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              FlatButton.icon(
+              TextButton.icon(
                 onPressed: () async => await authenticateBiometrical(context),
                 icon: Icon(Icons.fingerprint_outlined),
                 label: Text('Autenticación biometrica'),
