@@ -12,6 +12,7 @@ class ElectionsScreen extends StatelessWidget {
   final String eventId;
 
   const ElectionsScreen({Key key, this.eventId}) : super(key: key);
+
   static Widget init(BuildContext context, String id) {
     return ChangeNotifierProvider(
       create: (_) => ElectionsBloc(getIt.get<ElectionsRepository>())
