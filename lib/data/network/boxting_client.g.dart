@@ -271,4 +271,24 @@ class _BoxtingClient implements BoxtingClient {
     final value = CandidatesResponse.fromJson(_result.data);
     return value;
   }
+
+  @override
+  Future<SingleCandidateResponse> fetchCandidateById(candidate, listId) async {
+    ArgumentError.checkNotNull(candidate, 'candidate');
+    ArgumentError.checkNotNull(listId, 'listId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/candidate/$candidate/list/$listId',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = SingleCandidateResponse.fromJson(_result.data);
+    return value;
+  }
 }

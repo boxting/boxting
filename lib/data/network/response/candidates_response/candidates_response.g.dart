@@ -23,6 +23,23 @@ Map<String, dynamic> _$CandidatesResponseToJson(CandidatesResponse instance) =>
       'data': instance.data,
     };
 
+SingleCandidateResponse _$SingleCandidateResponseFromJson(
+    Map<String, dynamic> json) {
+  return SingleCandidateResponse(
+    json['success'] as bool,
+    json['data'] == null
+        ? null
+        : CandidateResponseData.fromJson(json['data'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$SingleCandidateResponseToJson(
+        SingleCandidateResponse instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'data': instance.data,
+    };
+
 CandidateResponseData _$CandidateResponseDataFromJson(
     Map<String, dynamic> json) {
   return CandidateResponseData(

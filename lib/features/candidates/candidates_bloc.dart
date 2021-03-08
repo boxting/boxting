@@ -17,4 +17,16 @@ class CandidatesBloc extends ChangeNotifier {
       throw Exception(e.message);
     }
   }
+
+  Future<CandidateResponseData> fetchCandidateById(
+    String candidate,
+    String listId,
+  ) async {
+    try {
+      final result = await repository.fetchCandidateById(candidate, listId);
+      return result.data;
+    } on BoxtingException catch (e) {
+      throw Exception(e.message);
+    }
+  }
 }
