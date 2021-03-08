@@ -5,20 +5,32 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hive/hive.dart';
 
 import 'onboarding_model.dart';
-import 'onboarding_pages.dart';
+// import 'onboarding_pages.dart';
 
 class OnBoardingScreen extends HookWidget {
+  static Future<void> navigate(BuildContext context) async {
+    await BoxtingNavigation.replace(context, (_) => OnBoardingScreen());
+  }
+
   @override
   Widget build(BuildContext context) {
     return BoxtingScaffold(
+      appBar: BoxtingAppBar(),
+      // body: Padding(
+      //   padding: const EdgeInsets.all(20.0),
+      //   child: OnboardingPages(
+      //     bgColor: Colors.white,
+      //     themeColor: Theme.of(context).primaryColor,
+      //     pages: pages,
+      //     skipClicked: (value) => goToLoginScreen(context),
+      //     getStartedClicked: (value) => goToLoginScreen(context),
+      //   ),
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: OnboardingPages(
-          bgColor: Colors.white,
-          themeColor: Theme.of(context).primaryColor,
-          pages: pages,
-          skipClicked: (value) => goToLoginScreen(context),
-          getStartedClicked: (value) => goToLoginScreen(context),
+        child: BoxtingButton(
+          child: Text('Fix on borading'),
+          onPressed: () => goToLoginScreen(context),
         ),
       ),
     );

@@ -27,6 +27,10 @@ class LoginScreen extends HookWidget {
     );
   }
 
+  static Future<void> navigate(BuildContext context) async {
+    await BoxtingNavigation.replace(context, (_) => LoginScreen.init(context));
+  }
+
   @override
   Widget build(BuildContext context) {
     final _isAuthenticating = useState<bool>(false);
@@ -69,40 +73,35 @@ class LoginScreen extends HookWidget {
       // }
     }
 
-    void authenticateBiometrical(BuildContext context) async {
+    Future<void> authenticateBiometrical(BuildContext context) async {
       try {
         final bloc = context.read<LoginBloc>();
-        await bloc.loadBiometricInformation();
+        final bioAuthEnabled = await bloc.loadBiometricInformation();
         await biometricBloc.checkBiometrics();
         await biometricBloc.getAvailableBiometrics();
-        if (_isAuthenticating.value) {
-          biometricBloc.cancelAuthentication();
+        if (bioAuthEnabled) {
+          if (_isAuthenticating.value) {
+            biometricBloc.cancelAuthentication();
+          } else {
+            await biometricBloc.authenticate(
+              context: context,
+              onSuccess: () => HomeScreen.navigate(context),
+              onFailure: (PlatformException e) => showErrorAlert(
+                title: 'Algo malio sal',
+                text: e.message,
+              ),
+            );
+          }
         } else {
-          await biometricBloc.authenticate(
-            context: context,
-            onSuccess: () => CoolAlert.show(
-                context: context,
-                type: CoolAlertType.success,
-                title: 'Perfecto!',
-                text: 'Tu huella digital ha sido validada',
-                confirmBtnText: 'Continuar',
-                barrierDismissible: false,
-                onConfirmBtnTap: () =>
-                    biometricBloc.goToHomeScreen(context, dialog: true)),
-            onFailure: (PlatformException e) => showErrorAlert(
-              title: 'Algo malio sal',
-              text: e.message,
-            ),
+          showErrorAlert(
+            title: 'Algo malio sal',
+            text: 'Aún no has configurado tu autenticación por huella digital',
           );
         }
       } catch (e) {
-        await CoolAlert.show(
-          context: context,
-          type: CoolAlertType.error,
-          title: 'Ocurrió un error',
+        showErrorAlert(
+          title: 'Algo malio sal',
           text: 'Aún no has validado tu huella digital en este dispositivo.',
-          confirmBtnText: 'Ok',
-          onConfirmBtnTap: () => BoxtingNavigation.pop(context),
         );
       }
     }
@@ -142,7 +141,7 @@ class LoginScreen extends HookWidget {
               ),
               const SizedBox(height: 8),
               FlatButton.icon(
-                onPressed: () => authenticateBiometrical(context),
+                onPressed: () async => await authenticateBiometrical(context),
                 icon: Icon(Icons.fingerprint_outlined),
                 label: Text('Autenticación biometrica'),
               ),
