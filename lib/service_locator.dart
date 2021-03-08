@@ -9,7 +9,7 @@ import 'package:boxting/domain/repository/biometric_repository.dart';
 import 'package:boxting/domain/repository/elections_repository.dart';
 import 'package:boxting/domain/repository/event_repository.dart';
 import 'package:boxting/features/biometric/biometric_bloc.dart';
-import 'package:boxting/features/events/detail/elections/elections_bloc.dart';
+import 'package:boxting/features/elections/elections_bloc.dart';
 import 'package:boxting/features/forgot_password/forgot_password_bloc.dart';
 import 'package:boxting/features/login/login_bloc.dart';
 import 'package:boxting/features/register/register_bloc.dart';

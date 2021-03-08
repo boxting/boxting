@@ -1,12 +1,12 @@
 import 'package:boxting/data/network/response/elections_response/elections_response.dart';
 import 'package:boxting/domain/repository/elections_repository.dart';
-import 'package:boxting/features/events/detail/elections/election_item.dart';
-import 'package:boxting/features/events/detail/elections/elections_bloc.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/empty_screen.dart';
-import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'election_item.dart';
+import 'elections_bloc.dart';
 
 class ElectionsScreen extends StatelessWidget {
   final String eventId;
@@ -23,21 +23,31 @@ class ElectionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<ElectionsBloc>();
-    if (bloc.elections != null) return ElectionsScreenBody(bloc.elections);
+    if (bloc.elections != null) {
+      return ElectionsScreenBody(
+        bloc.elections,
+        eventId,
+      );
+    }
     return Center(child: CircularProgressIndicator());
   }
 }
 
 class ElectionsScreenBody extends StatelessWidget {
   final List<ElectionResponseData> elections;
+  final String eventId;
 
-  const ElectionsScreenBody(this.elections, {Key key}) : super(key: key);
+  const ElectionsScreenBody(this.elections, this.eventId, {Key key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     if (elections.isEmpty) return BoxtingEmptyScreen('No hay elecciones aún.');
     return ListView.builder(
       itemCount: elections.length,
-      itemBuilder: (_, index) => ElectionItem(election: elections[index]),
+      itemBuilder: (_, index) => ElectionItem(
+        election: elections[index],
+        event: eventId,
+      ),
     );
   }
 }
