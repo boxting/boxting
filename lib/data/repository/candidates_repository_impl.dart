@@ -24,4 +24,22 @@ class CandidatesRepositoryImpl extends CandidatesRepository {
       throw BoxtingException(statusCode: UNKNOWN_ERROR);
     }
   }
+
+  @override
+  Future<SingleCandidateResponse> fetchCandidateById(
+    String candidateId,
+    String listId,
+  ) async {
+    try {
+      final result = await client.fetchCandidateById(candidateId, listId);
+      return result;
+    } on DioError catch (e) {
+      final code = cast<int>(
+        e.response.data[Constants.ERROR][Constants.ERROR_CODE],
+      ).orDefaultErrorCode();
+      throw BoxtingException(statusCode: code);
+    } catch (e) {
+      throw BoxtingException(statusCode: UNKNOWN_ERROR);
+    }
+  }
 }

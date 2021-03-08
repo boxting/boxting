@@ -13,6 +13,16 @@ class CandidatesResponse {
 }
 
 @JsonSerializable()
+class SingleCandidateResponse {
+  final bool success;
+  final CandidateResponseData data;
+
+  SingleCandidateResponse(this.success, this.data);
+  factory SingleCandidateResponse.fromJson(Map<String, dynamic> json) =>
+      _$SingleCandidateResponseFromJson(json);
+}
+
+@JsonSerializable()
 class CandidateResponseData {
   final int id;
   final String firstName;

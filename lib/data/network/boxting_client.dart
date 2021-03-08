@@ -72,4 +72,10 @@ abstract class BoxtingClient {
   Future<CandidatesResponse> fetchCandidatesByElection(
     @Path('electionId') String election,
   );
+
+  @GET('/candidate/{candidateId}/list/{listId}')
+  Future<SingleCandidateResponse> fetchCandidateById(
+    @Path('candidateId') String candidate,
+    @Path('listId') String listId,
+  );
 }
