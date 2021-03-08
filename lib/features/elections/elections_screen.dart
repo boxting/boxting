@@ -23,21 +23,31 @@ class ElectionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<ElectionsBloc>();
-    if (bloc.elections != null) return ElectionsScreenBody(bloc.elections);
+    if (bloc.elections != null) {
+      return ElectionsScreenBody(
+        bloc.elections,
+        eventId,
+      );
+    }
     return Center(child: CircularProgressIndicator());
   }
 }
 
 class ElectionsScreenBody extends StatelessWidget {
   final List<ElectionResponseData> elections;
+  final String eventId;
 
-  const ElectionsScreenBody(this.elections, {Key key}) : super(key: key);
+  const ElectionsScreenBody(this.elections, this.eventId, {Key key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     if (elections.isEmpty) return BoxtingEmptyScreen('No hay elecciones aún.');
     return ListView.builder(
       itemCount: elections.length,
-      itemBuilder: (_, index) => ElectionItem(election: elections[index]),
+      itemBuilder: (_, index) => ElectionItem(
+        election: elections[index],
+        event: eventId,
+      ),
     );
   }
 }
