@@ -12,6 +12,7 @@ import 'package:boxting/data/network/response/login_response/login_response.dart
 import 'package:boxting/data/network/response/subscribe_event_response/subscribe_event_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
+import 'response/candidates_response/candidates_response.dart';
 import 'response/register_response/register_response.dart';
 
 part 'boxting_client.g.dart';
@@ -66,4 +67,9 @@ abstract class BoxtingClient {
 
   @DELETE('/event/{eventId}/unsubscribe/voter')
   Future<DefaultResponse> unsubscribeVoterFromEvent(@Path('eventId') String id);
+
+  @GET('/candidate/election/{electionId}')
+  Future<CandidatesResponse> fetchCandidatesByElection(
+    @Path('electionId') String election,
+  );
 }

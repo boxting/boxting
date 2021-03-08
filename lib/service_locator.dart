@@ -2,13 +2,16 @@ import 'package:boxting/data/network/boxting_client.dart';
 import 'package:boxting/data/network/interceptor/boxting_interceptor.dart';
 import 'package:boxting/data/repository/auth_repository_impl.dart';
 import 'package:boxting/data/repository/biometric_repository_impl.dart';
+import 'package:boxting/data/repository/candidates_repository_impl.dart';
 import 'package:boxting/data/repository/elections_repository_impl.dart';
 import 'package:boxting/data/repository/event_repository_impl.dart';
 import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:boxting/domain/repository/biometric_repository.dart';
+import 'package:boxting/domain/repository/candidates_repository.dart';
 import 'package:boxting/domain/repository/elections_repository.dart';
 import 'package:boxting/domain/repository/event_repository.dart';
 import 'package:boxting/features/biometric/biometric_bloc.dart';
+import 'package:boxting/features/candidates/candidates_bloc.dart';
 import 'package:boxting/features/elections/elections_bloc.dart';
 import 'package:boxting/features/forgot_password/forgot_password_bloc.dart';
 import 'package:boxting/features/login/login_bloc.dart';
@@ -47,6 +50,8 @@ void _setupRepositories(BoxtingClient boxtingClient) {
   getIt.registerSingleton<EventRepository>(EventRepositoryImpl(boxtingClient));
   getIt.registerSingleton<ElectionsRepository>(
       ElectionsRepositoryImpl(boxtingClient));
+  getIt.registerSingleton<CandidatesRepository>(
+      CandidatesRepositoryImpl(boxtingClient));
 }
 
 void _setupBlocs() {
@@ -73,6 +78,9 @@ void _setupBlocs() {
   );
   getIt.registerSingleton<ElectionsBloc>(
     ElectionsBloc(getIt.get<ElectionsRepository>()),
+  );
+  getIt.registerSingleton<CandidatesBloc>(
+    CandidatesBloc(getIt.get<CandidatesRepository>()),
   );
 }
 

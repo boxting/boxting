@@ -1,5 +1,6 @@
 import 'package:boxting/data/network/response/elections_response/elections_response.dart';
 import 'package:boxting/domain/repository/elections_repository.dart';
+import 'package:boxting/features/candidates/candidate_screen.dart';
 import 'package:boxting/features/elections/elections_bloc.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/widgets.dart';
@@ -61,7 +62,9 @@ class ElectionScreenBody extends StatelessWidget {
       children: [
         Text(election.name),
         Text(election.information),
-        Text(election.winners.toString())
+        Text(election.winners.toString()),
+        SizedBox(height: 20),
+        Expanded(child: CandidatesScreen.init(context, election.id.toString())),
       ],
     );
   }
