@@ -19,11 +19,15 @@ class EventItem extends StatelessWidget {
             leading: Column(
               children: [
                 Icon(Icons.calendar_today),
-                Text(event.startDate),
+                Text(event.startDate.toShortDate()),
               ],
             ),
             title: Text(event.name),
-            subtitle: Text(event.information),
+            subtitle: Text(
+              event.information,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
             trailing: Icon(Icons.arrow_forward_ios),
           ),
         ),

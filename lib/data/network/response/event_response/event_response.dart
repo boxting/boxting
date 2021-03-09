@@ -1,4 +1,5 @@
 import 'package:boxting/data/network/response/error_response/error_response.dart';
+import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'event_response.g.dart';
 
@@ -46,4 +47,18 @@ class EventResponseData {
 
   factory EventResponseData.fromJson(Map<String, dynamic> json) =>
       _$EventResponseDataFromJson(json);
+}
+
+extension XString on String {
+  String toShortDate() {
+    final dateTime = DateTime.tryParse(this);
+    if (dateTime == null) return 'Fecha desconocida';
+    return DateFormat('dd/MM').format(dateTime);
+  }
+
+  String toDetailDate() {
+    final dateTime = DateTime.tryParse(this);
+    if (dateTime == null) return 'Fecha desconocida';
+    return DateFormat('dd/MM/yyyy hh:mm:ss').format(dateTime);
+  }
 }
