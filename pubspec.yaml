@@ -33,6 +33,7 @@ dependencies:
   flutter_secure_storage: ^3.3.5
   local_auth: ^0.6.3+1
   package_info: ^0.4.0+16
+  intl: 0.16.1
 
   # DI
   get_it: ^5.0.4
