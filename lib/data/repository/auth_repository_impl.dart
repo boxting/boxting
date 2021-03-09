@@ -9,7 +9,6 @@ import 'package:boxting/data/network/response/default_response/default_response.
 import 'package:boxting/data/network/response/dni_response/dni_response.dart';
 import 'package:boxting/data/network/response/user_response/user_response.dart';
 import 'package:boxting/domain/constants/constants.dart';
-import 'package:boxting/domain/entities/user.dart';
 import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:dio/dio.dart';
@@ -55,8 +54,8 @@ class AuthRepositoryImpl implements AuthRepository {
       final loginResponse = await boxtingClient.login(loginRequest);
       await _saveFirstTimeLogin();
       await _saveAuthToken(loginResponse.data.token);
-      final userInfo = await getUserInformation();
-      await _saveUserInformation(userInfo.data.toUser());
+      // final userInfo = await getUserInformation();
+      // await _saveUserInformation(userInfo.data.toUser());
       return loginResponse.success;
     } on DioError catch (e) {
       final code =
@@ -155,8 +154,8 @@ class AuthRepositoryImpl implements AuthRepository {
     await secureStorage.write(key: Constants.AUTH_TOKEN, value: token);
   }
 
-  Future<void> _saveUserInformation(User user) async {
-    final box = await Hive.openBox(Constants.HIVE_USER_BOX);
-    await box.put(Constants.HIVE_USER, user);
-  }
+  // Future<void> _saveUserInformation(User user) async {
+  //   final box = await Hive.openBox(Constants.HIVE_USER_BOX);
+  //   await box.put(Constants.HIVE_USER, user);
+  // }
 }

@@ -8,6 +8,8 @@ class UserResponse {
   final UserResponseData data;
 
   UserResponse(this.success, this.data);
+  factory UserResponse.fromJson(Map<String, dynamic> json) =>
+      _$UserResponseFromJson(json);
 }
 
 @JsonSerializable()
@@ -15,7 +17,7 @@ class UserResponseData {
   final int id;
   final String username;
   final String mail;
-  final String isActive;
+  final bool isActive;
   final RoleResponse role;
   final VoterResponse voter;
 
@@ -27,6 +29,9 @@ class UserResponseData {
     this.role,
     this.voter,
   );
+
+  factory UserResponseData.fromJson(Map<String, dynamic> json) =>
+      _$UserResponseDataFromJson(json);
 }
 
 extension XUserResponseData on UserResponseData {
@@ -45,6 +50,9 @@ class RoleResponse {
   final String name;
 
   RoleResponse(this.name);
+
+  factory RoleResponse.fromJson(Map<String, dynamic> json) =>
+      _$RoleResponseFromJson(json);
 }
 
 @JsonSerializable()
@@ -56,4 +64,7 @@ class VoterResponse {
   final String phone;
 
   VoterResponse(this.id, this.firstName, this.lastName, this.dni, this.phone);
+
+  factory VoterResponse.fromJson(Map<String, dynamic> json) =>
+      _$VoterResponseFromJson(json);
 }

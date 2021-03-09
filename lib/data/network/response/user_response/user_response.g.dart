@@ -26,10 +26,13 @@ UserResponseData _$UserResponseDataFromJson(Map<String, dynamic> json) {
     json['id'] as int,
     json['username'] as String,
     json['mail'] as String,
-    json['isActive'] as String,
+    json['isActive'] as bool,
     json['role'] == null
         ? null
         : RoleResponse.fromJson(json['role'] as Map<String, dynamic>),
+    json['voter'] == null
+        ? null
+        : VoterResponse.fromJson(json['voter'] as Map<String, dynamic>),
   );
 }
 
@@ -40,6 +43,7 @@ Map<String, dynamic> _$UserResponseDataToJson(UserResponseData instance) =>
       'mail': instance.mail,
       'isActive': instance.isActive,
       'role': instance.role,
+      'voter': instance.voter,
     };
 
 RoleResponse _$RoleResponseFromJson(Map<String, dynamic> json) {
