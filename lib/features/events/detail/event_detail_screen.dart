@@ -59,6 +59,8 @@ class EventDetailBody extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final startDate = event.startDate.toDetailDate();
+    final endDate = event.endDate.toDetailDate();
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -66,7 +68,7 @@ class EventDetailBody extends HookWidget {
           Text(event.name),
           Text(event.information),
           Text(event.code),
-          Text('${event.startDate} - ${event.endDate}'),
+          Text('$startDate - $endDate'),
           const SizedBox(height: 24),
           Expanded(child: ElectionsScreen.init(context, event.id.toString())),
         ],
