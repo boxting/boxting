@@ -10,6 +10,7 @@ import 'package:boxting/data/network/response/elections_response/elections_respo
 import 'package:boxting/data/network/response/event_response/event_response.dart';
 import 'package:boxting/data/network/response/login_response/login_response.dart';
 import 'package:boxting/data/network/response/subscribe_event_response/subscribe_event_response.dart';
+import 'package:boxting/data/network/response/user_response/user_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'response/candidates_response/candidates_response.dart';
@@ -78,4 +79,7 @@ abstract class BoxtingClient {
     @Path('candidateId') String candidate,
     @Path('listId') String listId,
   );
+
+  @GET('/user')
+  Future<UserResponse> getUserInformation();
 }

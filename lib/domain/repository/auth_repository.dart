@@ -5,6 +5,7 @@ import 'package:boxting/data/network/request/register_request/register_request.d
 import 'package:boxting/data/network/request/validate_token_request/validate_token_request.dart';
 import 'package:boxting/data/network/response/default_response/default_response.dart';
 import 'package:boxting/data/network/response/dni_response/dni_response.dart';
+import 'package:boxting/data/network/response/user_response/user_response.dart';
 
 abstract class AuthRepository {
   Future<bool> login(LoginRequest loginRequest);
@@ -18,4 +19,5 @@ abstract class AuthRepository {
     ValidateTokenRequest validateTokenRequest,
   );
   Future<DefaultResponse> setNewPassword(NewPasswordRequest newPasswordRequest);
+  Future<UserResponse> getUserInformation();
 }

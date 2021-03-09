@@ -291,4 +291,21 @@ class _BoxtingClient implements BoxtingClient {
     final value = SingleCandidateResponse.fromJson(_result.data);
     return value;
   }
+
+  @override
+  Future<UserResponse> getUserInformation() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/user',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = UserResponse.fromJson(_result.data);
+    return value;
+  }
 }

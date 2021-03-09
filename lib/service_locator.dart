@@ -15,6 +15,7 @@ import 'package:boxting/features/candidates/candidates_bloc.dart';
 import 'package:boxting/features/elections/elections_bloc.dart';
 import 'package:boxting/features/forgot_password/forgot_password_bloc.dart';
 import 'package:boxting/features/login/login_bloc.dart';
+import 'package:boxting/features/profile/profile_bloc.dart';
 import 'package:boxting/features/register/register_bloc.dart';
 import 'package:boxting/features/settings/settings_bloc.dart';
 import 'package:dio/dio.dart';
@@ -81,6 +82,10 @@ void _setupBlocs() {
   );
   getIt.registerSingleton<CandidatesBloc>(
     CandidatesBloc(getIt.get<CandidatesRepository>()),
+  );
+
+  getIt.registerSingleton<ProfileBloc>(
+    ProfileBloc(getIt.get<AuthRepository>()),
   );
 }
 
