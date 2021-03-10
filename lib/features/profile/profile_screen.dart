@@ -1,8 +1,10 @@
 import 'package:boxting/domain/entities/user.dart';
 import 'package:boxting/features/profile/providers.dart';
 import 'package:boxting/features/settings/settings_screen.dart';
+import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -12,6 +14,7 @@ class ProfileScreen extends HookWidget {
     final provider = useProvider(userInfoProvider);
     return BoxtingScaffold(
       appBar: BoxtingAppBar(
+        leading: SizedBox(),
         trailing: IconButton(
           icon: Icon(Icons.settings),
           onPressed: () => SettingsScreen.navigate(context),
@@ -38,7 +41,8 @@ class ProfileScreenBody extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-          Text(user.name),
+          Text('${user.name} ${user.lastname}', style: subTitleTextStyle),
+          SizedBox(height: 48),
           Text(user.phone),
           Text(user.dni),
           Text(user.mail)
