@@ -40,12 +40,8 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<bool> isFirstTimeLogin() async {
-    var box = await Hive.openBox(Constants.HIVE_BOX_NAME);
-    var isFirstTimeLogin = box.get(
-      Constants.FIRST_LOGIN,
-      defaultValue: true,
-    );
-    return isFirstTimeLogin;
+    final box = await Hive.openBox(Constants.HIVE_BOX_NAME);
+    return box.get(Constants.FIRST_LOGIN, defaultValue: true);
   }
 
   @override

@@ -1,24 +1,15 @@
-import 'package:boxting/domain/repository/event_repository.dart';
-import 'package:boxting/service_locator.dart';
+import 'package:boxting/data/network/request/subscribe_event_request/subscribe_event_request.dart';
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../events_bloc.dart';
+import '../providers.dart';
 
 class SubscribeEventScreen extends HookWidget {
-  static Widget init(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => EventsBloc(getIt.get<EventRepository>()),
-      builder: (_, __) => SubscribeEventScreen(),
-    );
-  }
-
   static Future<void> navigate(BuildContext context) async {
-    await BoxtingNavigation.goto(
-        context, (_) => SubscribeEventScreen.init(context));
+    await BoxtingNavigation.goto(context, (_) => SubscribeEventScreen());
   }
 
   @override
@@ -26,6 +17,7 @@ class SubscribeEventScreen extends HookWidget {
     final _formKey = GlobalKey<FormState>();
     final accessCodeController = useTextEditingController();
     final eventCodeController = useTextEditingController();
+
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: Padding(
@@ -54,11 +46,11 @@ class SubscribeEventScreen extends HookWidget {
                     await BoxtingLoadingDialog.show(
                       context,
                       futureBuilder: () async {
-                        final bloc = context.read<EventsBloc>();
-                        await bloc.subscribeEvent(
-                          eventCodeController.text.trim(),
-                          accessCodeController.text.trim(),
+                        final request = SubscribeEventRequest(
+                          eventCode: eventCodeController.text.trim(),
+                          accessCode: accessCodeController.text.trim(),
                         );
+                        await context.read(addNewEventProvider(request));
                       },
                       onSuccess: () => BoxtingNavigation.pop(context),
                       onError: (e) => BoxtingModal.show(

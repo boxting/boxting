@@ -9,17 +9,20 @@ class BoxtingEmptyScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Lottie.asset(
-          'assets/lottie/sad_empty_box.json',
-          width: 240,
-          height: 240,
-          fit: BoxFit.fill,
-        ),
-        Text(message)
-      ],
+    return SingleChildScrollView(
+      physics: AlwaysScrollableScrollPhysics(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Lottie.asset(
+            'assets/lottie/sad_empty_box.json',
+            width: 240,
+            height: 240,
+            fit: BoxFit.fill,
+          ),
+          Text(message)
+        ],
+      ),
     );
   }
 }

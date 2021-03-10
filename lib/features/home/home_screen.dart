@@ -5,33 +5,23 @@ import 'package:boxting/widgets/widgets.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:provider/provider.dart';
-
-import 'home_bloc.dart';
 
 class HomeScreen extends HookWidget {
-  static Widget init(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => HomeBloc(),
-      builder: (_, __) => HomeScreen(),
-    );
-  }
-
   static Future<void> navigate(BuildContext context) async {
-    await BoxtingNavigation.replace(context, (_) => HomeScreen.init(context));
+    await BoxtingNavigation.replace(context, (_) => HomeScreen());
   }
 
   @override
   Widget build(BuildContext context) {
     final selectedIndex = useState<int>(1);
-    final child = useState<Widget>(EventsScreen.init(context));
+    final child = useState<Widget>(EventsScreen());
     Widget getChildByIndex(int index, BuildContext context) {
       switch (index) {
         case 0:
           child.value = FeedScreen.init(context);
           break;
         case 1:
-          child.value = EventsScreen.init(context);
+          child.value = EventsScreen();
           break;
         case 2:
           child.value = ProfileScreen.init(context);
