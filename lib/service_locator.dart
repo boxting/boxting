@@ -15,9 +15,7 @@ import 'package:boxting/features/candidates/candidates_bloc.dart';
 import 'package:boxting/features/elections/elections_bloc.dart';
 import 'package:boxting/features/forgot_password/forgot_password_bloc.dart';
 import 'package:boxting/features/login/login_bloc.dart';
-import 'package:boxting/features/profile/profile_bloc.dart';
 import 'package:boxting/features/register/register_bloc.dart';
-import 'package:boxting/features/settings/settings_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -58,6 +56,9 @@ void _setupRepositories(BoxtingClient boxtingClient) {
 
 final authRepositoryProvider = Provider((_) => getIt.get<AuthRepository>());
 final eventsRepositoryProvider = Provider((_) => getIt.get<EventRepository>());
+final biometricRepositoryProvider = Provider(
+  (_) => getIt.get<BiometricRepository>(),
+);
 
 void _setupBlocs() {
   getIt.registerSingleton<ForgotPasswordBloc>(
@@ -65,9 +66,6 @@ void _setupBlocs() {
   );
   getIt.registerSingleton<RegisterBloc>(
     RegisterBloc(authRepository: getIt.get<AuthRepository>()),
-  );
-  getIt.registerSingleton<SettingsBloc>(
-    SettingsBloc(repository: getIt.get<BiometricRepository>()),
   );
   getIt.registerSingleton<BiometricBloc>(
     BiometricBloc(
@@ -86,10 +84,6 @@ void _setupBlocs() {
   );
   getIt.registerSingleton<CandidatesBloc>(
     CandidatesBloc(getIt.get<CandidatesRepository>()),
-  );
-
-  getIt.registerSingleton<ProfileBloc>(
-    ProfileBloc(getIt.get<AuthRepository>()),
   );
 }
 
