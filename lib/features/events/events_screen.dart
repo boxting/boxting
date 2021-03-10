@@ -2,6 +2,7 @@ import 'package:boxting/features/events/event_item.dart';
 import 'package:boxting/features/events/providers.dart';
 import 'package:boxting/features/events/subscribe/subscribe_event_screen.dart';
 import 'package:boxting/widgets/empty_screen.dart';
+import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -37,7 +38,8 @@ class EventListBody extends HookWidget {
             ? Center(child: BoxtingEmptyScreen('No hay eventos disponibles'))
             : Column(
                 children: [
-                  Text('Las siguientes votaciones son:'),
+                  Text('Tus siguientes votaciones son:', style: titleTextStyle),
+                  SizedBox(height: 48),
                   Expanded(
                     child: ListView.builder(
                       itemCount: events.length,
