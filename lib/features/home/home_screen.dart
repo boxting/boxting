@@ -24,7 +24,7 @@ class HomeScreen extends HookWidget {
           child.value = EventsScreen();
           break;
         case 2:
-          child.value = ProfileScreen.init(context);
+          child.value = ProfileScreen();
           break;
         default:
       }
