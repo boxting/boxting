@@ -1,53 +1,42 @@
 import 'package:boxting/data/network/response/event_response/event_response.dart';
-import 'package:boxting/domain/repository/event_repository.dart';
 import 'package:boxting/features/elections/elections_screen.dart';
-import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../events_bloc.dart';
+import '../providers.dart';
 
 class EventDetailScreen extends HookWidget {
   final String eventId;
 
   EventDetailScreen({this.eventId});
 
-  static Widget init(BuildContext context, String id) {
-    return ChangeNotifierProvider(
-      create: (_) => EventsBloc(getIt.get<EventRepository>()),
-      builder: (_, __) => EventDetailScreen(eventId: id),
-    );
-  }
-
   static Future<void> navigate(BuildContext context, String id) async {
     await BoxtingNavigation.goto(
-        context, (_) => EventDetailScreen.init(context, id));
+        context, (_) => EventDetailScreen(eventId: id));
   }
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.watch<EventsBloc>();
+    final provider = useProvider(fetchEventByIdProvider(eventId));
     return BoxtingScaffold(
       appBar: BoxtingAppBar(
         trailing: IconButton(
           onPressed: () => showModalBottomSheet(
             context: context,
-            builder: (_) => SettingsModalBody.init(context, eventId),
+            builder: (_) => SettingsModalBody(eventId: eventId),
           ),
           icon: Icon(Icons.settings),
         ),
       ),
-      body: FutureBuilder<EventResponseData>(
-        future: bloc.fetchEventById(eventId),
-        builder: (_, event) {
-          if (event.hasData) {
-            return EventDetailBody(event: event.data);
-          }
-          return Center(child: CircularProgressIndicator());
-        },
+      body: Center(
+        child: provider.when(
+          loading: () => BoxtingLoadingScreen(),
+          data: (event) => EventDetailBody(event: event),
+          error: (e, _) => BoxtingErrorScreen(e.toString()),
+        ),
       ),
     );
   }
@@ -77,22 +66,12 @@ class EventDetailBody extends HookWidget {
   }
 }
 
-class SettingsModalBody extends StatelessWidget {
+class SettingsModalBody extends HookWidget {
   final String eventId;
   SettingsModalBody({this.eventId});
 
-  static Widget init(BuildContext context, String id) {
-    return ChangeNotifierProvider(
-      create: (_) => EventsBloc(getIt.get<EventRepository>()),
-      builder: (_, __) => SettingsModalBody(
-        eventId: id,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    final bloc = context.watch<EventsBloc>();
     return ListView(
       children: [
         ListTile(
@@ -100,7 +79,9 @@ class SettingsModalBody extends StatelessWidget {
           leading: Icon(Icons.delete, color: Colors.red),
           onTap: () async => await BoxtingLoadingDialog.show(
             context,
-            futureBuilder: () => bloc.unsubscribeFromEvent(eventId),
+            futureBuilder: () async {
+              await context.read(removeUserFromEventProvider(eventId));
+            },
             onSuccess: () => BoxtingNavigation.gotoRoot(context),
             onError: (e) => BoxtingModal.show(
               context,

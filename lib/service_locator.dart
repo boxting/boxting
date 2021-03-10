@@ -21,6 +21,7 @@ import 'package:boxting/features/settings/settings_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
 
 final getIt = GetIt.I;
@@ -54,6 +55,9 @@ void _setupRepositories(BoxtingClient boxtingClient) {
   getIt.registerSingleton<CandidatesRepository>(
       CandidatesRepositoryImpl(boxtingClient));
 }
+
+final authRepositoryProvider = Provider((_) => getIt.get<AuthRepository>());
+final eventsRepositoryProvider = Provider((_) => getIt.get<EventRepository>());
 
 void _setupBlocs() {
   getIt.registerSingleton<ForgotPasswordBloc>(
