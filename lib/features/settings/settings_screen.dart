@@ -2,6 +2,7 @@ import 'package:boxting/features/biometric/biometric_screen.dart';
 import 'package:boxting/features/faq/faq_screen.dart';
 import 'package:boxting/features/settings/providers.dart';
 import 'package:boxting/features/terms/terms_screen.dart';
+import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,8 @@ class SettingsScreenBody extends HookWidget {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
+          Text('Configuración', style: titleTextStyle),
+          SizedBox(height: 48),
           ListTile(
             leading: Icon(Icons.fingerprint),
             title: Text('Biometria'),
