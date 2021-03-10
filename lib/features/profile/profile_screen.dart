@@ -42,6 +42,7 @@ class ProfileScreenBody extends StatelessWidget {
       child: Column(
         children: [
           Text('${user.name} ${user.lastname}', style: subTitleTextStyle),
+          SizedBox(height: 48),
           Text(user.phone),
           Text(user.dni),
           Text(user.mail)
