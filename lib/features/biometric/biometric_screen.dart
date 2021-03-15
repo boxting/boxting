@@ -1,33 +1,21 @@
-import 'package:boxting/features/biometric/biometric_bloc.dart';
+import 'package:boxting/features/settings/providers.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class BiometricScreen extends HookWidget {
-  BiometricScreen._({this.comesFromSetting = true});
-  final bool comesFromSetting;
-
-  static Widget init(BuildContext context, bool settings) {
-    return ChangeNotifierProvider.value(
-      value: getIt.get<BiometricBloc>(),
-      builder: (_, __) => BiometricScreen._(comesFromSetting: settings),
-    );
-  }
-
-  static Future<void> navigate(BuildContext context,
-      {bool settings = false}) async {
-    await BoxtingNavigation.goto(
-        context, (_) => BiometricScreen.init(context, settings));
+  static Future<void> navigate(
+    BuildContext context,
+  ) async {
+    await BoxtingNavigation.goto(context, (_) => BiometricScreen());
   }
 
   @override
   Widget build(BuildContext context) {
-    final _isAuthenticating = useState<bool>(false);
-    final bloc = context.watch<BiometricBloc>();
+    // final fingerProvider = useProvider(fingerBioIsAvailableProvider);
 
     final size = MediaQuery.of(context).size;
     return BoxtingScaffold(
@@ -60,47 +48,45 @@ class BiometricScreen extends HookWidget {
               SizedBox(height: 32),
               BoxtingButton(
                 child: Text(
-                  _isAuthenticating.value ? 'Cargando' : 'Autenticar',
+                  'Autenticar',
                   style: TextStyle(
                     color: Colors.white,
                   ),
                 ),
                 onPressed: () async {
-                  await bloc.checkBiometrics();
-                  await bloc.getAvailableBiometrics();
-                  if (_isAuthenticating.value) {
-                    bloc.cancelAuthentication();
-                  } else {
-                    await bloc.authenticate(
-                      context: context,
-                      onSuccess: () => CoolAlert.show(
+                  final localAuth = context.read(localAuthProvider);
+                  final result = await localAuth.authenticateWithBiometrics(
+                    localizedReason:
+                        'Escanea tu huella digital para autenticarte',
+                    useErrorDialogs: true,
+                    stickyAuth: true,
+                  );
+                  if (result) {
+                    await CoolAlert.show(
                         context: context,
                         type: CoolAlertType.success,
                         title: 'Perfecto',
                         text: 'Tu huella digital ha sido validada',
                         confirmBtnText: 'Continuar',
-                        onConfirmBtnTap: () => bloc.goToHomeScreen(
-                          context,
-                          dialog: true,
-                          comesFromSettings: comesFromSetting,
-                        ),
-                      ),
-                      onFailure: (PlatformException e) => CoolAlert.show(
-                          context: context,
-                          type: CoolAlertType.error,
-                          title: 'Algo salio mal',
-                          text: e.message,
-                          onConfirmBtnTap: () {
-                            BoxtingNavigation.pop(context);
-                            _isAuthenticating.value = false;
-                          }),
-                    );
+                        onConfirmBtnTap: () async {
+                          context.read(setBioInformationProvider(true));
+                          await BoxtingNavigation.gotoRoot(context);
+                        });
+                  } else {
+                    await CoolAlert.show(
+                        context: context,
+                        type: CoolAlertType.error,
+                        title: 'Algo salio mal',
+                        text: 'No se pudo validar tu huella',
+                        onConfirmBtnTap: () {
+                          BoxtingNavigation.pop(context);
+                        });
                   }
                 },
               ),
               SizedBox(height: 24),
               InkWell(
-                onTap: () => bloc.goToHomeScreen(context),
+                onTap: () => BoxtingNavigation.pop(context),
                 child: Text('Omitir por ahora'),
               )
             ],
