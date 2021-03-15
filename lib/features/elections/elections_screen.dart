@@ -1,40 +1,30 @@
 import 'package:boxting/data/network/response/elections_response/elections_response.dart';
-import 'package:boxting/domain/repository/elections_repository.dart';
-import 'package:boxting/service_locator.dart';
+import 'package:boxting/features/elections/providers.dart';
 import 'package:boxting/widgets/empty_screen.dart';
+import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'election_item.dart';
-import 'elections_bloc.dart';
 
-class ElectionsScreen extends StatelessWidget {
+class ElectionsScreen extends HookWidget {
   final String eventId;
 
   const ElectionsScreen({Key key, this.eventId}) : super(key: key);
 
-  static Widget init(BuildContext context, String id) {
-    return ChangeNotifierProvider(
-      create: (_) => ElectionsBloc(getIt.get<ElectionsRepository>())
-        ..fetchElectionsFromEvent(id),
-      builder: (_, __) => ElectionsScreen(eventId: id),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    final bloc = context.watch<ElectionsBloc>();
-    if (bloc.elections != null) {
-      return ElectionsScreenBody(
-        bloc.elections,
-        eventId,
-      );
-    }
-    return Center(child: CircularProgressIndicator());
+    final provider = useProvider(electionsFromEventProvider(eventId));
+    return provider.when(
+      loading: () => Center(child: CircularProgressIndicator()),
+      error: (e, _) => BoxtingErrorScreen(e.toString()),
+      data: (data) => ElectionsScreenBody(data, eventId),
+    );
   }
 }
 
-class ElectionsScreenBody extends StatelessWidget {
+class ElectionsScreenBody extends HookWidget {
   final List<ElectionResponseData> elections;
   final String eventId;
 
