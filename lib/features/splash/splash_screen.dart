@@ -13,7 +13,8 @@ class SplashScreen extends HookWidget {
     return ProviderListener<AsyncValue<bool>>(
       provider: firstTimeOpenProvider,
       onChange: (context, result) async {
-        if (result.data.value) {
+        final isFirstTime = result.data.value;
+        if (isFirstTime) {
           await OnBoardingScreen.navigate(context);
         } else {
           await LoginScreen.navigate(context);
