@@ -66,7 +66,6 @@ class LoginScreen extends HookWidget {
             biometricBloc.cancelAuthentication();
           } else {
             await biometricBloc.authenticate(
-              context: context,
               onSuccess: () => HomeScreen.navigate(context),
               onFailure: (PlatformException e) => showErrorAlert(
                 title: 'Algo malio sal',
