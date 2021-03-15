@@ -2,7 +2,6 @@ import 'package:boxting/features/login/login_screen.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hive/hive.dart';
 
 import 'onboarding_model.dart';
 // import 'onboarding_pages.dart';
@@ -37,9 +36,9 @@ class OnBoardingScreen extends HookWidget {
   }
 
   void goToLoginScreen(BuildContext context) async {
-    var box = await Hive.openBox('onboarding');
-    await box.put('firstTime', false);
-    await BoxtingNavigation.replace(context, (_) => LoginScreen.init(context));
+    // var box = await Hive.openBox('onboarding');
+    // await box.put('firstTime', false);
+    await LoginScreen.navigate(context);
   }
 
   final pages = <OnboardingModel>[

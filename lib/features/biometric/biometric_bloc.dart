@@ -59,3 +59,8 @@ final fingerBioIsAvailableProvider = FutureProvider<bool>((ref) async {
   final biometrics = await localAuth.getAvailableBiometrics();
   return biometrics.contains(BiometricType.fingerprint);
 });
+
+final setFirstLoginProvider = FutureProvider<void>((ref) async {
+  final repository = ref.watch(authRepositoryProvider);
+  await repository.saveFirstTimeLogin();
+});
