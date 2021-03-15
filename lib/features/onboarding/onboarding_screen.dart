@@ -2,8 +2,8 @@ import 'package:boxting/features/login/login_screen.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 
-import 'onboarding_model.dart';
 // import 'onboarding_pages.dart';
 
 class OnBoardingScreen extends HookWidget {
@@ -13,55 +13,58 @@ class OnBoardingScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BoxtingScaffold(
-      appBar: BoxtingAppBar(),
-      // body: Padding(
-      //   padding: const EdgeInsets.all(20.0),
-      //   child: OnboardingPages(
-      //     bgColor: Colors.white,
-      //     themeColor: Theme.of(context).primaryColor,
-      //     pages: pages,
-      //     skipClicked: (value) => goToLoginScreen(context),
-      //     getStartedClicked: (value) => goToLoginScreen(context),
-      //   ),
-      // ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: BoxtingButton(
-          child: Text('Fix on borading'),
-          onPressed: () => goToLoginScreen(context),
+    final pageDecoration = const PageDecoration(
+      titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
+      bodyTextStyle: TextStyle(fontSize: 16.0),
+      descriptionPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+      pageColor: Colors.white,
+      imagePadding: EdgeInsets.zero,
+    );
+
+    Widget _buildImage(String assetName) {
+      return Align(
+        child: Image.asset('assets/images/onboarding/$assetName.png',
+            width: 350.0),
+        alignment: Alignment.bottomCenter,
+      );
+    }
+
+    return IntroductionScreen(
+      pages: [
+        PageViewModel(
+          title: 'Bienvenido a la mejor solución de votación.',
+          body: 'Emite tus votos de forma rápida y segura',
+          decoration: pageDecoration,
+          image: _buildImage('boxtingphone'),
+        ),
+        PageViewModel(
+          title: 'Investiga acerca de tus candidatos antes de votar',
+          body: 'Conoce la información acerca de tus candidatos',
+          decoration: pageDecoration,
+          image: _buildImage('peoplevote'),
+        ),
+        PageViewModel(
+          title: 'Identificate de manera digital',
+          body: 'Asegura tu voto utilizando tu huella digital',
+          decoration: pageDecoration,
+          image: _buildImage('virtualidentity'),
+        ),
+      ],
+      onDone: () => LoginScreen.navigate(context),
+      showSkipButton: true,
+      skipFlex: 0,
+      nextFlex: 0,
+      skip: const Text('Saltar'),
+      next: const Icon(Icons.arrow_forward),
+      done: const Text('Listo', style: TextStyle(fontWeight: FontWeight.w600)),
+      dotsDecorator: const DotsDecorator(
+        size: Size(10.0, 10.0),
+        color: Color(0xFFBDBDBD),
+        activeSize: Size(22.0, 10.0),
+        activeShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25.0)),
         ),
       ),
     );
   }
-
-  void goToLoginScreen(BuildContext context) async {
-    // var box = await Hive.openBox('onboarding');
-    // await box.put('firstTime', false);
-    await LoginScreen.navigate(context);
-  }
-
-  final pages = <OnboardingModel>[
-    OnboardingModel(
-      title: 'Bienvenido a la mejor solución de votación.',
-      description: 'Emite tus votos de forma rápida y segura',
-      titleColor: Colors.black,
-      descripColor: const Color(0xFF929794),
-      imagePath: 'assets/images/onboarding/boxtingphone.png',
-    ),
-    OnboardingModel(
-      title: 'Investiga acerca de tus candidatos antes de votar',
-      description: 'Conoce la información acerca de tus candidatos',
-      titleColor: Colors.black,
-      descripColor: const Color(0xFF929794),
-      imagePath: 'assets/images/onboarding/peoplevote.png',
-    ),
-    OnboardingModel(
-      title: 'Identificate de manera digital',
-      description: 'Asegura tu voto utilizando tu huella digital',
-      titleColor: Colors.black,
-      descripColor: const Color(0xFF929794),
-      imagePath: 'assets/images/onboarding/virtualidentity.png',
-    ),
-  ];
 }
