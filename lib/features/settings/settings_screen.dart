@@ -111,7 +111,22 @@ class BoxtingVersion extends HookWidget {
   Widget build(BuildContext context) {
     return provider.when(
       loading: () => CircularProgressIndicator(),
-      data: (version) => Center(child: Text('Versión $version')),
+      data: (version) => Center(
+        child: RichText(
+          text: TextSpan(
+            text: 'Versión ',
+            style: TextStyle(color: Colors.black),
+            children: [
+              TextSpan(
+                text: version,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
       error: (e, _) => Text('Error'),
     );
   }
