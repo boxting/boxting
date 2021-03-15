@@ -28,4 +28,6 @@
 
 ### Decrypt files locally
 
-`gpg --output android_keys.zip --decrypt android_keys.zip.gpg && jar xvf android_keys.zip && mv google-services.json app/`
+- `cd android`
+- `gpg --output android_keys.zip --decrypt android_keys.zip.gpg && jar xvf android_keys.zip && mv google-services.json app/`
+- Need boxting passphrase
