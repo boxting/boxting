@@ -1,12 +1,12 @@
 import 'package:boxting/data/network/response/elections_response/elections_response.dart';
-import 'package:boxting/domain/repository/elections_repository.dart';
 import 'package:boxting/features/candidates/candidate_screen.dart';
-import 'package:boxting/features/elections/elections_bloc.dart';
-import 'package:boxting/service_locator.dart';
+
+import 'package:boxting/features/elections/providers.dart';
+import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ElectionDetailScreen extends HookWidget {
   final String eventId;
@@ -19,34 +19,20 @@ class ElectionDetailScreen extends HookWidget {
     String event,
     String election,
   ) async {
-    await BoxtingNavigation.goto(
-        context, (_) => ElectionDetailScreen.init(context, event, election));
-  }
-
-  static Widget init(BuildContext context, String event, String election) {
-    return ChangeNotifierProvider(
-      create: (_) => ElectionsBloc(getIt.get<ElectionsRepository>()),
-      builder: (_, __) => ElectionDetailScreen(
-        eventId: event,
-        electionId: election,
-      ),
-    );
+    await BoxtingNavigation.goto(context,
+        (_) => ElectionDetailScreen(eventId: event, electionId: election));
   }
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.watch<ElectionsBloc>();
+    final request = ElectionDetailRequest(eventId, electionId);
+    final provider = useProvider(electionDetailProvider(request));
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: FutureBuilder<SingleElectionResponse>(
-          future: bloc.fetchElectionById(eventId, electionId),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) return BoxtingLoadingScreen();
-            return ElectionScreenBody(election: snapshot.data.data);
-          },
-        ),
+      body: provider.when(
+        loading: () => BoxtingLoadingScreen(),
+        error: (e, _) => BoxtingErrorScreen(e.toString()),
+        data: (data) => ElectionScreenBody(election: data),
       ),
     );
   }
@@ -58,14 +44,24 @@ class ElectionScreenBody extends StatelessWidget {
   const ElectionScreenBody({Key key, this.election}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(election.name),
-        Text(election.information),
-        Text(election.winners.toString()),
-        SizedBox(height: 20),
-        Expanded(child: CandidatesScreen.init(context, election.id.toString())),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        children: [
+          Text(election.name, style: titleTextStyle),
+          Text(election.information, style: subTitleTextStyle),
+          Text(election.winners.toString()),
+          SizedBox(height: 20),
+          Expanded(
+              child: CandidatesScreen.init(context, election.id.toString())),
+          SizedBox(height: 20),
+          BoxtingButton(
+            child: Text('Ir a votar'),
+            onPressed: () => null,
+          ),
+          SizedBox(height: 20),
+        ],
+      ),
     );
   }
 }

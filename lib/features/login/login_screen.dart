@@ -53,24 +53,6 @@ class LoginScreen extends HookWidget {
         usernameController.text.trim(),
         passwordController.text.trim(),
       );
-      // final isFirstTimeLogin = await loginBloc.isFirstTimeLogin();
-      // final fingerprintLogin = await loginBloc.loadBiometricInformation();
-      // if (loginBloc.failure != null) {
-      //   showErrorAlert(
-      //     title: 'Ocurrio un error!',
-      //     text: loginBloc.failure.message,
-      //   );
-      // } else {
-      //   if (fingerprintLogin) {
-      //     await HomeScreen.navigate(context);
-      //   } else {
-      //     if (isFirstTimeLogin) {
-      //       await BiometricScreen.navigate(context);
-      //     } else {
-      //       await HomeScreen.navigate(context);
-      //     }
-      //   }
-      // }
     }
 
     Future<void> authenticateBiometrical(BuildContext context) async {
