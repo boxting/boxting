@@ -20,4 +20,5 @@ abstract class AuthRepository {
   );
   Future<DefaultResponse> setNewPassword(NewPasswordRequest newPasswordRequest);
   Future<UserResponse> getUserInformation();
+  Future<void> saveFirstTimeLogin();
 }
