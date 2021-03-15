@@ -31,6 +31,7 @@ class CandidateResponseData {
   final int age;
   final bool isActive;
   final int listId;
+  final String imageUrl;
   final int electionId;
   final String createdAt;
   final String updatedAt;
@@ -47,6 +48,7 @@ class CandidateResponseData {
     this.electionId,
     this.createdAt,
     this.updatedAt,
+    this.imageUrl,
     this.list,
   });
 
@@ -60,8 +62,15 @@ class ElectionList {
   final String name;
   final String information;
   final int electionId;
+  final String imageUrl;
 
-  ElectionList({this.id, this.name, this.information, this.electionId});
+  ElectionList({
+    this.id,
+    this.name,
+    this.information,
+    this.electionId,
+    this.imageUrl,
+  });
 
   factory ElectionList.fromJson(Map<String, dynamic> json) =>
       _$ElectionListFromJson(json);

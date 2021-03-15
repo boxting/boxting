@@ -16,7 +16,7 @@ class TermsScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return BoxtingScaffold(
-      appBar: AppBar(title: Text('Preguntas frecuentes')),
+      appBar: AppBar(title: Text('Terminos y condiciones')),
       body: FutureBuilder(
         future: fetchTerms(),
         builder: (context, snapshot) {

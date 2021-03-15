@@ -62,6 +62,8 @@ final electionRepositoryProvider = Provider(
   (_) => getIt.get<ElectionsRepository>(),
 );
 
+final localAuthProvider = Provider((_) => LocalAuthentication());
+
 void _setupBlocs() {
   getIt.registerSingleton<ForgotPasswordBloc>(
     ForgotPasswordBloc(authRepository: getIt.get<AuthRepository>()),
