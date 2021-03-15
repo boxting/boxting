@@ -29,7 +29,10 @@ class OnBoardingScreen extends HookWidget {
       );
     }
 
+    final _introKey = GlobalKey();
+
     return IntroductionScreen(
+      key: _introKey,
       pages: [
         PageViewModel(
           title: 'Bienvenido a la mejor solución de votación.',
