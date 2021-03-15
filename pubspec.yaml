@@ -21,6 +21,8 @@ dependencies:
   modal_bottom_sheet: ^1.0.0+1
   lottie: ^0.7.0+1
   cupertino_icons: ^0.1.3
+  introduction_screen: 1.0.9
+  
 
   # Network
   dio: ^3.0.10
