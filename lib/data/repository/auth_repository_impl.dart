@@ -48,7 +48,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<bool> login(LoginRequest loginRequest) async {
     try {
       final loginResponse = await boxtingClient.login(loginRequest);
-      await _saveFirstTimeLogin();
+      // await _saveFirstTimeLogin();
       await _saveAuthToken(loginResponse.data.token);
       // final userInfo = await getUserInformation();
       // await _saveUserInformation(userInfo.data.toUser());
@@ -140,7 +140,8 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  Future<void> _saveFirstTimeLogin() async {
+  @override
+  Future<void> saveFirstTimeLogin() async {
     final box = await Hive.openBox(Constants.HIVE_BOX_NAME);
     await box.put(Constants.FIRST_LOGIN, false);
   }
