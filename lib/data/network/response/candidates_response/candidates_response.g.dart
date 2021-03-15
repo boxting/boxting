@@ -53,6 +53,7 @@ CandidateResponseData _$CandidateResponseDataFromJson(
     electionId: json['electionId'] as int,
     createdAt: json['createdAt'] as String,
     updatedAt: json['updatedAt'] as String,
+    imageUrl: json['imageUrl'] as String,
     list: json['list'] == null
         ? null
         : ElectionList.fromJson(json['list'] as Map<String, dynamic>),
@@ -69,6 +70,7 @@ Map<String, dynamic> _$CandidateResponseDataToJson(
       'age': instance.age,
       'isActive': instance.isActive,
       'listId': instance.listId,
+      'imageUrl': instance.imageUrl,
       'electionId': instance.electionId,
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
@@ -81,6 +83,7 @@ ElectionList _$ElectionListFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     information: json['information'] as String,
     electionId: json['electionId'] as int,
+    imageUrl: json['imageUrl'] as String,
   );
 }
 
@@ -90,4 +93,5 @@ Map<String, dynamic> _$ElectionListToJson(ElectionList instance) =>
       'name': instance.name,
       'information': instance.information,
       'electionId': instance.electionId,
+      'imageUrl': instance.imageUrl,
     };
