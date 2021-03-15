@@ -50,7 +50,7 @@ class SettingsScreenBody extends HookWidget {
             title: Text('Biometria'),
             subtitle: Text(biometricMessage),
             trailing: Icon(Icons.arrow_forward_ios),
-            onTap: () => setBiometricInformation(context, !biometricEnabled),
+            onTap: () => setBiometricInformation(context, biometricEnabled),
           ),
           ListTile(
             leading: Icon(Icons.language_rounded),
@@ -84,11 +84,6 @@ class SettingsScreenBody extends HookWidget {
 
   void setBiometricInformation(BuildContext context, bool enabled) async {
     if (enabled) {
-      await BoxtingNavigation.goto(
-        context,
-        (_) => BiometricScreen.init(context, true),
-      );
-    } else {
       await CoolAlert.show(
         context: context,
         type: CoolAlertType.confirm,
@@ -96,11 +91,13 @@ class SettingsScreenBody extends HookWidget {
         confirmBtnText: 'Sí',
         cancelBtnText: 'No',
         onConfirmBtnTap: () async {
-          BoxtingNavigation.pop(context);
-          await context.read(setBioInformationProvider(enabled));
+          await context.read(setBioInformationProvider(false));
+          await BoxtingNavigation.pop(context);
         },
         confirmBtnColor: Colors.green,
       );
+    } else {
+      await BiometricScreen.navigate(context);
     }
   }
 }
