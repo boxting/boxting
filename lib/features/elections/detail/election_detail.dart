@@ -42,6 +42,7 @@ class ElectionScreenBody extends StatelessWidget {
   final ElectionResponseData election;
 
   const ElectionScreenBody({Key key, this.election}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -52,8 +53,7 @@ class ElectionScreenBody extends StatelessWidget {
           Text(election.information, style: subTitleTextStyle),
           Text(election.winners.toString()),
           SizedBox(height: 20),
-          Expanded(
-              child: CandidatesScreen.init(context, election.id.toString())),
+          Expanded(child: CandidatesScreen(electionId: election.id.toString())),
           SizedBox(height: 20),
           BoxtingButton(
             child: Text('Ir a votar'),

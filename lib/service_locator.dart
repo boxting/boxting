@@ -11,7 +11,6 @@ import 'package:boxting/domain/repository/candidates_repository.dart';
 import 'package:boxting/domain/repository/elections_repository.dart';
 import 'package:boxting/domain/repository/event_repository.dart';
 import 'package:boxting/features/biometric/biometric_bloc.dart';
-import 'package:boxting/features/candidates/candidates_bloc.dart';
 import 'package:boxting/features/forgot_password/forgot_password_bloc.dart';
 import 'package:boxting/features/login/login_bloc.dart';
 import 'package:boxting/features/register/register_bloc.dart';
@@ -61,6 +60,9 @@ final biometricRepositoryProvider = Provider(
 final electionRepositoryProvider = Provider(
   (_) => getIt.get<ElectionsRepository>(),
 );
+final candidatesRepositoryProvider = Provider(
+    (_) => getIt.get<CandidatesRepository>()
+);
 
 final localAuthProvider = Provider((_) => LocalAuthentication());
 
@@ -82,9 +84,6 @@ void _setupBlocs() {
       authRepository: getIt.get<AuthRepository>(),
       biometricRepository: getIt.get<BiometricRepository>(),
     ),
-  );
-  getIt.registerSingleton<CandidatesBloc>(
-    CandidatesBloc(getIt.get<CandidatesRepository>()),
   );
 }
 
