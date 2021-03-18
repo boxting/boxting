@@ -1,5 +1,6 @@
 import 'package:boxting/data/network/response/candidates_response/candidates_response.dart';
 import 'package:boxting/features/candidates/providers.dart';
+import 'package:boxting/features/voting/providers.dart';
 import 'package:boxting/features/voting/selectable_candidate.dart';
 import 'package:boxting/widgets/boxting_appbar.dart';
 import 'package:boxting/widgets/loading_screen.dart';
@@ -22,7 +23,7 @@ class VotingScreen extends HookWidget {
   Widget build(BuildContext context) {
     final provider = useProvider(fetchCandidateByElection(election));
     return provider.when(
-      data: (data) => VotingScreenBody(data),
+      data: (data) => VotingScreenBody(data, election),
       loading: () => BoxtingLoadingScreen(),
       error: (e, _) => BoxtingErrorScreen(e.toString()),
     );
@@ -31,9 +32,10 @@ class VotingScreen extends HookWidget {
 
 class VotingScreenBody extends HookWidget {
   final List<CandidateResponseData> candidates;
-  final selectedCandidate = useState(-1);
+  final String electionId;
+  final selectedCandidateIndex = useState(-1);
 
-  VotingScreenBody(this.candidates);
+  VotingScreenBody(this.candidates, this.electionId);
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +51,10 @@ class VotingScreenBody extends HookWidget {
               child: ListView.builder(
                 itemCount: candidates.length,
                 itemBuilder: (context, index) => InkWell(
-                  onTap: () => selectedCandidate.value = index,
+                  onTap: () => selectedCandidateIndex.value = index,
                   child: SelectableCandidate(
                     CandidateUiModel(
-                      isSelected: selectedCandidate.value == index,
+                      isSelected: selectedCandidateIndex.value == index,
                       candidate: candidates[index],
                     ),
                   ),
@@ -62,7 +64,19 @@ class VotingScreenBody extends HookWidget {
             SizedBox(height: 20),
             BoxtingButton(
               child: Text('Votar'),
-              onPressed: selectedCandidate.value != -1 ? () {} : null,
+              onPressed: selectedCandidateIndex.value != -1
+                  ? () async {
+                      final selectedCandidateId =
+                          candidates[selectedCandidateIndex.value]
+                              .id
+                              .toString();
+                      final request = VoteRequest(
+                        [selectedCandidateId],
+                        electionId,
+                      );
+                      await context.read(emitVoteProvider(request));
+                    }
+                  : null,
             )
           ],
         ),
