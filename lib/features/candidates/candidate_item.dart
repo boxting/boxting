@@ -1,5 +1,4 @@
 import 'package:boxting/data/network/response/candidates_response/candidates_response.dart';
-import 'package:boxting/features/candidates/detail/candidate_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class CandidateItem extends StatelessWidget {
@@ -25,11 +24,6 @@ class CandidateItem extends StatelessWidget {
             width: IMAGE_SIZE,
           ),
         ],
-      ),
-      onTap: () => CandidateDetailScreen.navigate(
-        context,
-        candidate.id.toString(),
-        candidate.listId.toString(),
       ),
       title: Text('${candidate.firstName} ${candidate.lastName}'),
       subtitle: Text(candidate.list.name),

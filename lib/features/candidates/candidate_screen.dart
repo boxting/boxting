@@ -1,5 +1,6 @@
 import 'package:boxting/data/network/response/candidates_response/candidates_response.dart';
 import 'package:boxting/features/candidates/candidate_item.dart';
+import 'package:boxting/features/candidates/detail/candidate_detail_screen.dart';
 import 'package:boxting/features/candidates/providers.dart';
 import 'package:boxting/widgets/empty_screen.dart';
 import 'package:boxting/widgets/widgets.dart';
@@ -33,7 +34,14 @@ class CandidatesScreenBody extends HookWidget {
     if (candidates.isEmpty) return BoxtingEmptyScreen('Aún no hay candidatos');
     return ListView.builder(
       itemCount: candidates.length,
-      itemBuilder: (_, index) => CandidateItem(candidate: candidates[index]),
+      itemBuilder: (_, index) => InkWell(
+        onTap: () => CandidateDetailScreen.navigate(
+          context,
+          candidates[index].id.toString(),
+          candidates[index].listId.toString(),
+        ),
+        child: CandidateItem(candidate: candidates[index]),
+      ),
     );
   }
 }
