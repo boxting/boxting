@@ -3,6 +3,7 @@ import 'package:boxting/features/candidates/providers.dart';
 import 'package:boxting/features/voting/providers.dart';
 import 'package:boxting/features/voting/selectable_candidate.dart';
 import 'package:boxting/widgets/boxting_appbar.dart';
+import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/loading_screen.dart';
 import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
@@ -65,17 +66,22 @@ class VotingScreenBody extends HookWidget {
             BoxtingButton(
               child: Text('Votar'),
               onPressed: selectedCandidateIndex.value != -1
-                  ? () async {
-                      final selectedCandidateId =
-                          candidates[selectedCandidateIndex.value]
-                              .id
-                              .toString();
-                      final request = VoteRequest(
-                        [selectedCandidateId],
-                        electionId,
-                      );
-                      await context.read(emitVoteProvider(request));
-                    }
+                  ? () => BoxtingLoadingDialog.show(
+                        context,
+                        futureBuilder: () async {
+                          final selectedCandidateId =
+                              candidates[selectedCandidateIndex.value]
+                                  .id
+                                  .toString();
+                          final request = VoteRequest(
+                            [selectedCandidateId],
+                            electionId,
+                          );
+                          await context.read(emitVoteProvider(request));
+                        },
+                        onSuccess: () => null,
+                        onError: (e) => null,
+                      )
                   : null,
             )
           ],
