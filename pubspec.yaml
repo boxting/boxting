@@ -1,6 +1,6 @@
 name: boxting
 description: A new Flutter project.
-version: 1.0.0+13
+version: 1.0.0+15
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
