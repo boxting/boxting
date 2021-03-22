@@ -18,8 +18,7 @@ class SelectableCandidate extends HookWidget {
           border: Border.all(width: 5.0, color: borderColor),
           borderRadius: const BorderRadius.all(Radius.circular(20.0)),
         ),
-        child: CandidateItem(candidate: candidateUiModel.candidate)
-    );
+        child: CandidateItem(candidate: candidateUiModel.candidate));
   }
 }
 
