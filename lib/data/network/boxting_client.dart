@@ -1,3 +1,4 @@
+import 'package:boxting/data/network/request/emit_vote_request/emit_vote_request.dart';
 import 'package:boxting/data/network/request/forgot_password/forgot_password_request.dart';
 import 'package:boxting/data/network/request/login_request/login_request.dart';
 import 'package:boxting/data/network/request/new_password_request/new_password_request.dart';
@@ -12,6 +13,7 @@ import 'package:boxting/data/network/response/login_response/login_response.dart
 import 'package:boxting/data/network/response/subscribe_event_response/subscribe_event_response.dart';
 import 'package:boxting/data/network/response/user_response/user_response.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:retrofit/retrofit.dart';
 import 'response/candidates_response/candidates_response.dart';
 import 'response/register_response/register_response.dart';
@@ -82,4 +84,10 @@ abstract class BoxtingClient {
 
   @GET('/user')
   Future<UserResponse> getUserInformation();
+
+  @POST('/election/{electionId}/vote')
+  Future<DefaultResponse> emitVote(
+    @Path('electionId') String election,
+    @Body() EmitVoteRequest emitVoteRequest,
+  );
 }

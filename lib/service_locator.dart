@@ -5,11 +5,13 @@ import 'package:boxting/data/repository/biometric_repository_impl.dart';
 import 'package:boxting/data/repository/candidates_repository_impl.dart';
 import 'package:boxting/data/repository/elections_repository_impl.dart';
 import 'package:boxting/data/repository/event_repository_impl.dart';
+import 'package:boxting/data/repository/voting_repository_impl.dart';
 import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:boxting/domain/repository/biometric_repository.dart';
 import 'package:boxting/domain/repository/candidates_repository.dart';
 import 'package:boxting/domain/repository/elections_repository.dart';
 import 'package:boxting/domain/repository/event_repository.dart';
+import 'package:boxting/domain/repository/voting_repository.dart';
 import 'package:boxting/features/biometric/biometric_bloc.dart';
 import 'package:boxting/features/forgot_password/forgot_password_bloc.dart';
 import 'package:boxting/features/login/login_bloc.dart';
@@ -50,6 +52,8 @@ void _setupRepositories(BoxtingClient boxtingClient) {
       ElectionsRepositoryImpl(boxtingClient));
   getIt.registerSingleton<CandidatesRepository>(
       CandidatesRepositoryImpl(boxtingClient));
+  getIt
+      .registerSingleton<VotingRepository>(VotingRepositoryImpl(boxtingClient));
 }
 
 final authRepositoryProvider = Provider((_) => getIt.get<AuthRepository>());
@@ -60,9 +64,10 @@ final biometricRepositoryProvider = Provider(
 final electionRepositoryProvider = Provider(
   (_) => getIt.get<ElectionsRepository>(),
 );
-final candidatesRepositoryProvider = Provider(
-    (_) => getIt.get<CandidatesRepository>()
-);
+final candidatesRepositoryProvider =
+    Provider((_) => getIt.get<CandidatesRepository>());
+
+final votingRepositoryProvider = Provider((_) => getIt.get<VotingRepository>());
 
 final localAuthProvider = Provider((_) => LocalAuthentication());
 

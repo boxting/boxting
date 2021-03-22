@@ -2,6 +2,7 @@ import 'package:boxting/data/network/response/elections_response/elections_respo
 import 'package:boxting/features/candidates/candidate_screen.dart';
 
 import 'package:boxting/features/elections/providers.dart';
+import 'package:boxting/features/voting/voting_screen.dart';
 import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +58,8 @@ class ElectionScreenBody extends StatelessWidget {
           SizedBox(height: 20),
           BoxtingButton(
             child: Text('Ir a votar'),
-            onPressed: () => null,
+            onPressed: () =>
+                VotingScreen.navigate(context, election.id.toString()),
           ),
           SizedBox(height: 20),
         ],
