@@ -56,9 +56,11 @@ class EventDetailBody extends HookWidget {
       child: Column(
         children: [
           Text(event.name, style: titleTextStyle),
-          SizedBox(height: 48),
+          SizedBox(height: 24),
+          Text('Evento ${event.code}', style: subTitleTextStyle),
+          SizedBox(height: 24),
           Text(event.information),
-          Text(event.code),
+          SizedBox(height: 24),
           Text('$startDate - $endDate'),
           const SizedBox(height: 24),
           Expanded(child: ElectionsScreen(eventId: event.id.toString()))

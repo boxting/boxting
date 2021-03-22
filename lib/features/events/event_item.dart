@@ -1,4 +1,5 @@
 import 'package:boxting/data/network/response/event_response/event_response.dart';
+import 'package:boxting/widgets/styles.dart';
 import 'package:flutter/material.dart';
 
 import 'detail/event_detail_screen.dart';
@@ -22,7 +23,7 @@ class EventItem extends StatelessWidget {
                 Text(event.startDate.toShortDate()),
               ],
             ),
-            title: Text(event.name),
+            title: Text(event.name, style: subTitleTextStyle),
             subtitle: Text(
               event.information,
               maxLines: 2,
