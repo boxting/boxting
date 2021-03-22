@@ -51,8 +51,10 @@ class ElectionScreenBody extends StatelessWidget {
       child: Column(
         children: [
           Text(election.name, style: titleTextStyle),
+          SizedBox(height: 8),
           Text(election.information, style: subTitleTextStyle),
-          Text(election.winners.toString()),
+          SizedBox(height: 24),
+          Text('Esta elección puede tener ${election.winners} ganador(es)'),
           SizedBox(height: 20),
           Expanded(child: CandidatesScreen(electionId: election.id.toString())),
           SizedBox(height: 20),
