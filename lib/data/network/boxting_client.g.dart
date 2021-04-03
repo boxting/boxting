@@ -330,4 +330,42 @@ class _BoxtingClient implements BoxtingClient {
     final value = DefaultResponse.fromJson(_result.data);
     return value;
   }
+
+  @override
+  Future<ResultResponse> getResultsByElection(election) async {
+    ArgumentError.checkNotNull(election, 'election');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'election/$election/results',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = ResultResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<VoteResponse> getMyVoteFromElection(election) async {
+    ArgumentError.checkNotNull(election, 'election');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/election/$election/vote',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = VoteResponse.fromJson(_result.data);
+    return value;
+  }
 }
