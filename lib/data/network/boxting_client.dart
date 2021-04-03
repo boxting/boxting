@@ -10,8 +10,10 @@ import 'package:boxting/data/network/response/dni_response/dni_response.dart';
 import 'package:boxting/data/network/response/elections_response/elections_response.dart';
 import 'package:boxting/data/network/response/event_response/event_response.dart';
 import 'package:boxting/data/network/response/login_response/login_response.dart';
+import 'package:boxting/data/network/response/result_response/result_response.dart';
 import 'package:boxting/data/network/response/subscribe_event_response/subscribe_event_response.dart';
 import 'package:boxting/data/network/response/user_response/user_response.dart';
+import 'package:boxting/data/network/response/vote_response/vote_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:retrofit/retrofit.dart';
@@ -89,5 +91,15 @@ abstract class BoxtingClient {
   Future<DefaultResponse> emitVote(
     @Path('electionId') String election,
     @Body() EmitVoteRequest emitVoteRequest,
+  );
+
+  @GET('election/{electionId}/results')
+  Future<ResultResponse> getResultsByElection(
+    @Path('electionId') String election,
+  );
+
+  @GET('/election/{electionId}/vote')
+  Future<VoteResponse> getMyVoteFromElection(
+    @Path('electionId') String election,
   );
 }
