@@ -17,7 +17,13 @@ class VotingRepositoryImpl extends VotingRepository {
     List<String> candidates,
   ) async {
     await Future.delayed(Duration(seconds: 2));
-    return DefaultResponse(success: true, data: 'Voto exitoso', error: null);
+    final response = '''
+    {
+      "success": true,
+      "data": "Voto exitosos"
+    }
+    ''';
+    return DefaultResponse.fromJson(json.decode(response));
   }
 
   @override

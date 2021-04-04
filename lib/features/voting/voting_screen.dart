@@ -40,7 +40,7 @@ class VotingScreenBody extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -79,8 +79,12 @@ class VotingScreenBody extends HookWidget {
                           );
                           await context.read(emitVoteProvider(request));
                         },
-                        onSuccess: () => null,
-                        onError: (e) => null,
+                        onSuccess: () {
+                          print('Hello');
+                        },
+                        onError: (e) async {
+                          print(e.toString());
+                        },
                       )
                   : null,
             )
