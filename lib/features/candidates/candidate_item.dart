@@ -5,6 +5,8 @@ class CandidateItem extends StatelessWidget {
   final CandidateResponseData candidate;
 
   final IMAGE_SIZE = 48.0;
+  final NOT_AVAILABLE_IMAGE =
+      'https://corp.sellerscommerce.com//SCAssets/images/noimage.png';
   const CandidateItem({Key key, this.candidate}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -13,13 +15,13 @@ class CandidateItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Image.network(
-            candidate.list.imageUrl,
+            candidate.list.imageUrl ?? NOT_AVAILABLE_IMAGE,
             height: IMAGE_SIZE,
             width: IMAGE_SIZE,
           ),
           SizedBox(width: 16),
           Image.network(
-            candidate.imageUrl,
+            candidate.imageUrl ?? NOT_AVAILABLE_IMAGE,
             height: IMAGE_SIZE,
             width: IMAGE_SIZE,
           ),

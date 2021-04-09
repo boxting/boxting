@@ -1,3 +1,4 @@
+import 'package:boxting/data/network/response/result_response/result_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'vote_response.g.dart';
@@ -15,22 +16,31 @@ class VoteResponse {
 
 @JsonSerializable()
 class VoteResponseData {
+  final ResultElectionResponse election;
+  final MyVoteResponse vote;
+
+  VoteResponseData(this.election, this.vote);
+
+  factory VoteResponseData.fromJson(Map<String, dynamic> json) =>
+      _$VoteResponseDataFromJson(json);
+}
+
+@JsonSerializable()
+class MyVoteResponse {
   final String electionId;
-  final String id;
   final String type;
   final String voterId;
   final List<SelectedCandidateResponse> selectedCandidates;
 
-  VoteResponseData(
+  MyVoteResponse(
     this.electionId,
-    this.id,
     this.type,
     this.voterId,
     this.selectedCandidates,
   );
 
-  factory VoteResponseData.fromJson(Map<String, dynamic> json) =>
-      _$VoteResponseDataFromJson(json);
+  factory MyVoteResponse.fromJson(Map<String, dynamic> json) =>
+      _$MyVoteResponseFromJson(json);
 }
 
 @JsonSerializable()

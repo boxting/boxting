@@ -2,6 +2,8 @@ import 'package:boxting/data/network/response/elections_response/elections_respo
 import 'package:boxting/features/candidates/candidate_screen.dart';
 
 import 'package:boxting/features/elections/providers.dart';
+import 'package:boxting/features/my_vote/my_vote_screen.dart';
+import 'package:boxting/features/results/results_screen.dart';
 import 'package:boxting/features/voting/voting_screen.dart';
 import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
@@ -57,6 +59,24 @@ class ElectionScreenBody extends StatelessWidget {
           Text('Esta elección puede tener ${election.winners} ganador(es)'),
           SizedBox(height: 20),
           Expanded(child: CandidatesScreen(electionId: election.id.toString())),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              BoxtingButton.outline(
+                child: Text('Ver resultados'),
+                onPressed: () =>
+                    ResultsScreen.navigate(context, election.id.toString()),
+              ),
+              SizedBox(width: 20),
+              BoxtingButton.outline(
+                child: Text('Ver mi voto'),
+                onPressed: () =>
+                    MyVoteScreen.navigate(context, election.id.toString()),
+              ),
+            ],
+          ),
           SizedBox(height: 20),
           BoxtingButton(
             child: Text('Ir a votar'),

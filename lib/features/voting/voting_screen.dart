@@ -2,6 +2,7 @@ import 'package:boxting/data/network/response/candidates_response/candidates_res
 import 'package:boxting/features/candidates/providers.dart';
 import 'package:boxting/features/voting/providers.dart';
 import 'package:boxting/features/voting/selectable_candidate.dart';
+import 'package:boxting/features/voting/sucess_voting_screen.dart';
 import 'package:boxting/widgets/boxting_appbar.dart';
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/loading_screen.dart';
@@ -40,7 +41,7 @@ class VotingScreenBody extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -66,21 +67,23 @@ class VotingScreenBody extends HookWidget {
             BoxtingButton(
               child: Text('Votar'),
               onPressed: selectedCandidateIndex.value != -1
-                  ? () => BoxtingLoadingDialog.show(
+                  ? () async => await BoxtingLoadingDialog.show(
                         context,
                         futureBuilder: () async {
                           final selectedCandidateId =
-                              candidates[selectedCandidateIndex.value]
-                                  .id
-                                  .toString();
+                              candidates[selectedCandidateIndex.value].id;
                           final request = VoteRequest(
-                            [selectedCandidateId],
+                            [selectedCandidateId.toString()],
                             electionId,
                           );
                           await context.read(emitVoteProvider(request));
                         },
-                        onSuccess: () => null,
-                        onError: (e) => null,
+                        onSuccess: () => SuccessVotingScreen.navigate(context),
+                        onError: (e) async => BoxtingModal.show(
+                          context,
+                          title: 'Ocurrio un error!',
+                          message: e,
+                        ),
                       )
                   : null,
             )

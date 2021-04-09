@@ -40,6 +40,9 @@ class CandidateDetailScreen extends HookWidget {
 class CandidateDetailBody extends HookWidget {
   final CandidateResponseData candidate;
 
+  final NOT_AVAILABLE_IMAGE =
+      'https://corp.sellerscommerce.com//SCAssets/images/noimage.png';
+
   const CandidateDetailBody({Key key, this.candidate}) : super(key: key);
 
   @override
@@ -48,7 +51,11 @@ class CandidateDetailBody extends HookWidget {
       padding: const EdgeInsets.all(20.0),
       child: Column(
         children: [
-          Image.network(candidate.imageUrl, height: 120, width: 120),
+          Image.network(
+            candidate.imageUrl ?? NOT_AVAILABLE_IMAGE,
+            height: 120,
+            width: 120,
+          ),
           SizedBox(height: 48),
           Text(
             '${candidate.firstName} ${candidate.lastName} (${candidate.age} años)',
@@ -62,7 +69,10 @@ class CandidateDetailBody extends HookWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.network(candidate.list.imageUrl, height: 86),
+              Image.network(
+                candidate.list.imageUrl ?? NOT_AVAILABLE_IMAGE,
+                height: 96,
+              ),
               SizedBox(width: 48),
               Text(candidate.list.name, style: titleTextStyle)
             ],

@@ -23,8 +23,25 @@ Map<String, dynamic> _$VoteResponseToJson(VoteResponse instance) =>
 
 VoteResponseData _$VoteResponseDataFromJson(Map<String, dynamic> json) {
   return VoteResponseData(
+    json['election'] == null
+        ? null
+        : ResultElectionResponse.fromJson(
+            json['election'] as Map<String, dynamic>),
+    json['vote'] == null
+        ? null
+        : MyVoteResponse.fromJson(json['vote'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$VoteResponseDataToJson(VoteResponseData instance) =>
+    <String, dynamic>{
+      'election': instance.election,
+      'vote': instance.vote,
+    };
+
+MyVoteResponse _$MyVoteResponseFromJson(Map<String, dynamic> json) {
+  return MyVoteResponse(
     json['electionId'] as String,
-    json['id'] as String,
     json['type'] as String,
     json['voterId'] as String,
     (json['selectedCandidates'] as List)
@@ -35,10 +52,9 @@ VoteResponseData _$VoteResponseDataFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$VoteResponseDataToJson(VoteResponseData instance) =>
+Map<String, dynamic> _$MyVoteResponseToJson(MyVoteResponse instance) =>
     <String, dynamic>{
       'electionId': instance.electionId,
-      'id': instance.id,
       'type': instance.type,
       'voterId': instance.voterId,
       'selectedCandidates': instance.selectedCandidates,

@@ -15,5 +15,5 @@ class VoteRequest extends Equatable {
   VoteRequest(this.candidates, this.election);
 
   @override
-  List<Object> get props => throw UnimplementedError();
+  List<Object> get props => [candidates, election];
 }
