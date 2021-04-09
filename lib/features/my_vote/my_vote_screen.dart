@@ -4,6 +4,7 @@ import 'package:boxting/widgets/boxting_appbar.dart';
 import 'package:boxting/widgets/boxting_scaffold.dart';
 import 'package:boxting/widgets/error_screen.dart';
 import 'package:boxting/widgets/loading_screen.dart';
+import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -45,11 +46,40 @@ class MyVoteBody extends HookWidget {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(data.election.name),
-          Text('El identificador de tu voto es ${data.vote.voterId}')
+          Text(
+            'Tú voto para ${data.election.name}',
+            style: titleTextStyle,
+            overflow: TextOverflow.ellipsis,
+          ),
+          SizedBox(height: 30),
+          Text(
+            'El identificador de tu voto es ${data.vote.voterId}',
+            style: subTitleTextStyle,
+          ),
+          SizedBox(height: 30),
+          Expanded(
+            child: ListView.builder(
+              itemCount: data.vote.selectedCandidates.length,
+              itemBuilder: (context, index) =>
+                  SelectedCandidate(data.vote.selectedCandidates[index]),
+            ),
+          )
         ],
       ),
+    );
+  }
+}
+
+class SelectedCandidate extends HookWidget {
+  final SelectedCandidateResponse candidate;
+
+  SelectedCandidate(this.candidate);
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text('${candidate.firstName} ${candidate.lastName}'),
     );
   }
 }
