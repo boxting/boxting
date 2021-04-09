@@ -1,4 +1,6 @@
 import 'package:boxting/features/results/providers.dart';
+import 'package:boxting/features/results/result_chart.dart';
+import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -22,26 +24,26 @@ class ResultsScreen extends HookWidget {
       body: provider.when(
         loading: () => BoxtingLoadingScreen(),
         error: (e, _) => BoxtingErrorScreen(e.toString()),
-        data: (data) => ResultScreenBody(results: data),
+        data: (data) => ResultScreenBody(result: data),
       ),
     );
   }
 }
 
-class ResultScreenBody extends StatelessWidget {
-  final List<ResultResponseData> results;
+class ResultScreenBody extends HookWidget {
+  final ResultResponseData result;
 
-  const ResultScreenBody({Key key, this.results}) : super(key: key);
+  const ResultScreenBody({Key key, this.result}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
-      child: ListView.builder(
-        itemCount: results.length,
-        itemBuilder: (context, index) {
-          final result = results[index];
-          return Text('${result.lastName} ${result.voteCount}');
-        },
+      child: Column(
+        children: [
+          Text('Resultados de ${result.election.name}', style: titleTextStyle),
+          SizedBox(height: 16),
+          Expanded(child: BarChartSample1(result)),
+        ],
       ),
     );
   }

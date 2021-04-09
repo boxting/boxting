@@ -4,7 +4,7 @@ import 'package:boxting/service_locator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final getElectionResultProvider = FutureProvider.autoDispose
-    .family<List<ResultResponseData>, String>((ref, election) async {
+    .family<ResultResponseData, String>((ref, election) async {
   try {
     final repository = ref.watch(votingRepositoryProvider);
     final result = await repository.getResultByElection(election);

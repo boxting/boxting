@@ -46,10 +46,8 @@ class MyVoteBody extends HookWidget {
       padding: const EdgeInsets.all(20.0),
       child: Column(
         children: [
-          Text(data.id),
-          Text(
-            'El identificador de tu voto es ${data.id} y tu identificador es ${data.voterId}',
-          )
+          Text(data.election.name),
+          Text('El identificador de tu voto es ${data.vote.voterId}')
         ],
       ),
     );

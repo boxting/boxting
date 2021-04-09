@@ -60,16 +60,22 @@ class ElectionScreenBody extends StatelessWidget {
           SizedBox(height: 20),
           Expanded(child: CandidatesScreen(electionId: election.id.toString())),
           SizedBox(height: 20),
-          BoxtingButton.outline(
-            child: Text('Ver resultados'),
-            onPressed: () =>
-                ResultsScreen.navigate(context, election.id.toString()),
-          ),
-          SizedBox(height: 20),
-          BoxtingButton.outline(
-            child: Text('Ver mi voto'),
-            onPressed: () =>
-                MyVoteScreen.navigate(context, election.id.toString()),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              BoxtingButton.outline(
+                child: Text('Ver resultados'),
+                onPressed: () =>
+                    ResultsScreen.navigate(context, election.id.toString()),
+              ),
+              SizedBox(width: 20),
+              BoxtingButton.outline(
+                child: Text('Ver mi voto'),
+                onPressed: () =>
+                    MyVoteScreen.navigate(context, election.id.toString()),
+              ),
+            ],
           ),
           SizedBox(height: 20),
           BoxtingButton(
