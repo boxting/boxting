@@ -31,28 +31,35 @@ class VotingRepositoryImpl extends VotingRepository {
     await Future.delayed(Duration(seconds: 2));
     final response = '''
     {
-      "success": true,
-      "data": [
-          {
-              "electionId": "1",
-              "firstName": "Rodrigo",
-              "id": "1",
-              "imageUrl": "none",
-              "lastName": "Guadalupe",
-              "type": "votable",
-              "voteCount": 2
-          },
-          {
-              "electionId": "1",
-              "firstName": "Enzo",
-              "id": "2",
-              "imageUrl": "none",
-              "lastName": "Lizama",
-              "type": "votable",
-              "voteCount": 0
-          }
-      ]
+    "success": true,
+    "data": {
+        "election": {
+            "id": "1",
+            "name": "Test election"
+        },
+        "candidates": [
+            {
+                "electionId": "1",
+                "firstName": "Rodrigo",
+                "id": "1",
+                "imageUrl": "none",
+                "lastName": "Guadalupe",
+                "type": "votable",
+                "voteCount": 3
+            },
+            {
+                "electionId": "1",
+                "firstName": "Enzo",
+                "id": "2",
+                "imageUrl": "none",
+                "lastName": "Lizama",
+                "type": "votable",
+                "voteCount": 2
+            }
+        ],
+        "totalVotes": 5
     }
+}
     ''';
     return ResultResponse.fromJson(json.decode(response));
   }
@@ -62,23 +69,28 @@ class VotingRepositoryImpl extends VotingRepository {
     await Future.delayed(Duration(seconds: 2));
     final response = '''
     {
-      "success": true,
-      "data": {
-          "electionId": "1",
-          "id": "49tghqnh3aa2lxwd990br7",
-          "selectedCandidates": [
-              {
-                  "electionId": "1",
-                  "firstName": "Rodrigo",
-                  "imageUrl": "none",
-                  "lastName": "Guadalupe",
-                  "type": "votable"
-              }
-          ],
-          "type": "vote",
-          "voterId": "70148943"
-      }
+    "success": true,
+    "data": {
+        "election": {
+            "id":  "1",
+            "name": "Test election"
+        },
+        "vote": {
+            "electionId": "1",
+            "selectedCandidates": [
+                {
+                    "electionId": "1",
+                    "firstName": "Rodrigo",
+                    "imageUrl": "none",
+                    "lastName": "Guadalupe",
+                    "type": "votable"
+                }
+            ],
+            "type": "vote",
+            "voterId": "70854323"
+        }
     }
+}
     ''';
     return VoteResponse.fromJson(json.decode(response));
   }
