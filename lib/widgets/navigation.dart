@@ -19,12 +19,6 @@ class BoxtingNavigation {
     );
   }
 
-  static void snackBar<T>(BuildContext context, {Widget content, String text}) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(content: content ?? Text(text ?? 'Unimplemented')),
-    );
-  }
-
   static void gotoRoot(BuildContext context) {
     return Navigator.of(context).popUntil((route) => route.isFirst);
   }

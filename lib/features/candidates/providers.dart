@@ -23,6 +23,6 @@ final fetchCandidateByElection = FutureProvider.autoDispose
 final fetchCandidateById = FutureProvider.autoDispose
     .family<CandidateResponseData, CandidateDetailRequest>((ref, req) async {
   final repository = ref.watch(candidatesRepositoryProvider);
-  final result = await repository.fetchCandidateById(req.listId, req.candidate);
+  final result = await repository.fetchCandidateById(req.candidate, req.listId);
   return result.data;
 });

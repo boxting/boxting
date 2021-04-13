@@ -14,6 +14,9 @@ const REGISTER_PASSWORD_ERROR = 2002;
 const REGISTER_DNI_ERROR = 2006;
 const REGISTER_MAIL_ERROR = 2005;
 const REGISTER_OBLIGATORY_ERROR = 2003;
+// Event errors
+const NO_EVENT_CODE_ERROR = 4007;
+const WRONG_ACCESS_CODE_ERROR = 4008;
 
 class BoxtingException implements Exception {
   final int statusCode;
@@ -55,6 +58,12 @@ class BoxtingException implements Exception {
         break;
       case MAIL_NOT_REGISTERED_ERROR:
         message = 'El correo ingresado no esta registrado';
+        break;
+      case NO_EVENT_CODE_ERROR:
+        message = 'El código ingresado no es válido';
+        break;
+      case WRONG_ACCESS_CODE_ERROR:
+        message = 'El código de acceso es invalido para este evento';
         break;
       default:
         message = 'Ocurrió un error desconocido';
