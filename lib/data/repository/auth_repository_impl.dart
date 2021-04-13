@@ -150,9 +150,4 @@ class AuthRepositoryImpl implements AuthRepository {
     final secureStorage = getIt.get<FlutterSecureStorage>();
     await secureStorage.write(key: Constants.AUTH_TOKEN, value: token);
   }
-
-  // Future<void> _saveUserInformation(User user) async {
-  //   final box = await Hive.openBox(Constants.HIVE_USER_BOX);
-  //   await box.put(Constants.HIVE_USER, user);
-  // }
 }

@@ -2,6 +2,7 @@ import 'package:boxting/data/network/request/subscribe_event_request/subscribe_e
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -57,10 +58,23 @@ class SubscribeEventScreen extends HookWidget {
                           eventCode: eventCodeController.text.trim(),
                           accessCode: accessCodeController.text.trim(),
                         );
-                        await context.read(addNewEventProvider(request));
+                        await context
+                            .read(subscribeEventProvider)
+                            .subscribe(request);
                       },
-                      onSuccess: () => BoxtingNavigation.pop(context),
-                      onError: (e) => BoxtingModal.show(
+                      onSuccess: () async {
+                        await CoolAlert.show(
+                          context: context,
+                          type: CoolAlertType.success,
+                          title: 'Felicidades',
+                          text: 'Se ha suscrito al evento de votación',
+                          confirmBtnText: 'Ok',
+                          confirmBtnColor: Colors.green,
+                          onConfirmBtnTap: () => BoxtingNavigation.pop(context),
+                        );
+                        await BoxtingNavigation.pop(context);
+                      },
+                      onError: (e) async => await BoxtingModal.show(
                         context,
                         title: 'Error',
                         message: e,

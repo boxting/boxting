@@ -87,7 +87,8 @@ class SettingsScreenBody extends HookWidget {
       await CoolAlert.show(
         context: context,
         type: CoolAlertType.confirm,
-        text: 'Quieres eliminar tu huella de la aplicación?',
+        title: '¿Estas seguro?',
+        text: '¿Desea eliminar la huella registrada?',
         confirmBtnText: 'Sí',
         cancelBtnText: 'No',
         onConfirmBtnTap: () async {

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:boxting/domain/constants/constants.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:dio/dio.dart';
@@ -27,9 +29,15 @@ class BoxtingInterceptors extends InterceptorsWrapper {
   }
 
   @override
-  Future onError(DioError err) {
+  Future onError(DioError err) async {
     print('ERROR[${err?.response?.statusCode}] => PATH: ${err?.request?.path}');
     print(err?.response?.data);
+    print(err?.response?.statusCode);
+    if (err?.response?.statusCode == HttpStatus.unauthorized) {
+      await getIt
+          .get<FlutterSecureStorage>()
+          .write(key: Constants.AUTH_TOKEN, value: null);
+    }
     return super.onError(err);
   }
 }

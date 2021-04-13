@@ -3,6 +3,7 @@ import 'package:boxting/features/elections/elections_screen.dart';
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -81,17 +82,29 @@ class SettingsModalBody extends HookWidget {
         ListTile(
           title: Text('Eliminar subscribción al evento'),
           leading: Icon(Icons.delete, color: Colors.red),
-          onTap: () async => await BoxtingLoadingDialog.show(
-            context,
-            futureBuilder: () async {
-              await context.read(removeUserFromEventProvider(eventId));
+          onTap: () async => await CoolAlert.show(
+            context: context,
+            type: CoolAlertType.confirm,
+            title: '¿Estas seguro?',
+            text: '¿Desea eliminar su suscripción al evento de votación?',
+            confirmBtnText: 'Sí',
+            cancelBtnText: 'No',
+            confirmBtnColor: Colors.green,
+            onConfirmBtnTap: () async {
+              await BoxtingNavigation.pop(context);
+              await BoxtingLoadingDialog.show(
+                context,
+                futureBuilder: () async {
+                  await context.read(removeUserFromEventProvider(eventId));
+                },
+                onSuccess: () => BoxtingNavigation.gotoRoot(context),
+                onError: (e) => BoxtingModal.show(
+                  context,
+                  title: 'Error',
+                  message: e,
+                ),
+              );
             },
-            onSuccess: () => BoxtingNavigation.gotoRoot(context),
-            onError: (e) => BoxtingModal.show(
-              context,
-              title: 'Error',
-              message: e,
-            ),
           ),
         )
       ],
