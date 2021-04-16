@@ -14,8 +14,8 @@ class BoxtingInterceptors extends InterceptorsWrapper {
   Future onRequest(RequestOptions options) async {
     print('REQUEST[${options?.method}] => PATH: ${options?.path}');
     print(options?.data);
-    final token =
-        await getIt.get<FlutterSecureStorage>().read(key: Constants.AUTH_TOKEN);
+    final storage = getIt.get<FlutterSecureStorage>();
+    final token = await storage.read(key: Constants.AUTH_TOKEN);
     options.headers[Constants.AUTH_HEADER] =
         Constants.AUTH_BEARER + token.orEmpty();
     return super.onRequest(options);

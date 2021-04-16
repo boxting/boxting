@@ -44,13 +44,14 @@ class MyVoteBody extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Tú voto para ${data.election.name}',
             style: titleTextStyle,
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
           SizedBox(height: 30),
@@ -62,8 +63,10 @@ class MyVoteBody extends HookWidget {
           Expanded(
             child: ListView.builder(
               itemCount: data.vote.selectedCandidates.length,
-              itemBuilder: (context, index) =>
-                  SelectedCandidate(data.vote.selectedCandidates[index]),
+              itemBuilder: (context, index) => SelectedCandidate(
+                data.vote.selectedCandidates[index],
+                data.vote.voterId,
+              ),
             ),
           )
         ],
@@ -74,12 +77,21 @@ class MyVoteBody extends HookWidget {
 
 class SelectedCandidate extends HookWidget {
   final SelectedCandidateResponse candidate;
+  final String voteId;
 
-  SelectedCandidate(this.candidate);
+  SelectedCandidate(this.candidate, this.voteId);
+
+  final NOT_AVAILABLE_IMAGE =
+      'https://corp.sellerscommerce.com//SCAssets/images/noimage.png';
+
   @override
   Widget build(BuildContext context) {
+    final image =
+        candidate.imageUrl == 'none' ? NOT_AVAILABLE_IMAGE : candidate.imageUrl;
     return ListTile(
+      leading: Image.network(image, width: 48, height: 48),
       title: Text('${candidate.firstName} ${candidate.lastName}'),
+      subtitle: Text('Identificador del voto: ${voteId}'),
     );
   }
 }

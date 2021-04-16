@@ -1,7 +1,6 @@
 import 'package:boxting/features/biometric/biometric_bloc.dart';
 import 'package:boxting/features/biometric/biometric_screen.dart';
 import 'package:boxting/features/events/events_screen.dart';
-import 'package:boxting/features/feed/feed_screen.dart';
 import 'package:boxting/features/login/login_bloc.dart';
 import 'package:boxting/features/profile/profile_screen.dart';
 import 'package:boxting/widgets/widgets.dart';
@@ -22,12 +21,9 @@ class HomeScreen extends HookWidget {
     Widget getChildByIndex(int index, BuildContext context) {
       switch (index) {
         case 0:
-          child.value = FeedScreen.init(context);
-          break;
-        case 1:
           child.value = EventsScreen();
           break;
-        case 2:
+        case 1:
           child.value = ProfileScreen();
           break;
         default:
@@ -58,10 +54,6 @@ class HomeScreen extends HookWidget {
             getChildByIndex(selectedIndex.value, context);
           },
           items: [
-            FFNavigationBarItem(
-              iconData: Icons.rss_feed_outlined,
-              label: 'Información',
-            ),
             FFNavigationBarItem(
               iconData: Icons.how_to_vote,
               label: 'Votaciones',

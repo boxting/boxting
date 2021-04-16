@@ -80,7 +80,7 @@ class SettingsModalBody extends HookWidget {
     return ListView(
       children: [
         ListTile(
-          title: Text('Eliminar subscribción al evento'),
+          title: Text('Eliminar subscribción al evento de votación'),
           leading: Icon(Icons.delete, color: Colors.red),
           onTap: () async => await CoolAlert.show(
             context: context,
