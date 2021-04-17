@@ -14,6 +14,7 @@ const REGISTER_PASSWORD_ERROR = 2002;
 const REGISTER_DNI_ERROR = 2006;
 const REGISTER_MAIL_ERROR = 2005;
 const REGISTER_OBLIGATORY_ERROR = 2003;
+const NO_MATCHING_ID_ERROR = 2009;
 // Event errors
 const NO_EVENT_CODE_ERROR = 4007;
 const WRONG_ACCESS_CODE_ERROR = 4008;
@@ -64,6 +65,9 @@ class BoxtingException implements Exception {
         break;
       case WRONG_ACCESS_CODE_ERROR:
         message = 'El código de acceso es invalido para este evento';
+        break;
+      case NO_MATCHING_ID_ERROR:
+        message = 'El DNI ingresado no existe';
         break;
       default:
         message = 'Ocurrió un error desconocido';

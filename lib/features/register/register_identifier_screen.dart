@@ -104,7 +104,10 @@ class IdentifierRegisterScreen extends HookWidget {
                               value: termsAccepted.value,
                               title: LinkedText(
                                 prefix: Text('Estas aceptando los '),
-                                link: Text('Terminos y condiciones'),
+                                link: Text(
+                                  'Terminos y condiciones',
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                                 onTap: () => TermsScreen.navigate(context),
                               ),
                               onChanged: (bool value) =>

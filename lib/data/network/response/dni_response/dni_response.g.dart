@@ -32,6 +32,7 @@ DniResponseData _$DniResponseDataFromJson(Map<String, dynamic> json) {
     motherLastname: json['apellido_materno'] as String,
     fatherLastname: json['apellido_paterno'] as String,
     names: json['nombres'] as String,
+    used: json['used'] as bool,
   );
 }
 
@@ -42,4 +43,5 @@ Map<String, dynamic> _$DniResponseDataToJson(DniResponseData instance) =>
       'apellido_materno': instance.motherLastname,
       'apellido_paterno': instance.fatherLastname,
       'nombres': instance.names,
+      'used': instance.used,
     };

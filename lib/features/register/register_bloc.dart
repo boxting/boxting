@@ -25,7 +25,7 @@ class RegisterBloc extends ChangeNotifier {
     }
   }
 
-  Future<void> _registerIdentifierInformation(DniResponseData data) async {
+  void _registerIdentifierInformation(DniResponseData data) {
     _registerRequest.voter.dni = data.dni;
     _registerRequest.voter.firstName = data.names;
     _registerRequest.voter.lastName = data.fatherLastname + data.motherLastname;
@@ -56,7 +56,10 @@ class RegisterBloc extends ChangeNotifier {
     try {
       final result =
           await authRepository.fetchInformationFromReniec(identifier);
-      await _registerIdentifierInformation(result);
+      if (result.used) {
+        throw Exception('El DNI ingresado ya esta registrado');
+      }
+      _registerIdentifierInformation(result);
     } on BoxtingException catch (e) {
       throw Exception(e.message);
     }

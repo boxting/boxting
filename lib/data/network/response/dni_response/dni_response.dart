@@ -24,6 +24,7 @@ class DniResponseData {
   final String fatherLastname;
   @JsonKey(name: 'nombres')
   final String names;
+  final bool used;
 
   DniResponseData({
     this.dni,
@@ -31,6 +32,7 @@ class DniResponseData {
     this.motherLastname,
     this.fatherLastname,
     this.names,
+    this.used,
   });
 
   factory DniResponseData.fromJson(Map<String, dynamic> json) =>
