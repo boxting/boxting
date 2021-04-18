@@ -4,6 +4,7 @@ import 'package:boxting/data/network/request/forgot_password/forgot_password_req
 import 'package:boxting/data/network/request/login_request/login_request.dart';
 import 'package:boxting/data/network/request/new_password_request/new_password_request.dart';
 import 'package:boxting/data/network/request/register_request/register_request.dart';
+import 'package:boxting/data/network/request/update_profile/update_profile_request.dart';
 import 'package:boxting/data/network/request/validate_token_request/validate_token_request.dart';
 import 'package:boxting/data/network/response/default_response/default_response.dart';
 import 'package:boxting/data/network/response/dni_response/dni_response.dart';
@@ -149,5 +150,19 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> _saveAuthToken(String token) async {
     final secureStorage = getIt.get<FlutterSecureStorage>();
     await secureStorage.write(key: Constants.AUTH_TOKEN, value: token);
+  }
+
+  @override
+  Future<void> updateUserInformation(UpdateProfileRequest request) async {
+    try {
+      await boxtingClient.updateProfile(request);
+    } on DioError catch (e) {
+      final code =
+          cast<int>(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
+              .orDefaultErrorCode();
+      throw BoxtingException(statusCode: code);
+    } catch (e) {
+      throw BoxtingException(statusCode: UNKNOWN_ERROR);
+    }
   }
 }

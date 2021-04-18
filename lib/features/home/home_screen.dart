@@ -16,7 +16,7 @@ class HomeScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedIndex = useState<int>(1);
+    final selectedIndex = useState<int>(0);
     final child = useState<Widget>(EventsScreen());
     Widget getChildByIndex(int index, BuildContext context) {
       switch (index) {
