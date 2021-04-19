@@ -76,7 +76,9 @@ class VotingScreenBody extends HookWidget {
                             [selectedCandidateId.toString()],
                             electionId,
                           );
-                          await context.read(emitVoteProvider(request));
+                          await context
+                              .read(votingElectionProvider)
+                              .emitVote(request);
                         },
                         onSuccess: () => SuccessVotingScreen.navigate(context),
                         onError: (e) async => BoxtingModal.show(
