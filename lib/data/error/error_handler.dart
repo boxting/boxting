@@ -18,6 +18,8 @@ const NO_MATCHING_ID_ERROR = 2009;
 // Event errors
 const NO_EVENT_CODE_ERROR = 4007;
 const WRONG_ACCESS_CODE_ERROR = 4008;
+// Auth errors
+const INVALID_AUTH_TOKEN_ERROR = 401;
 
 class BoxtingException implements Exception {
   final int statusCode;
@@ -68,6 +70,9 @@ class BoxtingException implements Exception {
         break;
       case NO_MATCHING_ID_ERROR:
         message = 'El DNI ingresado no existe';
+        break;
+      case INVALID_AUTH_TOKEN_ERROR:
+        message = 'El token ingresado es invalido';
         break;
       default:
         message = 'Ocurrió un error desconocido';

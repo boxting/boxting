@@ -50,6 +50,7 @@ ElectionResponseData _$ElectionResponseDataFromJson(Map<String, dynamic> json) {
     typeId: json['typeId'] as int,
     updatedAt: json['updatedAt'] as String,
     createdAt: json['createdAt'] as String,
+    userVoted: json['userVoted'] as bool,
   );
 }
 
@@ -64,4 +65,5 @@ Map<String, dynamic> _$ElectionResponseDataToJson(
       'typeId': instance.typeId,
       'updatedAt': instance.updatedAt,
       'createdAt': instance.createdAt,
+      'userVoted': instance.userVoted,
     };

@@ -32,6 +32,7 @@ class ElectionResponseData {
   final int typeId;
   final String updatedAt;
   final String createdAt;
+  final bool userVoted;
 
   ElectionResponseData({
     this.id,
@@ -42,6 +43,7 @@ class ElectionResponseData {
     this.typeId,
     this.updatedAt,
     this.createdAt,
+    this.userVoted,
   });
 
   factory ElectionResponseData.fromJson(Map<String, dynamic> json) =>
