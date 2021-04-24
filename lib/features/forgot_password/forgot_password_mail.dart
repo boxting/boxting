@@ -61,7 +61,7 @@ class ForgotPasswordMailScreen extends HookWidget {
             ),
             const SizedBox(height: 40),
             BoxtingInput(
-              labelText: 'Correo electronico',
+              labelText: 'Correo electrónico',
               controller: mailController,
               type: BoxtingInputType.email,
               validator: (value) {

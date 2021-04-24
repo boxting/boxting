@@ -21,12 +21,14 @@ class BoxtingSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ListTile(
-          title: title,
-          trailing: CupertinoSwitch(
-            value: value,
-            onChanged: onChanged,
-          ),
+        Row(
+          children: [
+            Expanded(child: title),
+            CupertinoSwitch(
+              value: value,
+              onChanged: onChanged,
+            ),
+          ],
         ),
         Divider(
           height: 1,
