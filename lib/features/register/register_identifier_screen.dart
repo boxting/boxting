@@ -63,38 +63,32 @@ class IdentifierRegisterScreen extends HookWidget {
                               ),
                             ),
                             const SizedBox(height: 48),
-                            Row(
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Expanded(
-                                  flex: 3,
-                                  child: Container(
-                                    height: 60,
-                                    child: BoxtingSelect<DocumentOption>(
-                                      items: DocumentOption.values,
-                                      label: 'Documento',
-                                      defaultValue: documentTypeSelected.value,
-                                      formatter: (doc) => doc.name,
-                                      onChanged: (doc) =>
-                                          documentTypeSelected.value = doc,
-                                      validator: (value) => value == null
-                                          ? 'Debe seleccionar una opción'
-                                          : null,
-                                    ),
+                                Container(
+                                  height: 60,
+                                  child: BoxtingSelect<DocumentOption>(
+                                    items: DocumentOption.values,
+                                    label: 'Documento',
+                                    defaultValue: documentTypeSelected.value,
+                                    formatter: (doc) => doc.name,
+                                    onChanged: (doc) =>
+                                        documentTypeSelected.value = doc,
+                                    validator: (value) => value == null
+                                        ? 'Debe seleccionar una opción'
+                                        : null,
                                   ),
                                 ),
-                                const SizedBox(width: 16),
-                                Expanded(
-                                  flex: 5,
-                                  child: BoxtingInput(
-                                    controller: documentController,
-                                    labelText: 'Número de documento',
-                                    type: BoxtingInputType.numeric,
-                                    validator: (value) => identifierValidator(
-                                      value,
-                                      documentTypeSelected.value,
-                                      documentController.text,
-                                    ),
+                                const SizedBox(height: 16),
+                                BoxtingInput(
+                                  controller: documentController,
+                                  labelText: 'Número de documento',
+                                  type: BoxtingInputType.numeric,
+                                  validator: (value) => identifierValidator(
+                                    value,
+                                    documentTypeSelected.value,
+                                    documentController.text,
                                   ),
                                 ),
                               ],
