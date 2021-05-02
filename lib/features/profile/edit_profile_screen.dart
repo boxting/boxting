@@ -6,8 +6,10 @@ import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class EditProfileScreen extends HookWidget {
   final User user;
@@ -21,7 +23,7 @@ class EditProfileScreen extends HookWidget {
   Widget build(BuildContext context) {
     final phoneController = useTextEditingController(text: user.phone);
     final mailController = useTextEditingController(text: user.mail);
-    final birthdayController = useTextEditingController(text: user.username);
+    final birthdayController = useTextEditingController(text: user.birthday);
 
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
@@ -53,6 +55,19 @@ class EditProfileScreen extends HookWidget {
               labelText: 'Cumpleaños',
               controller: birthdayController,
               suffix: Icon(Icons.cake),
+              readOnly: true,
+              onFocus: () => DatePicker.showDatePicker(
+                context,
+                showTitleActions: true,
+                minTime: DateTime(1900, 3, 5),
+                maxTime: DateTime.now(),
+                onConfirm: (date) {
+                  final df = DateFormat('dd/MM/yyyy');
+                  birthdayController.text = df.format(date);
+                },
+                currentTime: DateTime.now(),
+                locale: LocaleType.es,
+              ),
             ),
             SizedBox(height: 48),
             BoxtingButton(

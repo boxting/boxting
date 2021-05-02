@@ -1,4 +1,5 @@
 import 'package:boxting/domain/entities/user.dart';
+import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'user_response.g.dart';
 
@@ -35,14 +36,24 @@ class UserResponseData {
 }
 
 extension XUserResponseData on UserResponseData {
-  User toUser() => User(
-        id: id.toString(),
-        name: voter.firstName,
-        lastname: voter.lastName,
-        dni: voter.dni,
-        mail: mail,
-        phone: voter.phone,
-      );
+  User toUser() {
+    final df = DateFormat('dd/MM/yyyy');
+    var date;
+    try {
+      date = df.format(DateTime.parse(voter.birthday));
+    } catch (_) {
+      date = 'Fecha desconocida';
+    }
+    return User(
+      id: id.toString(),
+      name: voter.firstName,
+      lastname: voter.lastName,
+      dni: voter.dni,
+      mail: mail,
+      phone: voter.phone,
+      birthday: date,
+    );
+  }
 }
 
 @JsonSerializable()
@@ -62,8 +73,18 @@ class VoterResponse {
   final String lastName;
   final String dni;
   final String phone;
+  final String birthday;
+  final num age;
 
-  VoterResponse(this.id, this.firstName, this.lastName, this.dni, this.phone);
+  VoterResponse(
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.dni,
+    this.phone,
+    this.age,
+    this.birthday,
+  );
 
   factory VoterResponse.fromJson(Map<String, dynamic> json) =>
       _$VoterResponseFromJson(json);
