@@ -16,6 +16,7 @@ class User extends HiveObject {
   final String phone;
   @HiveField(6)
   final String username;
+  final String birthday;
 
   User({
     this.name,
@@ -25,6 +26,7 @@ class User extends HiveObject {
     this.mail,
     this.phone,
     this.username,
+    this.birthday,
   });
   @override
   String toString() => 'User: ${name} ${lastname} ${dni} ${mail}';

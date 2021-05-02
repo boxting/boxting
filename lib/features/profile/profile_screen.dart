@@ -57,6 +57,7 @@ class ProfileScreenBody extends StatelessWidget {
         ListTile(title: Text(user.dni), leading: Icon(Icons.perm_identity)),
         ListTile(title: Text(user.phone), leading: Icon(Icons.phone)),
         ListTile(title: Text(user.mail), leading: Icon(Icons.mail)),
+        ListTile(title: Text(user.birthday), leading: Icon(Icons.cake)),
         SizedBox(height: 48),
         BoxtingButton(
           child: Text('Editar datos'),

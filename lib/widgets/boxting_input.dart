@@ -48,7 +48,7 @@ class BoxtingInput extends StatelessWidget {
       maxLines: maxLines,
       readOnly: readOnly,
       style: TextStyle(
-        color: readOnly ? Colors.grey : Colors.black,
+        color: Colors.black,
         fontSize: 14,
       ),
       decoration: InputDecoration(

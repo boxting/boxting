@@ -64,6 +64,8 @@ VoterResponse _$VoterResponseFromJson(Map<String, dynamic> json) {
     json['lastName'] as String,
     json['dni'] as String,
     json['phone'] as String,
+    json['age'] as num,
+    json['birthday'] as String,
   );
 }
 
@@ -74,4 +76,6 @@ Map<String, dynamic> _$VoterResponseToJson(VoterResponse instance) =>
       'lastName': instance.lastName,
       'dni': instance.dni,
       'phone': instance.phone,
+      'birthday': instance.birthday,
+      'age': instance.age,
     };
