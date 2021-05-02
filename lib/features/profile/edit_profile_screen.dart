@@ -23,7 +23,7 @@ class EditProfileScreen extends HookWidget {
   Widget build(BuildContext context) {
     final phoneController = useTextEditingController(text: user.phone);
     final mailController = useTextEditingController(text: user.mail);
-    final birthdayController = useTextEditingController(text: user.username);
+    final birthdayController = useTextEditingController(text: user.birthday);
 
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
