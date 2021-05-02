@@ -44,6 +44,7 @@ class BiometricScreen extends HookWidget {
                 'Ingresa a la aplicación utilizando tu huella digital y realizado '
                 'todo de manera más rapida y segura. Recuerda que puedes modificar '
                 'tu accesso con huella digital dentro de Configuración > Biometria',
+                textAlign: TextAlign.justify,
               ),
               SizedBox(height: 32),
               BoxtingButton(
@@ -67,6 +68,7 @@ class BiometricScreen extends HookWidget {
                         type: CoolAlertType.success,
                         title: 'Perfecto',
                         text: 'Tu huella digital ha sido validada',
+                        barrierDismissible: false,
                         confirmBtnText: 'Continuar',
                         onConfirmBtnTap: () async {
                           context.read(setBioInformationProvider(true));
@@ -76,6 +78,7 @@ class BiometricScreen extends HookWidget {
                     await CoolAlert.show(
                         context: context,
                         type: CoolAlertType.error,
+                        barrierDismissible: false,
                         title: 'Algo salio mal',
                         text: 'No se pudo validar tu huella',
                         onConfirmBtnTap: () {

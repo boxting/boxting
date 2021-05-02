@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:boxting/data/network/boxting_client.dart';
 import 'package:boxting/data/network/request/emit_vote_request/emit_vote_request.dart';
 import 'package:boxting/data/network/response/default_response/default_response.dart';
@@ -24,40 +22,7 @@ class VotingRepositoryImpl extends VotingRepository {
 
   @override
   Future<ResultResponse> getResultByElection(String election) async {
-    await Future.delayed(Duration(seconds: 2));
-    final response = '''
-    {
-    "success": true,
-    "data": {
-        "election": {
-            "id": "1",
-            "name": "Test election"
-        },
-        "candidates": [
-            {
-                "electionId": "1",
-                "firstName": "Rodrigo",
-                "id": "1",
-                "imageUrl": "none",
-                "lastName": "Guadalupe",
-                "type": "votable",
-                "voteCount": 3
-            },
-            {
-                "electionId": "1",
-                "firstName": "Enzo",
-                "id": "2",
-                "imageUrl": "none",
-                "lastName": "Lizama",
-                "type": "votable",
-                "voteCount": 2
-            }
-        ],
-        "totalVotes": 5
-    }
-}
-    ''';
-    return ResultResponse.fromJson(json.decode(response));
+    return await boxtingClient.getResultsByElection(election);
   }
 
   @override
