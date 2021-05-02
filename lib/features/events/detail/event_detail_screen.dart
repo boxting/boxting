@@ -85,7 +85,8 @@ class SettingsModalBody extends HookWidget {
           onTap: () async => await CoolAlert.show(
             context: context,
             type: CoolAlertType.confirm,
-            title: '¿Estas seguro?',
+            title: 'Alerta',
+            barrierDismissible: false,
             text: '¿Desea eliminar su suscripción al evento de votación?',
             confirmBtnText: 'Sí',
             cancelBtnText: 'No',

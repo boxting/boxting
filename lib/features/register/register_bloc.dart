@@ -25,10 +25,11 @@ class RegisterBloc extends ChangeNotifier {
     }
   }
 
-  void _registerIdentifierInformation(DniResponseData data) {
+  void registerIdentifierInformation(DniResponseData data) {
     _registerRequest.voter.dni = data.dni;
     _registerRequest.voter.firstName = data.names;
-    _registerRequest.voter.lastName = data.fatherLastname + data.motherLastname;
+    _registerRequest.voter.lastName =
+        data.fatherLastname + ' ' + data.motherLastname;
   }
 
   Future<void> registerPersonalInformation(
@@ -59,7 +60,7 @@ class RegisterBloc extends ChangeNotifier {
       if (result.used) {
         throw Exception('El DNI ingresado ya esta registrado');
       }
-      _registerIdentifierInformation(result);
+      registerIdentifierInformation(result);
     } on BoxtingException catch (e) {
       throw Exception(e.message);
     }

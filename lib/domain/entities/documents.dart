@@ -10,6 +10,7 @@ class DocumentOption {
   }
 
   static const dni = DocumentOption._(0, 'DNI', '141');
+  static const foreing = DocumentOption._(1, 'Extranjero', '142');
 
-  static const values = <DocumentOption>[dni];
+  static const values = <DocumentOption>[dni, foreing];
 }

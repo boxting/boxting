@@ -1,5 +1,6 @@
 import 'package:boxting/domain/entities/documents.dart';
 import 'package:boxting/features/register/register_bloc.dart';
+import 'package:boxting/features/register/register_foreign_form.dart';
 import 'package:boxting/features/register/register_screen.dart';
 import 'package:boxting/features/terms/terms_screen.dart';
 import 'package:boxting/service_locator.dart';
@@ -28,7 +29,7 @@ class IdentifierRegisterScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
-    final documentTypeSelected = useState();
+    final documentTypeSelected = useState<DocumentOption>();
     final documentController = useTextEditingController();
     final termsAccepted = useState<bool>(false);
 
@@ -50,89 +51,11 @@ class IdentifierRegisterScreen extends HookWidget {
                       child: Container(
                         alignment: Alignment.center,
                         padding: const EdgeInsets.symmetric(vertical: 30),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const SizedBox(height: 48),
-                            const Text(
-                              'Vive una nueva experiencia de votación, gracias a Boxting',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                            const SizedBox(height: 48),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 60,
-                                  child: BoxtingSelect<DocumentOption>(
-                                    items: DocumentOption.values,
-                                    label: 'Documento',
-                                    defaultValue: documentTypeSelected.value,
-                                    formatter: (doc) => doc.name,
-                                    onChanged: (doc) =>
-                                        documentTypeSelected.value = doc,
-                                    validator: (value) => value == null
-                                        ? 'Debe seleccionar una opción'
-                                        : null,
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                BoxtingInput(
-                                  controller: documentController,
-                                  labelText: 'Número de documento',
-                                  type: BoxtingInputType.numeric,
-                                  validator: (value) => identifierValidator(
-                                    value,
-                                    documentTypeSelected.value,
-                                    documentController.text,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 24),
-                            BoxtingSwitch(
-                              value: termsAccepted.value,
-                              title: LinkedText(
-                                prefix: Text('Estas aceptando los '),
-                                link: Text(
-                                  'Terminos y condiciones',
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                onTap: () => TermsScreen.navigate(context),
-                              ),
-                              onChanged: (bool value) =>
-                                  termsAccepted.value = value,
-                            ),
-                            const SizedBox(height: 24),
-                            BoxtingButton(
-                                child: Text('Continuar'),
-                                width: double.infinity,
-                                disabled: !termsAccepted.value,
-                                onPressed: () async {
-                                  if (_formKey.currentState.validate()) {
-                                    await BoxtingLoadingDialog.show(
-                                      context,
-                                      futureBuilder: () async =>
-                                          getUserInformation(
-                                        context,
-                                        documentController.text.trim(),
-                                      ),
-                                      onSuccess: () =>
-                                          RegisterScreen.navigate(context),
-                                      onError: (e) async =>
-                                          await BoxtingModal.show(
-                                        context,
-                                        title: 'Error!',
-                                        message: e,
-                                      ),
-                                    );
-                                  }
-                                }),
-                          ],
+                        child: IdentifierBody(
+                          documentTypeSelected: documentTypeSelected,
+                          documentController: documentController,
+                          termsAccepted: termsAccepted,
+                          formKey: _formKey,
                         ),
                       ),
                     ),
@@ -149,6 +72,111 @@ class IdentifierRegisterScreen extends HookWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class IdentifierBody extends StatelessWidget {
+  const IdentifierBody({
+    Key key,
+    @required this.documentTypeSelected,
+    @required this.documentController,
+    @required this.termsAccepted,
+    @required GlobalKey<FormState> formKey,
+  })  : _formKey = formKey,
+        super(key: key);
+
+  final ValueNotifier<DocumentOption> documentTypeSelected;
+  final TextEditingController documentController;
+  final ValueNotifier<bool> termsAccepted;
+  final GlobalKey<FormState> _formKey;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const SizedBox(height: 48),
+        const Text(
+          'Vive una nueva experiencia de votación, gracias a Boxting',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+        const SizedBox(height: 48),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 60,
+              child: BoxtingSelect<DocumentOption>(
+                items: DocumentOption.values,
+                label: 'Documento',
+                defaultValue: documentTypeSelected.value,
+                formatter: (doc) => doc.name,
+                onChanged: (doc) => documentTypeSelected.value = doc,
+                validator: (value) =>
+                    value == null ? 'Debe seleccionar una opción' : null,
+              ),
+            ),
+            const SizedBox(height: 16),
+            BoxtingInput(
+              controller: documentController,
+              labelText: 'Número de documento',
+              type: BoxtingInputType.numeric,
+              validator: (value) => identifierValidator(
+                value,
+                documentTypeSelected.value,
+                documentController.text,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 24),
+        BoxtingSwitch(
+          value: termsAccepted.value,
+          title: LinkedText(
+            prefix: Text('Estas aceptando los '),
+            link: Text(
+              'Terminos y condiciones',
+              overflow: TextOverflow.ellipsis,
+            ),
+            onTap: () => TermsScreen.navigate(context),
+          ),
+          onChanged: (bool value) => termsAccepted.value = value,
+        ),
+        const SizedBox(height: 24),
+        BoxtingButton(
+            child: Text('Continuar'),
+            width: double.infinity,
+            disabled: !termsAccepted.value,
+            onPressed: () async {
+              if (_formKey.currentState.validate()) {
+                if (documentTypeSelected.value.type == '142') {
+                  await RegisterForeignForm.navigate(
+                    context,
+                    documentController.text,
+                  );
+                } else {
+                  await BoxtingLoadingDialog.show(
+                    context,
+                    futureBuilder: () async => getUserInformation(
+                      context,
+                      documentController.text.trim(),
+                    ),
+                    onSuccess: () => RegisterScreen.navigate(context),
+                    onError: (e) async => await BoxtingModal.show(
+                      context,
+                      title: 'Error!',
+                      message: e,
+                    ),
+                  );
+                }
+              }
+            }),
+      ],
     );
   }
 }

@@ -67,6 +67,7 @@ class SubscribeEventScreen extends HookWidget {
                           context: context,
                           type: CoolAlertType.success,
                           title: 'Felicidades',
+                          barrierDismissible: false,
                           text: 'Se ha suscrito al evento de votación',
                           confirmBtnText: 'Ok',
                           confirmBtnColor: Colors.green,

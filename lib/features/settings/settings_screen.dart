@@ -53,12 +53,6 @@ class SettingsScreenBody extends HookWidget {
             onTap: () => setBiometricInformation(context, biometricEnabled),
           ),
           ListTile(
-            leading: Icon(Icons.language_rounded),
-            title: Text('Idiomas'),
-            subtitle: Text('Define el idioma de la aplicación'),
-            trailing: Icon(Icons.arrow_forward_ios),
-          ),
-          ListTile(
             leading: Icon(Icons.text_format_sharp),
             title: Text('Terminos y condiciones'),
             subtitle:
@@ -87,10 +81,11 @@ class SettingsScreenBody extends HookWidget {
       await CoolAlert.show(
         context: context,
         type: CoolAlertType.confirm,
-        title: '¿Estas seguro?',
+        title: 'Alerta',
         text: '¿Desea eliminar la huella registrada?',
         confirmBtnText: 'Sí',
         cancelBtnText: 'No',
+        barrierDismissible: false,
         onConfirmBtnTap: () async {
           await context.read(setBioInformationProvider(false));
           await BoxtingNavigation.pop(context);
