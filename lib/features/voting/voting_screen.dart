@@ -25,7 +25,7 @@ class VotingScreen extends HookWidget {
   Widget build(BuildContext context) {
     final provider = useProvider(fetchCandidateByElection(election));
     return provider.when(
-      data: (data) => VotingScreenBody(data, election),
+      data: (data) => VotingScreenBody(data.elements, election),
       loading: () => BoxtingLoadingScreen(),
       error: (e, _) => BoxtingErrorScreen(e.toString()),
     );
@@ -33,7 +33,7 @@ class VotingScreen extends HookWidget {
 }
 
 class VotingScreenBody extends HookWidget {
-  final List<CandidateResponseData> candidates;
+  final List<CandidateElementResponseData> candidates;
   final String electionId;
   final selectedCandidateIndex = useState(-1);
 

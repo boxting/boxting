@@ -25,18 +25,20 @@ class ElectionsScreen extends HookWidget {
 }
 
 class ElectionsScreenBody extends HookWidget {
-  final List<ElectionResponseData> elections;
+  final ElectionResponseData election;
   final String eventId;
 
-  const ElectionsScreenBody(this.elections, this.eventId, {Key key})
+  const ElectionsScreenBody(this.election, this.eventId, {Key key})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    if (elections.isEmpty) return BoxtingEmptyScreen('No hay elecciones aún.');
+    if (election.elements.isEmpty) {
+      return BoxtingEmptyScreen('No hay elecciones aún.');
+    }
     return ListView.builder(
-      itemCount: elections.length,
+      itemCount: election.elements.length,
       itemBuilder: (_, index) => ElectionItem(
-        election: elections[index],
+        election: election.elements[index],
         event: eventId,
       ),
     );

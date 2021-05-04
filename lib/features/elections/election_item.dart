@@ -4,7 +4,7 @@ import 'package:boxting/widgets/styles.dart';
 import 'package:flutter/material.dart';
 
 class ElectionItem extends StatelessWidget {
-  final ElectionResponseData election;
+  final ElectionElementResponseData election;
   final String event;
 
   const ElectionItem({Key key, this.election, this.event}) : super(key: key);

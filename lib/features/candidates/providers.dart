@@ -14,14 +14,15 @@ class CandidateDetailRequest extends Equatable {
 }
 
 final fetchCandidateByElection = FutureProvider.autoDispose
-    .family<List<CandidateResponseData>, String>((ref, election) async {
+    .family<CandidateResponseData, String>((ref, election) async {
   final repository = ref.watch(candidatesRepositoryProvider);
   final result = await repository.fetchCandidatesByElection(election);
   return result.data;
 });
 
 final fetchCandidateById = FutureProvider.autoDispose
-    .family<CandidateResponseData, CandidateDetailRequest>((ref, req) async {
+    .family<CandidateElementResponseData, CandidateDetailRequest>(
+        (ref, req) async {
   final repository = ref.watch(candidatesRepositoryProvider);
   final result = await repository.fetchCandidateById(req.candidate, req.listId);
   return result.data;
