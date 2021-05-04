@@ -9,11 +9,9 @@ part of 'elections_response.dart';
 ElectionsResponse _$ElectionsResponseFromJson(Map<String, dynamic> json) {
   return ElectionsResponse(
     success: json['success'] as bool,
-    data: (json['data'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ElectionResponseData.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    data: json['data'] == null
+        ? null
+        : ElectionResponseData.fromJson(json['data'] as Map<String, dynamic>),
   );
 }
 
@@ -29,7 +27,8 @@ SingleElectionResponse _$SingleElectionResponseFromJson(
     success: json['success'] as bool,
     data: json['data'] == null
         ? null
-        : ElectionResponseData.fromJson(json['data'] as Map<String, dynamic>),
+        : ElectionElementResponseData.fromJson(
+            json['data'] as Map<String, dynamic>),
   );
 }
 
@@ -42,6 +41,25 @@ Map<String, dynamic> _$SingleElectionResponseToJson(
 
 ElectionResponseData _$ElectionResponseDataFromJson(Map<String, dynamic> json) {
   return ElectionResponseData(
+    json['eventStatus'] as num,
+    (json['elements'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ElectionElementResponseData.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$ElectionResponseDataToJson(
+        ElectionResponseData instance) =>
+    <String, dynamic>{
+      'eventStatus': instance.eventStatus,
+      'elements': instance.elements,
+    };
+
+ElectionElementResponseData _$ElectionElementResponseDataFromJson(
+    Map<String, dynamic> json) {
+  return ElectionElementResponseData(
     id: json['id'] as int,
     name: json['name'] as String,
     information: json['information'] as String,
@@ -54,8 +72,8 @@ ElectionResponseData _$ElectionResponseDataFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ElectionResponseDataToJson(
-        ElectionResponseData instance) =>
+Map<String, dynamic> _$ElectionElementResponseDataToJson(
+        ElectionElementResponseData instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
