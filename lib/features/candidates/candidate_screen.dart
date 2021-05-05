@@ -17,7 +17,7 @@ class CandidatesScreen extends HookWidget {
   Widget build(BuildContext context) {
     final provider = useProvider(fetchCandidateByElection(electionId));
     return provider.when(
-      data: (data) => CandidatesScreenBody(candidates: data),
+      data: (data) => CandidatesScreenBody(data: data),
       loading: () => BoxtingLoadingScreen(),
       error: (e, _) => BoxtingErrorScreen(e.toString()),
     );
@@ -25,22 +25,24 @@ class CandidatesScreen extends HookWidget {
 }
 
 class CandidatesScreenBody extends HookWidget {
-  final List<CandidateResponseData> candidates;
+  final CandidateResponseData data;
 
-  const CandidatesScreenBody({Key key, this.candidates}) : super(key: key);
+  const CandidatesScreenBody({Key key, this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (candidates.isEmpty) return BoxtingEmptyScreen('Aún no hay candidatos');
+    if (data.elements.isEmpty) {
+      return BoxtingEmptyScreen('Aún no hay candidatos');
+    }
     return ListView.builder(
-      itemCount: candidates.length,
+      itemCount: data.elements.length,
       itemBuilder: (_, index) => InkWell(
         onTap: () => CandidateDetailScreen.navigate(
           context,
-          candidates[index].id.toString(),
-          candidates[index].listId.toString(),
+          data.elements[index].id.toString(),
+          data.elements[index].listId.toString(),
         ),
-        child: CandidateItem(candidate: candidates[index]),
+        child: CandidateItem(candidate: data.elements[index]),
       ),
     );
   }

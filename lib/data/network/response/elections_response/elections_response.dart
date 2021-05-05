@@ -4,7 +4,7 @@ part 'elections_response.g.dart';
 @JsonSerializable()
 class ElectionsResponse {
   final bool success;
-  final List<ElectionResponseData> data;
+  final ElectionResponseData data;
 
   ElectionsResponse({this.success, this.data});
   factory ElectionsResponse.fromJson(Map<String, dynamic> json) =>
@@ -14,7 +14,7 @@ class ElectionsResponse {
 @JsonSerializable()
 class SingleElectionResponse {
   final bool success;
-  final ElectionResponseData data;
+  final ElectionElementResponseData data;
 
   SingleElectionResponse({this.success, this.data});
 
@@ -24,6 +24,17 @@ class SingleElectionResponse {
 
 @JsonSerializable()
 class ElectionResponseData {
+  final num eventStatus;
+  final List<ElectionElementResponseData> elements;
+
+  ElectionResponseData(this.eventStatus, this.elements);
+
+  factory ElectionResponseData.fromJson(Map<String, dynamic> json) =>
+      _$ElectionResponseDataFromJson(json);
+}
+
+@JsonSerializable()
+class ElectionElementResponseData {
   final int id;
   final String name;
   final String information;
@@ -34,7 +45,7 @@ class ElectionResponseData {
   final String createdAt;
   final bool userVoted;
 
-  ElectionResponseData({
+  ElectionElementResponseData({
     this.id,
     this.name,
     this.information,
@@ -46,6 +57,6 @@ class ElectionResponseData {
     this.userVoted,
   });
 
-  factory ElectionResponseData.fromJson(Map<String, dynamic> json) =>
-      _$ElectionResponseDataFromJson(json);
+  factory ElectionElementResponseData.fromJson(Map<String, dynamic> json) =>
+      _$ElectionElementResponseDataFromJson(json);
 }

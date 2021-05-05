@@ -42,7 +42,7 @@ class ElectionDetailScreen extends HookWidget {
 }
 
 class ElectionScreenBody extends StatelessWidget {
-  final ElectionResponseData election;
+  final ElectionElementResponseData election;
 
   const ElectionScreenBody({Key key, this.election}) : super(key: key);
 

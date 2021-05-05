@@ -38,7 +38,7 @@ class CandidateDetailScreen extends HookWidget {
 }
 
 class CandidateDetailBody extends HookWidget {
-  final CandidateResponseData candidate;
+  final CandidateElementResponseData candidate;
 
   final NOT_AVAILABLE_IMAGE =
       'https://corp.sellerscommerce.com//SCAssets/images/noimage.png';

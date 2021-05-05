@@ -24,7 +24,7 @@ class SelectableCandidate extends HookWidget {
 
 class CandidateUiModel {
   final bool isSelected;
-  final CandidateResponseData candidate;
+  final CandidateElementResponseData candidate;
 
   CandidateUiModel({this.isSelected, this.candidate});
 }

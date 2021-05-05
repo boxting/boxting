@@ -2,7 +2,7 @@ import 'package:boxting/data/network/response/candidates_response/candidates_res
 import 'package:flutter/material.dart';
 
 class CandidateItem extends StatelessWidget {
-  final CandidateResponseData candidate;
+  final CandidateElementResponseData candidate;
 
   final IMAGE_SIZE = 48.0;
   final NOT_AVAILABLE_IMAGE =

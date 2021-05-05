@@ -9,11 +9,9 @@ part of 'candidates_response.dart';
 CandidatesResponse _$CandidatesResponseFromJson(Map<String, dynamic> json) {
   return CandidatesResponse(
     json['success'] as bool,
-    (json['data'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CandidateResponseData.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    json['data'] == null
+        ? null
+        : CandidateResponseData.fromJson(json['data'] as Map<String, dynamic>),
   );
 }
 
@@ -29,7 +27,8 @@ SingleCandidateResponse _$SingleCandidateResponseFromJson(
     json['success'] as bool,
     json['data'] == null
         ? null
-        : CandidateResponseData.fromJson(json['data'] as Map<String, dynamic>),
+        : CandidateElementResponseData.fromJson(
+            json['data'] as Map<String, dynamic>),
   );
 }
 
@@ -43,6 +42,25 @@ Map<String, dynamic> _$SingleCandidateResponseToJson(
 CandidateResponseData _$CandidateResponseDataFromJson(
     Map<String, dynamic> json) {
   return CandidateResponseData(
+    json['eventStatus'] as num,
+    (json['elements'] as List)
+        ?.map((e) => e == null
+            ? null
+            : CandidateElementResponseData.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$CandidateResponseDataToJson(
+        CandidateResponseData instance) =>
+    <String, dynamic>{
+      'eventStatus': instance.eventStatus,
+      'elements': instance.elements,
+    };
+
+CandidateElementResponseData _$CandidateElementResponseDataFromJson(
+    Map<String, dynamic> json) {
+  return CandidateElementResponseData(
     id: json['id'] as int,
     firstName: json['firstName'] as String,
     lastName: json['lastName'] as String,
@@ -60,8 +78,8 @@ CandidateResponseData _$CandidateResponseDataFromJson(
   );
 }
 
-Map<String, dynamic> _$CandidateResponseDataToJson(
-        CandidateResponseData instance) =>
+Map<String, dynamic> _$CandidateElementResponseDataToJson(
+        CandidateElementResponseData instance) =>
     <String, dynamic>{
       'id': instance.id,
       'firstName': instance.firstName,

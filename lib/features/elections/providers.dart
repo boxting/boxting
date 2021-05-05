@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:equatable/equatable.dart';
 
 final electionsFromEventProvider = FutureProvider.autoDispose
-    .family<List<ElectionResponseData>, String>((ref, event) async {
+    .family<ElectionResponseData, String>((ref, event) async {
   try {
     final repository = ref.watch(electionRepositoryProvider);
     final result = await repository.fetchElectionsByEvent(event);
@@ -16,7 +16,8 @@ final electionsFromEventProvider = FutureProvider.autoDispose
 });
 
 final electionDetailProvider = FutureProvider.autoDispose
-    .family<ElectionResponseData, ElectionDetailRequest>((ref, req) async {
+    .family<ElectionElementResponseData, ElectionDetailRequest>(
+        (ref, req) async {
   try {
     final repository = ref.watch(electionRepositoryProvider);
     final result = await repository.fetchElectionsById(req.event, req.election);
