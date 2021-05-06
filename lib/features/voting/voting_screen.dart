@@ -14,18 +14,24 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class VotingScreen extends HookWidget {
   final String election;
+  final num winners;
 
-  VotingScreen(this.election);
+  VotingScreen(this.election, this.winners);
 
-  static Future<void> navigate(BuildContext context, String election) async {
-    await BoxtingNavigation.goto(context, (_) => VotingScreen(election));
+  static Future<void> navigate(
+    BuildContext context,
+    String election,
+    num winners,
+  ) async {
+    await BoxtingNavigation.goto(
+        context, (_) => VotingScreen(election, winners));
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = useProvider(fetchCandidateByElection(election));
     return provider.when(
-      data: (data) => VotingScreenBody(data.elements, election),
+      data: (data) => VotingScreenBody(data.elements, election, winners),
       loading: () => BoxtingLoadingScreen(),
       error: (e, _) => BoxtingErrorScreen(e.toString()),
     );
@@ -35,12 +41,13 @@ class VotingScreen extends HookWidget {
 class VotingScreenBody extends HookWidget {
   final List<CandidateElementResponseData> candidates;
   final String electionId;
-  final selectedCandidateIndex = useState(-1);
+  final num winners;
 
-  VotingScreenBody(this.candidates, this.electionId);
+  VotingScreenBody(this.candidates, this.electionId, this.winners);
 
   @override
   Widget build(BuildContext context) {
+    final selectedCandidates = useState<List<String>>([]);
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: Padding(
@@ -48,15 +55,33 @@ class VotingScreenBody extends HookWidget {
         child: Column(
           children: [
             Text('Elige a tu candidato', style: titleTextStyle),
+            Text(
+              'Debes elegir $winners candidato(s)',
+              style: subTitleTextStyle,
+            ),
             SizedBox(height: 48),
             Expanded(
               child: ListView.builder(
                 itemCount: candidates.length,
                 itemBuilder: (context, index) => InkWell(
-                  onTap: () => selectedCandidateIndex.value = index,
+                  onTap: () {
+                    if (selectedCandidates.value
+                        .contains(candidates[index].id.toString())) {
+                      selectedCandidates.value = [selectedCandidates.value]
+                          .expand((x) => x)
+                          .toList()
+                            ..remove(candidates[index].id.toString());
+                    } else {
+                      selectedCandidates.value = [
+                        selectedCandidates.value,
+                        [candidates[index].id.toString()]
+                      ].expand((x) => x).toList();
+                    }
+                  },
                   child: SelectableCandidate(
                     CandidateUiModel(
-                      isSelected: selectedCandidateIndex.value == index,
+                      isSelected: selectedCandidates.value
+                          .contains(candidates[index].id.toString()),
                       candidate: candidates[index],
                     ),
                   ),
@@ -66,14 +91,12 @@ class VotingScreenBody extends HookWidget {
             SizedBox(height: 20),
             BoxtingButton(
               child: Text('Votar'),
-              onPressed: selectedCandidateIndex.value != -1
+              onPressed: selectedCandidates.value.length == winners
                   ? () async => await BoxtingLoadingDialog.show(
                         context,
                         futureBuilder: () async {
-                          final selectedCandidateId =
-                              candidates[selectedCandidateIndex.value].id;
                           final request = VoteRequest(
-                            [selectedCandidateId.toString()],
+                            selectedCandidates.value,
                             electionId,
                           );
                           await context

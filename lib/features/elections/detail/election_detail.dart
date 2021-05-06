@@ -80,8 +80,11 @@ class ElectionScreenBody extends StatelessWidget {
                 )
               : BoxtingButton(
                   child: Text('Ir a votar'),
-                  onPressed: () =>
-                      VotingScreen.navigate(context, election.id.toString()),
+                  onPressed: () => VotingScreen.navigate(
+                    context,
+                    election.id.toString(),
+                    election.winners,
+                  ),
                 ),
           SizedBox(height: 20),
         ],
