@@ -17,7 +17,22 @@ class BoxtingAppBar extends AppBar {
           backgroundColor: backgroundColor,
           elevation: elevation,
           title: Platform.isAndroid
-              ? Center(child: title ?? BoxtingIcon(width: 40, height: 40))
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: title ??
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          BoxtingIcon(width: 20, height: 20),
+                          const SizedBox(width: 8),
+                          Text(
+                            'Boxting',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ))
               : title ?? BoxtingIcon(width: 40, height: 40),
           titleSpacing: 0,
           iconTheme: IconThemeData(color: Colors.grey),
