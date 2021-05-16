@@ -10,6 +10,9 @@ class ElectionItem extends StatelessWidget {
   const ElectionItem({Key key, this.election, this.event}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final userVotedState = election.userVoted
+        ? 'Elección con voto cumplido'
+        : 'Aún no has emitido tu voto';
     return InkWell(
       onTap: () => ElectionDetailScreen.navigate(
         context,
@@ -23,7 +26,14 @@ class ElectionItem extends StatelessWidget {
             children: [
               Text(election.name, style: subTitleTextStyle),
               Text(election.information),
-              Text('Puede haber ${election.winners} ganadores')
+              Text('Puede haber ${election.winners} ganadores'),
+              const SizedBox(height: 16),
+              Text(
+                userVotedState,
+                style: TextStyle(
+                  color: election.userVoted ? Colors.green : Colors.red,
+                ),
+              )
             ],
           ),
         ),
