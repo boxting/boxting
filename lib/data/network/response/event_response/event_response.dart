@@ -51,13 +51,13 @@ class EventResponseData {
 
 extension XString on String {
   String toShortDate() {
-    final dateTime = DateTime.tryParse(this);
+    final dateTime = DateTime.tryParse(this).toLocal();
     if (dateTime == null) return 'Fecha desconocida';
     return DateFormat('dd/MM').format(dateTime);
   }
 
   String toDetailDate() {
-    final dateTime = DateTime.tryParse(this);
+    final dateTime = DateTime.tryParse(this).toLocal();
     if (dateTime == null) return 'Fecha desconocida';
     return DateFormat('dd/MM/yyyy hh:mm:ss').format(dateTime);
   }
