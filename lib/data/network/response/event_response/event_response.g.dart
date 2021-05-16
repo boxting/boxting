@@ -56,6 +56,7 @@ EventResponseData _$EventResponseDataFromJson(Map<String, dynamic> json) {
     endDate: json['endDate'] as String,
     code: json['code'] as String,
     updatedAt: json['updatedAt'] as String,
+    eventStatus: json['eventStatus'] as num,
   );
 }
 
@@ -68,4 +69,5 @@ Map<String, dynamic> _$EventResponseDataToJson(EventResponseData instance) =>
       'endDate': instance.endDate,
       'code': instance.code,
       'updatedAt': instance.updatedAt,
+      'eventStatus': instance.eventStatus,
     };

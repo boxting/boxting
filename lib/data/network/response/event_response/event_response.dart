@@ -34,6 +34,26 @@ class EventResponseData {
   final String endDate;
   final String code;
   final String updatedAt;
+  final num eventStatus;
+
+  String get status {
+    switch (eventStatus) {
+      case 1:
+        return 'No ha empezado';
+        break;
+      case 2:
+        return 'En progreso';
+        break;
+      case 3:
+        return 'Finalizado';
+        break;
+      case 4:
+        return 'Edición cerrada';
+        break;
+      default:
+        return 'No ha empezado';
+    }
+  }
 
   EventResponseData({
     this.id,
@@ -43,6 +63,7 @@ class EventResponseData {
     this.endDate,
     this.code,
     this.updatedAt,
+    this.eventStatus,
   });
 
   factory EventResponseData.fromJson(Map<String, dynamic> json) =>
