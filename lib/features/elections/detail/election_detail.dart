@@ -14,16 +14,24 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class ElectionDetailScreen extends HookWidget {
   final String eventId;
   final String electionId;
+  final num eventStatus;
 
-  ElectionDetailScreen({this.eventId, this.electionId});
+  ElectionDetailScreen({this.eventId, this.electionId, this.eventStatus});
 
   static Future<void> navigate(
     BuildContext context,
     String event,
     String election,
+    num eventStatus,
   ) async {
-    await BoxtingNavigation.goto(context,
-        (_) => ElectionDetailScreen(eventId: event, electionId: election));
+    await BoxtingNavigation.goto(
+      context,
+      (_) => ElectionDetailScreen(
+        eventId: event,
+        electionId: election,
+        eventStatus: eventStatus,
+      ),
+    );
   }
 
   @override
@@ -35,7 +43,10 @@ class ElectionDetailScreen extends HookWidget {
       body: provider.when(
         loading: () => BoxtingLoadingScreen(),
         error: (e, _) => BoxtingErrorScreen(e.toString()),
-        data: (data) => ElectionScreenBody(election: data),
+        data: (data) => ElectionScreenBody(
+          election: data,
+          eventStatus: eventStatus,
+        ),
       ),
     );
   }
@@ -43,11 +54,17 @@ class ElectionDetailScreen extends HookWidget {
 
 class ElectionScreenBody extends StatelessWidget {
   final ElectionElementResponseData election;
+  final num eventStatus;
 
-  const ElectionScreenBody({Key key, this.election}) : super(key: key);
+  const ElectionScreenBody({
+    Key key,
+    this.election,
+    this.eventStatus,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final isEventReady = eventStatus == 2;
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -79,12 +96,16 @@ class ElectionScreenBody extends StatelessWidget {
                   ],
                 )
               : BoxtingButton(
-                  child: Text('Ir a votar'),
-                  onPressed: () => VotingScreen.navigate(
-                    context,
-                    election.id.toString(),
-                    election.winners,
+                  child: Text(
+                    isEventReady ? 'Ir a votar' : 'Elección no disponible',
                   ),
+                  onPressed: isEventReady
+                      ? () => VotingScreen.navigate(
+                            context,
+                            election.id.toString(),
+                            election.winners,
+                          )
+                      : null,
                 ),
           SizedBox(height: 20),
         ],
