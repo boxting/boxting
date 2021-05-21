@@ -15,7 +15,7 @@ class ProfileScreen extends HookWidget {
     final provider = useProvider(userInfoProvider);
     return BoxtingScaffold(
       appBar: BoxtingAppBar(
-        leading: SizedBox(),
+        isRoot: true,
         trailing: IconButton(
           icon: Icon(Icons.settings),
           onPressed: () => SettingsScreen.navigate(context),

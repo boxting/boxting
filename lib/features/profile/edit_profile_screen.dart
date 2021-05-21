@@ -1,4 +1,5 @@
 import 'package:boxting/data/network/request/update_profile/update_profile_request.dart';
+import 'package:boxting/domain/constants/constants.dart';
 import 'package:boxting/domain/entities/user.dart';
 import 'package:boxting/features/profile/providers.dart';
 import 'package:boxting/widgets/boxting_button.dart';
@@ -62,7 +63,7 @@ class EditProfileScreen extends HookWidget {
                 minTime: DateTime(1900, 3, 5),
                 maxTime: DateTime.now(),
                 onConfirm: (date) {
-                  final df = DateFormat('dd/MM/yyyy');
+                  final df = DateFormat(Constants.LOCAL_DATE_FORMAT);
                   birthdayController.text = df.format(date);
                 },
                 currentTime: DateTime.now(),
@@ -75,11 +76,12 @@ class EditProfileScreen extends HookWidget {
               onPressed: () => BoxtingLoadingDialog.show(
                 context,
                 futureBuilder: () async {
+                  final date = DateFormat(Constants.LOCAL_DATE_FORMAT)
+                      .parse(birthdayController.text);
+                  final reqDate =
+                      DateFormat(Constants.SERVER_DATE_FORMAT).format(date);
                   final request = UpdateProfileRequest(
-                    mailController.text,
-                    phoneController.text,
-                    birthdayController.text,
-                  );
+                      mailController.text, phoneController.text, reqDate);
                   await context
                       .read(profileEventProvider)
                       .updateProfile(request);

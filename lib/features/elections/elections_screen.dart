@@ -10,8 +10,10 @@ import 'election_item.dart';
 
 class ElectionsScreen extends HookWidget {
   final String eventId;
+  final num eventStatus;
 
-  const ElectionsScreen({Key key, this.eventId}) : super(key: key);
+  const ElectionsScreen({Key key, this.eventId, this.eventStatus})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class ElectionsScreen extends HookWidget {
     return provider.when(
       loading: () => Center(child: CircularProgressIndicator()),
       error: (e, _) => BoxtingErrorScreen(e.toString()),
-      data: (data) => ElectionsScreenBody(data, eventId),
+      data: (data) => ElectionsScreenBody(data, eventId, eventStatus),
     );
   }
 }
@@ -27,8 +29,10 @@ class ElectionsScreen extends HookWidget {
 class ElectionsScreenBody extends HookWidget {
   final ElectionResponseData election;
   final String eventId;
+  final num eventStatus;
 
-  const ElectionsScreenBody(this.election, this.eventId, {Key key})
+  const ElectionsScreenBody(this.election, this.eventId, this.eventStatus,
+      {Key key})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -39,7 +43,8 @@ class ElectionsScreenBody extends HookWidget {
       itemCount: election.elements.length,
       itemBuilder: (_, index) => ElectionItem(
         election: election.elements[index],
-        event: eventId,
+        eventId: eventId,
+        eventStatus: eventStatus,
       ),
     );
   }

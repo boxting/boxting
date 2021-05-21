@@ -12,7 +12,7 @@ class EventsScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return BoxtingScaffold(
-      appBar: BoxtingAppBar(),
+      appBar: BoxtingAppBar(isRoot: true),
       body: RefreshIndicator(
         onRefresh: () => context.refresh(fetchUserEventsProvider),
         child: EventListBody(),

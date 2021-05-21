@@ -11,4 +11,9 @@ class Constants {
 
   static const ERROR = 'error';
   static const ERROR_CODE = 'errorCode';
+
+  static const LOCAL_DATE_FORMAT = 'dd/MM/yyyy';
+  static const MIN_DATE_FORMAT = 'dd/MM';
+  static const DETAIL_DATE_FORMAT = 'dd/MM/yyyy hh:mm:ss';
+  static const SERVER_DATE_FORMAT = 'yyyy/MM/dd';
 }

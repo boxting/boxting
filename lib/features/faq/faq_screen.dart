@@ -11,7 +11,7 @@ class FaqScreen extends HookWidget {
     await Future.delayed(Duration(seconds: 3));
     await remoteConfig.fetch(expiration: const Duration(days: 1));
     await remoteConfig.activateFetched();
-    return remoteConfig.getString('FAQ');
+    return remoteConfig.getString('faq');
   }
 
   @override

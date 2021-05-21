@@ -5,9 +5,15 @@ import 'package:flutter/material.dart';
 
 class ElectionItem extends StatelessWidget {
   final ElectionElementResponseData election;
-  final String event;
+  final String eventId;
+  final num eventStatus;
 
-  const ElectionItem({Key key, this.election, this.event}) : super(key: key);
+  const ElectionItem({
+    Key key,
+    this.election,
+    this.eventId,
+    this.eventStatus,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final userVotedState = election.userVoted
@@ -16,8 +22,9 @@ class ElectionItem extends StatelessWidget {
     return InkWell(
       onTap: () => ElectionDetailScreen.navigate(
         context,
-        event,
+        eventId,
         election.id.toString(),
+        eventStatus,
       ),
       child: Card(
         child: Padding(

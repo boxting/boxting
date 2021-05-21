@@ -66,7 +66,12 @@ class EventDetailBody extends HookWidget {
           const SizedBox(height: 24),
           Text('Estado del evento: ${event.status}'),
           const SizedBox(height: 24),
-          Expanded(child: ElectionsScreen(eventId: event.id.toString()))
+          Expanded(
+            child: ElectionsScreen(
+              eventId: event.id.toString(),
+              eventStatus: event.eventStatus,
+            ),
+          )
         ],
       ),
     );

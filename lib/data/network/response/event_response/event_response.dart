@@ -1,4 +1,5 @@
 import 'package:boxting/data/network/response/error_response/error_response.dart';
+import 'package:boxting/domain/constants/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'event_response.g.dart';
@@ -74,12 +75,12 @@ extension XString on String {
   String toShortDate() {
     final dateTime = DateTime.tryParse(this).toLocal();
     if (dateTime == null) return 'Fecha desconocida';
-    return DateFormat('dd/MM').format(dateTime);
+    return DateFormat(Constants.MIN_DATE_FORMAT).format(dateTime);
   }
 
   String toDetailDate() {
     final dateTime = DateTime.tryParse(this).toLocal();
     if (dateTime == null) return 'Fecha desconocida';
-    return DateFormat('dd/MM/yyyy hh:mm:ss').format(dateTime);
+    return DateFormat(Constants.DETAIL_DATE_FORMAT).format(dateTime);
   }
 }
