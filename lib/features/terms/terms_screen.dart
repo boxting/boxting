@@ -10,7 +10,7 @@ class TermsScreen extends HookWidget {
     await Future.delayed(Duration(seconds: 3));
     await remoteConfig.fetch(expiration: const Duration(days: 1));
     await remoteConfig.activateFetched();
-    return remoteConfig.getString('Terms');
+    return remoteConfig.getString('terms');
   }
 
   @override
