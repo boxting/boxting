@@ -7,7 +7,7 @@ final firstTimeOpenProvider = FutureProvider<bool>((ref) async {
   final remoteConfig = await RemoteConfig.instance;
   await remoteConfig.fetch(expiration: const Duration(days: 1));
   await remoteConfig.activateFetched();
+  // final version =
   await remoteConfig.getString('last_version');
-  await Future.delayed(Duration(seconds: 1));
   return await repository.isFirstTimeLogin();
 });
