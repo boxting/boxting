@@ -1,3 +1,4 @@
+import 'package:boxting/domain/constants/constants.dart';
 import 'package:boxting/domain/entities/user.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -37,7 +38,7 @@ class UserResponseData {
 
 extension XUserResponseData on UserResponseData {
   User toUser() {
-    final df = DateFormat('dd/MM/yyyy');
+    final df = DateFormat(Constants.LOCAL_DATE_FORMAT);
     var date;
     try {
       date = df.format(DateTime.parse(voter.birthday));
