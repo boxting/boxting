@@ -94,7 +94,7 @@ abstract class BoxtingClient {
     @Body() EmitVoteRequest emitVoteRequest,
   );
 
-  @GET('election/{electionId}/results')
+  @GET('/election/{electionId}/results')
   Future<ResultResponse> getResultsByElection(
     @Path('electionId') String election,
   );

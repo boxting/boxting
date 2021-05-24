@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:boxting/data/network/boxting_client.dart';
 import 'package:boxting/data/network/request/emit_vote_request/emit_vote_request.dart';
 import 'package:boxting/data/network/response/default_response/default_response.dart';
@@ -22,11 +24,71 @@ class VotingRepositoryImpl extends VotingRepository {
 
   @override
   Future<ResultResponse> getResultByElection(String election) async {
-    return await boxtingClient.getResultsByElection(election);
+    final response = '''
+    {
+    "success": true,
+    "data": {
+        "election": {
+            "id": "1",
+            "name": "Test election"
+        },
+        "candidates": [
+            {
+                "electionId": "1",
+                "firstName": "Rodrigo",
+                "id": "1",
+                "imageUrl": "none",
+                "lastName": "Guadalupe",
+                "type": "votable",
+                "voteCount": 3
+            },
+            {
+                "electionId": "1",
+                "firstName": "Enzo",
+                "id": "2",
+                "imageUrl": "none",
+                "lastName": "Lizama",
+                "type": "votable",
+                "voteCount": 2
+            }
+        ],
+        "totalVotes": 5
+    }
+}
+    ''';
+    final value = jsonDecode(response);
+    return ResultResponse.fromJson(value);
   }
 
   @override
   Future<VoteResponse> getMyVoteFromElection(String election) async {
-    return await boxtingClient.getMyVoteFromElection(election);
+    final response = '''
+{
+    "success": true,
+    "data": {
+        "election": {
+             "id": "1",
+            "name": "Test election"
+        },
+        "vote": {
+            "electionId": "1",
+            "selectedCandidates": [
+                {
+                    "id": "1",
+                    "electionId": "1",
+                    "firstName": "Rodrigo",
+                    "imageUrl": "none",
+                    "lastName": "Guadalupe",
+                    "type": "votable"
+                }
+            ],
+            "type": "vote",
+            "voterId": "70854323"
+        }
+    }
+}
+    ''';
+    final value = jsonDecode(response);
+    return VoteResponse.fromJson(value);
   }
 }

@@ -18,7 +18,7 @@ class SuccessVotingScreen extends HookWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Voto exitoso', style: titleTextStyle),
+            Text('El voto se registró correctamente', style: titleTextStyle),
             SuccessVote(),
             BoxtingButton(
               child: Text('Volver'),
