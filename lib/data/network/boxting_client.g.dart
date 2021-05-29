@@ -338,7 +338,7 @@ class _BoxtingClient implements BoxtingClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.request<Map<String, dynamic>>(
-        'election/$election/results',
+        '/election/$election/results',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',

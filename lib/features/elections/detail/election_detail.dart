@@ -77,7 +77,7 @@ class ElectionScreenBody extends StatelessWidget {
           SizedBox(height: 20),
           Expanded(child: CandidatesScreen(electionId: election.id.toString())),
           SizedBox(height: 24),
-          election.userVoted
+          election.userVoted || eventStatus == 3
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   mainAxisSize: MainAxisSize.max,

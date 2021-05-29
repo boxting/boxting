@@ -23,7 +23,7 @@ class TermsScreen extends HookWidget {
           if (snapshot.data != null) {
             return Padding(
               padding: const EdgeInsets.all(30.0),
-              child: Html(data: snapshot.data),
+              child: SingleChildScrollView(child: Html(data: snapshot.data)),
             );
           }
           return BoxtingLoadingScreen();
