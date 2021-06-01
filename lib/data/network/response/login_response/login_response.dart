@@ -23,7 +23,7 @@ class LoginResponseData {
   LoginResponseVoter voter;
   String mail;
   String token;
-
+  String refreshToken;
   LoginResponseData({
     this.id,
     this.username,
@@ -31,6 +31,7 @@ class LoginResponseData {
     this.voter,
     this.token,
     this.mail,
+    this.refreshToken,
   });
 
   factory LoginResponseData.fromJson(Map<String, dynamic> json) =>

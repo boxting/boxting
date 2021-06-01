@@ -3,6 +3,7 @@ import 'package:boxting/data/network/boxting_client.dart';
 import 'package:boxting/data/network/request/forgot_password/forgot_password_request.dart';
 import 'package:boxting/data/network/request/login_request/login_request.dart';
 import 'package:boxting/data/network/request/new_password_request/new_password_request.dart';
+import 'package:boxting/data/network/request/refresh_token_request/refresh_token_request.dart';
 import 'package:boxting/data/network/request/register_request/register_request.dart';
 import 'package:boxting/data/network/request/update_profile/update_profile_request.dart';
 import 'package:boxting/data/network/request/validate_token_request/validate_token_request.dart';
@@ -49,10 +50,10 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<bool> login(LoginRequest loginRequest) async {
     try {
       final loginResponse = await boxtingClient.login(loginRequest);
-      // await _saveFirstTimeLogin();
-      await _saveAuthToken(loginResponse.data.token);
-      // final userInfo = await getUserInformation();
-      // await _saveUserInformation(userInfo.data.toUser());
+      await _saveAuthToken(
+        loginResponse.data.token,
+        loginResponse.data.refreshToken,
+      );
       return loginResponse.success;
     } on DioError catch (e) {
       final code =
@@ -147,15 +148,38 @@ class AuthRepositoryImpl implements AuthRepository {
     await box.put(Constants.FIRST_LOGIN, false);
   }
 
-  Future<void> _saveAuthToken(String token) async {
+  Future<void> _saveAuthToken(String token, String refreshToken) async {
     final secureStorage = getIt.get<FlutterSecureStorage>();
     await secureStorage.write(key: Constants.AUTH_TOKEN, value: token);
+    await secureStorage.write(
+      key: Constants.AUTH_REFRESH_TOKEN,
+      value: refreshToken,
+    );
   }
 
   @override
   Future<void> updateUserInformation(UpdateProfileRequest request) async {
     try {
       await boxtingClient.updateProfile(request);
+    } on DioError catch (e) {
+      final code =
+          cast<int>(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
+              .orDefaultErrorCode();
+      throw BoxtingException(statusCode: code);
+    } catch (e) {
+      throw BoxtingException(statusCode: UNKNOWN_ERROR);
+    }
+  }
+
+  @override
+  Future<void> refreshToken(RefreshTokenRequest request) async {
+    try {
+      final response = await boxtingClient.refreshToken(request);
+      final secureStorage = getIt.get<FlutterSecureStorage>();
+      await secureStorage.write(
+        key: Constants.AUTH_TOKEN,
+        value: response.data,
+      );
     } on DioError catch (e) {
       final code =
           cast<int>(e.response.data[Constants.ERROR][Constants.ERROR_CODE])

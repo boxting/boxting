@@ -41,6 +41,7 @@ Map<String, dynamic> _$VoteResponseDataToJson(VoteResponseData instance) =>
 
 MyVoteResponse _$MyVoteResponseFromJson(Map<String, dynamic> json) {
   return MyVoteResponse(
+    json['id'] as String,
     json['electionId'] as String,
     json['type'] as String,
     json['voterId'] as String,
@@ -54,6 +55,7 @@ MyVoteResponse _$MyVoteResponseFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$MyVoteResponseToJson(MyVoteResponse instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'electionId': instance.electionId,
       'type': instance.type,
       'voterId': instance.voterId,

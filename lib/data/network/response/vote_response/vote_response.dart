@@ -27,12 +27,14 @@ class VoteResponseData {
 
 @JsonSerializable()
 class MyVoteResponse {
+  final String id;
   final String electionId;
   final String type;
   final String voterId;
   final List<SelectedCandidateResponse> selectedCandidates;
 
   MyVoteResponse(
+    this.id,
     this.electionId,
     this.type,
     this.voterId,
