@@ -14,24 +14,28 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class VotingScreen extends HookWidget {
   final String election;
+  final String event;
   final num winners;
 
-  VotingScreen(this.election, this.winners);
+  VotingScreen(this.election, this.winners, this.event);
 
   static Future<void> navigate(
     BuildContext context,
     String election,
     num winners,
+    String event,
   ) async {
     await BoxtingNavigation.goto(
-        context, (_) => VotingScreen(election, winners));
+      context,
+      (_) => VotingScreen(election, winners, event),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = useProvider(fetchCandidateByElection(election));
     return provider.when(
-      data: (data) => VotingScreenBody(data.elements, election, winners),
+      data: (data) => VotingScreenBody(data.elements, election, winners, event),
       loading: () => BoxtingLoadingScreen(),
       error: (e, _) => BoxtingErrorScreen(e.toString()),
     );
@@ -41,9 +45,10 @@ class VotingScreen extends HookWidget {
 class VotingScreenBody extends HookWidget {
   final List<CandidateElementResponseData> candidates;
   final String electionId;
+  final String event;
   final num winners;
 
-  VotingScreenBody(this.candidates, this.electionId, this.winners);
+  VotingScreenBody(this.candidates, this.electionId, this.winners, this.event);
 
   @override
   Widget build(BuildContext context) {
@@ -96,9 +101,7 @@ class VotingScreenBody extends HookWidget {
                         context,
                         futureBuilder: () async {
                           final request = VoteRequest(
-                            selectedCandidates.value,
-                            electionId,
-                          );
+                              selectedCandidates.value, electionId, event);
                           await context
                               .read(votingElectionProvider)
                               .emitVote(request);
