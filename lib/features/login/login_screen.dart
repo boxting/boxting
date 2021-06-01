@@ -55,6 +55,10 @@ class LoginScreen extends HookWidget {
       );
     }
 
+    void refreshToken(BuildContext context) async {
+      await loginBloc.refreshToken();
+    }
+
     Future<void> authenticateBiometrical(BuildContext context) async {
       try {
         final bloc = context.read<LoginBloc>();
@@ -66,7 +70,16 @@ class LoginScreen extends HookWidget {
             biometricBloc.cancelAuthentication();
           } else {
             await biometricBloc.authenticate(
-              onSuccess: () => HomeScreen.navigate(context),
+              onSuccess: () async => await BoxtingLoadingDialog.show(
+                context,
+                futureBuilder: () async => refreshToken(context),
+                onSuccess: () => HomeScreen.navigate(context),
+                onError: (e) async => await BoxtingModal.show(
+                  context,
+                  title: 'Ocurrio un error!',
+                  message: e,
+                ),
+              ),
               onFailure: (PlatformException e) => showErrorAlert(
                 title: 'Algo malio sal',
                 text: e.message,

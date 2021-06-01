@@ -56,7 +56,7 @@ class MyVoteBody extends HookWidget {
           ),
           SizedBox(height: 30),
           Text(
-            'El identificador de tu voto es ${data.vote.voterId}',
+            'El identificador de tu voto es ${data.vote.id}',
             style: subTitleTextStyle,
           ),
           SizedBox(height: 30),
@@ -86,10 +86,7 @@ class SelectedCandidate extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final image =
-        candidate.imageUrl == 'none' ? NOT_AVAILABLE_IMAGE : candidate.imageUrl;
     return ListTile(
-      leading: Image.network(image, width: 48, height: 48),
       title: Text('${candidate.firstName} ${candidate.lastName}'),
       subtitle: Text('Identificador del voto: ${voteId}'),
     );

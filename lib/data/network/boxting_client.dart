@@ -2,6 +2,7 @@ import 'package:boxting/data/network/request/emit_vote_request/emit_vote_request
 import 'package:boxting/data/network/request/forgot_password/forgot_password_request.dart';
 import 'package:boxting/data/network/request/login_request/login_request.dart';
 import 'package:boxting/data/network/request/new_password_request/new_password_request.dart';
+import 'package:boxting/data/network/request/refresh_token_request/refresh_token_request.dart';
 import 'package:boxting/data/network/request/register_request/register_request.dart';
 import 'package:boxting/data/network/request/subscribe_event_request/subscribe_event_request.dart';
 import 'package:boxting/data/network/request/update_profile/update_profile_request.dart';
@@ -106,4 +107,7 @@ abstract class BoxtingClient {
 
   @PUT('/user')
   Future<void> updateProfile(@Body() UpdateProfileRequest request);
+
+  @POST('/login/token/refresh')
+  Future<DefaultResponse> refreshToken(@Body() RefreshTokenRequest request);
 }
