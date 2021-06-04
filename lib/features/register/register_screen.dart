@@ -45,7 +45,7 @@ class RegisterScreen extends HookWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                'Ingreas tus datos para continuar',
+                'Ingresa tus datos para continuar',
                 style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 16),
