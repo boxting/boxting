@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class HomeScreen extends HookWidget {
+class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
 
   static Future<void> navigate(BuildContext context) async {
@@ -16,9 +16,19 @@ class HomeScreen extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = useState<int>(0);
     final child = useState<Widget>(const EventsScreen());
+    ref.listen(
+      isFirstTimeLoginProvider,
+      (prev, next) {
+        if (next.requireValue) {
+          ref.read(setFirstLoginProvider);
+          BiometricScreen.navigate(context);
+        }
+      },
+    );
+
     Widget getChildByIndex(int index, BuildContext context) {
       switch (index) {
         case 0:
@@ -32,19 +42,24 @@ class HomeScreen extends HookWidget {
       return child.value;
     }
 
-    return BoxtingScaffold(body: child.value);
-
-    // return ProviderListener<AsyncValue<bool>>(
-    //   provider: isFirstTimeLoginProvider,
-    //   onChange: (context, result) async {
-    //     if (result.data.value) {
-    //       await context.read(setFirstLoginProvider);
-    //       await BiometricScreen.navigate(context);
-    //     }
-    //   },
-    //   child: BoxtingScaffold(
-    //     body: child.value,
-    //   ),
-    // );
+    return BoxtingScaffold(
+      body: child.value,
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (value) {
+          selectedIndex.value = value;
+          getChildByIndex(selectedIndex.value, context);
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.how_to_vote_outlined),
+            label: 'Votaciones',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Perfil',
+          )
+        ],
+      ),
+    );
   }
 }

@@ -1,11 +1,13 @@
 import 'package:boxting/data/network/request/subscribe_event_request/subscribe_event_request.dart';
+import 'package:boxting/features/events/providers.dart';
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SubscribeEventScreen extends HookWidget {
+class SubscribeEventScreen extends HookConsumerWidget {
   const SubscribeEventScreen({super.key});
 
   static Future<void> navigate(BuildContext context) async {
@@ -13,7 +15,7 @@ class SubscribeEventScreen extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormState>();
     final accessCodeController = useTextEditingController();
     final eventCodeController = useTextEditingController();
@@ -56,9 +58,11 @@ class SubscribeEventScreen extends HookWidget {
                           eventCode: eventCodeController.text.trim(),
                           accessCode: accessCodeController.text.trim(),
                         );
-                        // await context
-                        //     .read(subscribeEventProvider)
-                        //     .subscribe(request);
+                        ref
+                            .read<SubscribeEvent>(
+                              subscribeEventProvider.notifier,
+                            )
+                            .subscribe(request);
                       },
                       onSuccess: () async {
                         // await CoolAlert.show(
