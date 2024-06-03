@@ -5,8 +5,7 @@ class SuccessAnimation extends StatelessWidget {
   final double width;
   final double height;
 
-  const SuccessAnimation({Key key, this.width = 300, this.height = 300})
-      : super(key: key);
+  const SuccessAnimation({super.key, this.width = 300, this.height = 300});
   @override
   Widget build(BuildContext context) {
     return Lottie.asset(

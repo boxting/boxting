@@ -4,25 +4,26 @@ import 'package:boxting/features/settings/providers.dart';
 import 'package:boxting/features/terms/terms_screen.dart';
 import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SettingsScreen extends HookWidget {
+class SettingsScreen extends HookConsumerWidget {
+  const SettingsScreen({super.key});
+
   static Future navigate(BuildContext context) async {
-    await BoxtingNavigation.goto(context, (_) => SettingsScreen());
+    await BoxtingNavigation.goto(context, (_) => const SettingsScreen());
   }
 
   @override
-  Widget build(BuildContext context) {
-    final provider = useProvider(loadBiometricProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(loadBiometricProvider);
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: provider.when(
-            loading: () => BoxtingLoadingScreen(),
+            loading: () => const BoxtingLoadingScreen(),
             data: (enabled) => SettingsScreenBody(biometricEnabled: enabled),
             error: (e, _) => BoxtingErrorScreen(e.toString()),
           )),
@@ -33,7 +34,7 @@ class SettingsScreen extends HookWidget {
 class SettingsScreenBody extends HookWidget {
   final bool biometricEnabled;
 
-  const SettingsScreenBody({Key key, this.biometricEnabled}) : super(key: key);
+  const SettingsScreenBody({super.key, required this.biometricEnabled});
   @override
   Widget build(BuildContext context) {
     final biometricMessage = biometricEnabled
@@ -43,34 +44,36 @@ class SettingsScreenBody extends HookWidget {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          Text('Configuración', style: titleTextStyle),
-          SizedBox(height: 48),
+          const Text('Configuración', style: titleTextStyle),
+          const SizedBox(height: 48),
           ListTile(
-            leading: Icon(Icons.fingerprint),
-            title: Text('Biometria'),
+            leading: const Icon(Icons.fingerprint),
+            title: const Text('Biometria'),
             subtitle: Text(biometricMessage),
-            trailing: Icon(Icons.arrow_forward_ios),
+            trailing: const Icon(Icons.arrow_forward_ios),
             onTap: () => setBiometricInformation(context, biometricEnabled),
           ),
           ListTile(
-            leading: Icon(Icons.text_format_sharp),
-            title: Text('Terminos y condiciones'),
-            subtitle:
-                Text('Conoce los terminos y condiciones de la aplicación'),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: () => BoxtingNavigation.goto(context, (_) => TermsScreen()),
+            leading: const Icon(Icons.text_format_sharp),
+            title: const Text('Terminos y condiciones'),
+            subtitle: const Text(
+                'Conoce los terminos y condiciones de la aplicación'),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: () =>
+                BoxtingNavigation.goto(context, (_) => const TermsScreen()),
           ),
           ListTile(
-            leading: Icon(Icons.question_answer),
-            title: Text('Preguntas frecuentes'),
-            subtitle: Text(
+            leading: const Icon(Icons.question_answer),
+            title: const Text('Preguntas frecuentes'),
+            subtitle: const Text(
               'Conoce las respuestas a las preguntas más frecuentes acerca de la aplicación',
             ),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: () => BoxtingNavigation.goto(context, (_) => FaqScreen()),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: () =>
+                BoxtingNavigation.goto(context, (_) => const FaqScreen()),
           ),
           const Spacer(),
-          BoxtingVersion(),
+          const BoxtingVersion(),
         ],
       ),
     );
@@ -78,41 +81,42 @@ class SettingsScreenBody extends HookWidget {
 
   void setBiometricInformation(BuildContext context, bool enabled) async {
     if (enabled) {
-      await CoolAlert.show(
-        context: context,
-        type: CoolAlertType.confirm,
-        title: 'Alerta',
-        text: '¿Desea eliminar la huella registrada?',
-        confirmBtnText: 'Sí',
-        cancelBtnText: 'No',
-        barrierDismissible: false,
-        onConfirmBtnTap: () async {
-          await context.read(setBioInformationProvider(false));
-          await BoxtingNavigation.pop(context);
-        },
-        confirmBtnColor: Colors.green,
-      );
+      // await CoolAlert.show(
+      //   context: context,
+      //   type: CoolAlertType.confirm,
+      //   title: 'Alerta',
+      //   text: '¿Desea eliminar la huella registrada?',
+      //   confirmBtnText: 'Sí',
+      //   cancelBtnText: 'No',
+      //   barrierDismissible: false,
+      //   onConfirmBtnTap: () async {
+      //     await context.read(setBioInformationProvider(false));
+      //     BoxtingNavigation.pop(context);
+      //   },
+      //   confirmBtnColor: Colors.green,
+      // );
     } else {
       await BiometricScreen.navigate(context);
     }
   }
 }
 
-class BoxtingVersion extends HookWidget {
-  final provider = useProvider(packageProvider);
+class BoxtingVersion extends HookConsumerWidget {
+  const BoxtingVersion({super.key});
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(packageProvider);
     return provider.when(
-      loading: () => CircularProgressIndicator(),
+      loading: () => const CircularProgressIndicator(),
       data: (version) => Center(
         child: RichText(
           text: TextSpan(
             text: 'Versión ',
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
             children: [
               TextSpan(
                 text: version,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               )
@@ -120,7 +124,7 @@ class BoxtingVersion extends HookWidget {
           ),
         ),
       ),
-      error: (e, _) => Text('Error'),
+      error: (e, _) => const Text('Error'),
     );
   }
 }

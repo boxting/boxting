@@ -17,7 +17,6 @@ import 'package:boxting/data/network/response/subscribe_event_response/subscribe
 import 'package:boxting/data/network/response/user_response/user_response.dart';
 import 'package:boxting/data/network/response/vote_response/vote_response.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:retrofit/retrofit.dart';
 import 'response/candidates_response/candidates_response.dart';
 import 'response/register_response/register_response.dart';

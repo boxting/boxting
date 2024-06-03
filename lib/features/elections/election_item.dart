@@ -9,11 +9,11 @@ class ElectionItem extends StatelessWidget {
   final num eventStatus;
 
   const ElectionItem({
-    Key key,
-    this.election,
-    this.eventId,
-    this.eventStatus,
-  }) : super(key: key);
+    super.key,
+    required this.election,
+    required this.eventId,
+    required this.eventStatus,
+  });
   @override
   Widget build(BuildContext context) {
     final userVotedState = election.userVoted

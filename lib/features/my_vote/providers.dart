@@ -11,7 +11,7 @@ final getMyVoteProvider = FutureProvider.autoDispose
     final result = await repository.getMyVoteFromElection(election);
     return result.data;
   } on BoxtingException catch (e) {
-    await ref.container.refresh(tokenProvider);
+    ref.container.refresh(tokenProvider);
     throw Exception(e.message);
   }
 });

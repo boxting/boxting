@@ -1,20 +1,20 @@
 class Constants {
-  static const AUTH_TOKEN = 'auth_token';
-  static const AUTH_REFRESH_TOKEN = 'auth_refresh_token';
-  static const AUTH_HEADER = 'Authorization';
-  static const AUTH_BEARER = 'Bearer ';
+  static const authToken = 'auth_token';
+  static const authRefreshToken = 'auth_refresh_token';
+  static const authHeader = 'Authorization';
+  static const authBearer = 'Bearer ';
 
-  static const HIVE_BOX_NAME = 'boxting_box';
-  static const FIRST_LOGIN = 'first_time_login';
-  static const FINGER_PRINT_ENABLED = 'finger_print_enabled';
-  static const HIVE_USER_BOX = 'boxting_user_box';
-  static const HIVE_USER = 'user_logged';
+  static const hiveBoxName = 'boxting_box';
+  static const firstLogin = 'first_time_login';
+  static const fingerPrintEnabled = 'finger_print_enabled';
+  static const hiveUserBox = 'boxting_user_box';
+  static const hiveUser = 'user_logged';
 
-  static const ERROR = 'error';
-  static const ERROR_CODE = 'errorCode';
+  static const error = 'error';
+  static const errorCode = 'errorCode';
 
-  static const LOCAL_DATE_FORMAT = 'dd/MM/yyyy';
-  static const MIN_DATE_FORMAT = 'dd/MM';
-  static const DETAIL_DATE_FORMAT = 'dd/MM/yyyy HH:mm:ss';
-  static const SERVER_DATE_FORMAT = 'yyyy/MM/dd';
+  static const localDateFormat = 'dd/MM/yyyy';
+  static const minDateFormat = 'dd/MM';
+  static const detailDateFormat = 'dd/MM/yyyy HH:mm:ss';
+  static const serverDateFormat = 'yyyy/MM/dd';
 }

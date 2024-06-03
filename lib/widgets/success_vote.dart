@@ -5,8 +5,7 @@ class SuccessVote extends StatelessWidget {
   final double width;
   final double height;
 
-  const SuccessVote({Key key, this.width = 300, this.height = 300})
-      : super(key: key);
+  const SuccessVote({super.key, this.width = 300, this.height = 300});
   @override
   Widget build(BuildContext context) {
     return Lottie.asset(

@@ -12,12 +12,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 
 class IdentifierRegisterScreen extends HookWidget {
-  const IdentifierRegisterScreen({Key key}) : super(key: key);
+  const IdentifierRegisterScreen({super.key});
 
   static Widget init(BuildContext context) {
     return ChangeNotifierProvider.value(
       value: getIt.get<RegisterBloc>(),
-      builder: (_, __) => IdentifierRegisterScreen(),
+      builder: (_, __) => const IdentifierRegisterScreen(),
     );
   }
 
@@ -28,15 +28,15 @@ class IdentifierRegisterScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-    final documentTypeSelected = useState<DocumentOption>();
+    final formKey = GlobalKey<FormState>();
+    final documentTypeSelected = useState<DocumentOption?>(null);
     final documentController = useTextEditingController();
     final termsAccepted = useState<bool>(false);
 
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: Form(
-        key: _formKey,
+        key: formKey,
         child: LayoutBuilder(
           builder: (context, viewportConstraints) => SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -55,16 +55,16 @@ class IdentifierRegisterScreen extends HookWidget {
                           documentTypeSelected: documentTypeSelected,
                           documentController: documentController,
                           termsAccepted: termsAccepted,
-                          formKey: _formKey,
+                          formKey: formKey,
                         ),
                       ),
                     ),
                     LinkedText(
-                      prefix: Text('¿Ya tienes una cuenta?'),
-                      link: Text('Ingresa aquí'),
+                      prefix: const Text('¿Ya tienes una cuenta?'),
+                      link: const Text('Ingresa aquí'),
                       onTap: () => BoxtingNavigation.pop(context),
                     ),
-                    SizedBox(height: 96),
+                    const SizedBox(height: 96),
                   ],
                 ),
               ),
@@ -78,15 +78,14 @@ class IdentifierRegisterScreen extends HookWidget {
 
 class IdentifierBody extends StatelessWidget {
   const IdentifierBody({
-    Key key,
-    @required this.documentTypeSelected,
-    @required this.documentController,
-    @required this.termsAccepted,
-    @required GlobalKey<FormState> formKey,
-  })  : _formKey = formKey,
-        super(key: key);
+    super.key,
+    required this.documentTypeSelected,
+    required this.documentController,
+    required this.termsAccepted,
+    required GlobalKey<FormState> formKey,
+  }) : _formKey = formKey;
 
-  final ValueNotifier<DocumentOption> documentTypeSelected;
+  final ValueNotifier<DocumentOption?> documentTypeSelected;
   final TextEditingController documentController;
   final ValueNotifier<bool> termsAccepted;
   final GlobalKey<FormState> _formKey;
@@ -109,14 +108,14 @@ class IdentifierBody extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
+            SizedBox(
               height: 60,
               child: BoxtingSelect<DocumentOption>(
                 items: DocumentOption.values,
                 label: 'Documento',
                 defaultValue: documentTypeSelected.value,
                 formatter: (doc) => doc.name,
-                onChanged: (doc) => documentTypeSelected.value = doc,
+                onChanged: (doc) => documentTypeSelected.value = doc!,
                 validator: (value) =>
                     value == null ? 'Debe seleccionar una opción' : null,
               ),
@@ -128,7 +127,7 @@ class IdentifierBody extends StatelessWidget {
               type: BoxtingInputType.numeric,
               validator: (value) => identifierValidator(
                 value,
-                documentTypeSelected.value,
+                documentTypeSelected.value!,
                 documentController.text,
               ),
             ),
@@ -138,8 +137,8 @@ class IdentifierBody extends StatelessWidget {
         BoxtingSwitch(
           value: termsAccepted.value,
           title: LinkedText(
-            prefix: Text('Estas aceptando los '),
-            link: Text(
+            prefix: const Text('Estas aceptando los '),
+            link: const Text(
               'Terminos y condiciones',
               overflow: TextOverflow.ellipsis,
             ),
@@ -149,33 +148,34 @@ class IdentifierBody extends StatelessWidget {
         ),
         const SizedBox(height: 24),
         BoxtingButton(
-            child: Text('Continuar'),
-            width: double.infinity,
-            disabled: !termsAccepted.value,
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {
-                if (documentTypeSelected.value.type == '142') {
-                  await RegisterForeignForm.navigate(
+          width: double.infinity,
+          disabled: !termsAccepted.value,
+          onPressed: () async {
+            if (_formKey.currentState!.validate()) {
+              if (documentTypeSelected.value!.type == '142') {
+                await RegisterForeignForm.navigate(
+                  context,
+                  documentController.text,
+                );
+              } else {
+                await BoxtingLoadingDialog.show(
+                  context,
+                  futureBuilder: () async => getUserInformation(
                     context,
-                    documentController.text,
-                  );
-                } else {
-                  await BoxtingLoadingDialog.show(
+                    documentController.text.trim(),
+                  ),
+                  onSuccess: () => RegisterScreen.navigate(context),
+                  onError: (e) async => await BoxtingModal.show(
                     context,
-                    futureBuilder: () async => getUserInformation(
-                      context,
-                      documentController.text.trim(),
-                    ),
-                    onSuccess: () => RegisterScreen.navigate(context),
-                    onError: (e) async => await BoxtingModal.show(
-                      context,
-                      title: 'Error!',
-                      message: e,
-                    ),
-                  );
-                }
+                    title: 'Error!',
+                    message: e,
+                  ),
+                );
               }
-            }),
+            }
+          },
+          child: const Text('Continuar'),
+        ),
       ],
     );
   }
@@ -187,15 +187,15 @@ void getUserInformation(BuildContext context, String identifier) async {
 }
 
 String identifierValidator(
-  String value,
+  String? value,
   DocumentOption documentTypeSelected,
   String document,
 ) {
-  if (value.isEmpty) {
+  if (value!.isEmpty) {
     return 'Debe ingresar un documento';
   }
   if (documentTypeSelected == DocumentOption.dni && document.length != 8) {
     return 'La longitud es incorrecta';
   }
-  return null;
+  return '';
 }

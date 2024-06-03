@@ -6,6 +6,6 @@ part 'forgot_password_request.g.dart';
 class ForgotPasswordRequest {
   final String mail;
 
-  ForgotPasswordRequest({this.mail});
+  ForgotPasswordRequest({required this.mail});
   Map<String, dynamic> toJson() => _$ForgotPasswordRequestToJson(this);
 }

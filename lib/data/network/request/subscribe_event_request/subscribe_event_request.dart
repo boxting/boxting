@@ -6,6 +6,6 @@ class SubscribeEventRequest {
   final String eventCode;
   final String accessCode;
 
-  SubscribeEventRequest({this.eventCode, this.accessCode});
+  SubscribeEventRequest({required this.eventCode, required this.accessCode});
   Map<String, dynamic> toJson() => _$SubscribeEventRequestToJson(this);
 }

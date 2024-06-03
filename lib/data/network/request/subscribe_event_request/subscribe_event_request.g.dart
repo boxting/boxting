@@ -7,12 +7,11 @@ part of 'subscribe_event_request.dart';
 // **************************************************************************
 
 SubscribeEventRequest _$SubscribeEventRequestFromJson(
-    Map<String, dynamic> json) {
-  return SubscribeEventRequest(
-    eventCode: json['eventCode'] as String,
-    accessCode: json['accessCode'] as String,
-  );
-}
+        Map<String, dynamic> json) =>
+    SubscribeEventRequest(
+      eventCode: json['eventCode'] as String,
+      accessCode: json['accessCode'] as String,
+    );
 
 Map<String, dynamic> _$SubscribeEventRequestToJson(
         SubscribeEventRequest instance) =>

@@ -5,8 +5,7 @@ class LoadingVote extends StatelessWidget {
   final double width;
   final double height;
 
-  const LoadingVote({Key key, this.width = 300, this.height = 300})
-      : super(key: key);
+  const LoadingVote({super.key, this.width = 300, this.height = 300});
   @override
   Widget build(BuildContext context) {
     return Lottie.asset(

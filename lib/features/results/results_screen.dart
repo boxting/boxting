@@ -4,25 +4,25 @@ import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:boxting/data/network/response/result_response/result_response.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ResultsScreen extends HookWidget {
+class ResultsScreen extends HookConsumerWidget {
   final String election;
 
-  ResultsScreen(this.election);
+  const ResultsScreen(this.election, {super.key});
 
   static Future<void> navigate(BuildContext context, String election) async {
     await BoxtingNavigation.goto(context, (_) => ResultsScreen(election));
   }
 
   @override
-  Widget build(BuildContext context) {
-    final provider = useProvider(getElectionResultProvider(election));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(getElectionResultProvider(election));
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: provider.when(
-        loading: () => BoxtingLoadingScreen(),
+        loading: () => const BoxtingLoadingScreen(),
         error: (e, _) => BoxtingErrorScreen(e.toString()),
         data: (data) => ResultScreenBody(result: data),
       ),
@@ -33,7 +33,7 @@ class ResultsScreen extends HookWidget {
 class ResultScreenBody extends HookWidget {
   final ResultResponseData result;
 
-  const ResultScreenBody({Key key, this.result}) : super(key: key);
+  const ResultScreenBody({super.key, required this.result});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,7 +41,7 @@ class ResultScreenBody extends HookWidget {
       child: Column(
         children: [
           Text('Resultados de ${result.election.name}', style: titleTextStyle),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Expanded(child: BarChartSample1(result)),
         ],
       ),

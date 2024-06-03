@@ -6,7 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 class SelectableCandidate extends HookWidget {
   final CandidateUiModel candidateUiModel;
 
-  SelectableCandidate(this.candidateUiModel);
+  const SelectableCandidate(this.candidateUiModel, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,5 +26,8 @@ class CandidateUiModel {
   final bool isSelected;
   final CandidateElementResponseData candidate;
 
-  CandidateUiModel({this.isSelected, this.candidate});
+  CandidateUiModel({
+    required this.isSelected,
+    required this.candidate,
+  });
 }

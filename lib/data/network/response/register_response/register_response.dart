@@ -6,16 +6,16 @@ part 'register_response.g.dart';
 @JsonSerializable()
 class RegisterResponse {
   final bool success;
-  final RegisterResponseData data;
-  final ErrorResponse error;
+  final RegisterResponseData? data;
+  final ErrorResponse? error;
 
-  RegisterResponse({this.success, this.data, this.error});
+  RegisterResponse({this.success = false, this.data, this.error});
 
   factory RegisterResponse.fromJson(Map<String, dynamic> json) =>
       _$RegisterResponseFromJson(json);
 }
 
-@JsonSerializable(nullable: true)
+@JsonSerializable()
 class RegisterResponseData {
   final bool isActive;
   final int id;
@@ -26,13 +26,13 @@ class RegisterResponseData {
   final RegisterResponseVoter voter;
 
   RegisterResponseData({
-    this.isActive,
-    this.id,
-    this.username,
-    this.updatedAt,
-    this.createdAt,
-    this.voter,
-    this.mail,
+    required this.isActive,
+    required this.id,
+    required this.username,
+    required this.updatedAt,
+    required this.createdAt,
+    required this.voter,
+    required this.mail,
   });
   factory RegisterResponseData.fromJson(Map<String, dynamic> json) =>
       _$RegisterResponseDataFromJson(json);
@@ -50,14 +50,14 @@ class RegisterResponseVoter {
   final String createdAt;
 
   RegisterResponseVoter({
-    this.id,
-    this.firstName,
-    this.lastName,
-    this.dni,
-    this.phone,
-    this.userId,
-    this.updatedAt,
-    this.createdAt,
+    required this.id,
+    required this.firstName,
+    required this.lastName,
+    required this.dni,
+    required this.phone,
+    required this.userId,
+    required this.updatedAt,
+    required this.createdAt,
   });
 
   factory RegisterResponseVoter.fromJson(Map<String, dynamic> json) =>

@@ -33,6 +33,9 @@ class CandidateResponseData {
       _$CandidateResponseDataFromJson(json);
 }
 
+const notAvailableImage =
+    'https://corp.sellerscommerce.com//SCAssets/images/noimage.png';
+
 @JsonSerializable()
 class CandidateElementResponseData {
   final int id;
@@ -49,18 +52,18 @@ class CandidateElementResponseData {
   final ElectionList list;
 
   CandidateElementResponseData({
-    this.id,
-    this.firstName,
-    this.lastName,
-    this.information,
-    this.age,
-    this.isActive,
-    this.listId,
-    this.electionId,
-    this.createdAt,
-    this.updatedAt,
-    this.imageUrl,
-    this.list,
+    required this.id,
+    required this.firstName,
+    required this.lastName,
+    required this.information,
+    required this.age,
+    required this.isActive,
+    required this.listId,
+    required this.electionId,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.list,
+    this.imageUrl = notAvailableImage,
   });
 
   factory CandidateElementResponseData.fromJson(Map<String, dynamic> json) =>
@@ -76,11 +79,11 @@ class ElectionList {
   final String imageUrl;
 
   ElectionList({
-    this.id,
-    this.name,
-    this.information,
-    this.electionId,
-    this.imageUrl,
+    required this.id,
+    required this.name,
+    required this.information,
+    required this.electionId,
+    required this.imageUrl,
   });
 
   factory ElectionList.fromJson(Map<String, dynamic> json) =>

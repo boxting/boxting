@@ -6,14 +6,10 @@ part of 'user_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserResponse _$UserResponseFromJson(Map<String, dynamic> json) {
-  return UserResponse(
-    json['success'] as bool,
-    json['data'] == null
-        ? null
-        : UserResponseData.fromJson(json['data'] as Map<String, dynamic>),
-  );
-}
+UserResponse _$UserResponseFromJson(Map<String, dynamic> json) => UserResponse(
+      json['success'] as bool,
+      UserResponseData.fromJson(json['data'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$UserResponseToJson(UserResponse instance) =>
     <String, dynamic>{
@@ -21,20 +17,15 @@ Map<String, dynamic> _$UserResponseToJson(UserResponse instance) =>
       'data': instance.data,
     };
 
-UserResponseData _$UserResponseDataFromJson(Map<String, dynamic> json) {
-  return UserResponseData(
-    json['id'] as int,
-    json['username'] as String,
-    json['mail'] as String,
-    json['isActive'] as bool,
-    json['role'] == null
-        ? null
-        : RoleResponse.fromJson(json['role'] as Map<String, dynamic>),
-    json['voter'] == null
-        ? null
-        : VoterResponse.fromJson(json['voter'] as Map<String, dynamic>),
-  );
-}
+UserResponseData _$UserResponseDataFromJson(Map<String, dynamic> json) =>
+    UserResponseData(
+      (json['id'] as num).toInt(),
+      json['username'] as String,
+      json['mail'] as String,
+      json['isActive'] as bool,
+      RoleResponse.fromJson(json['role'] as Map<String, dynamic>),
+      VoterResponse.fromJson(json['voter'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$UserResponseDataToJson(UserResponseData instance) =>
     <String, dynamic>{
@@ -46,28 +37,25 @@ Map<String, dynamic> _$UserResponseDataToJson(UserResponseData instance) =>
       'voter': instance.voter,
     };
 
-RoleResponse _$RoleResponseFromJson(Map<String, dynamic> json) {
-  return RoleResponse(
-    json['name'] as String,
-  );
-}
+RoleResponse _$RoleResponseFromJson(Map<String, dynamic> json) => RoleResponse(
+      json['name'] as String,
+    );
 
 Map<String, dynamic> _$RoleResponseToJson(RoleResponse instance) =>
     <String, dynamic>{
       'name': instance.name,
     };
 
-VoterResponse _$VoterResponseFromJson(Map<String, dynamic> json) {
-  return VoterResponse(
-    json['id'] as int,
-    json['firstName'] as String,
-    json['lastName'] as String,
-    json['dni'] as String,
-    json['phone'] as String,
-    json['age'] as num,
-    json['birthday'] as String,
-  );
-}
+VoterResponse _$VoterResponseFromJson(Map<String, dynamic> json) =>
+    VoterResponse(
+      (json['id'] as num).toInt(),
+      json['firstName'] as String,
+      json['lastName'] as String,
+      json['dni'] as String,
+      json['phone'] as String,
+      json['age'] as num,
+      json['birthday'] as String,
+    );
 
 Map<String, dynamic> _$VoterResponseToJson(VoterResponse instance) =>
     <String, dynamic>{

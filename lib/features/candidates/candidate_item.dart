@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 class CandidateItem extends StatelessWidget {
   final CandidateElementResponseData candidate;
 
-  final IMAGE_SIZE = 48.0;
-  final NOT_AVAILABLE_IMAGE =
-      'https://corp.sellerscommerce.com//SCAssets/images/noimage.png';
-  const CandidateItem({Key key, this.candidate}) : super(key: key);
+  final imageSize = 48.0;
+
+  const CandidateItem({super.key, required this.candidate});
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -15,15 +14,15 @@ class CandidateItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Image.network(
-            candidate.list.imageUrl ?? NOT_AVAILABLE_IMAGE,
-            height: IMAGE_SIZE,
-            width: IMAGE_SIZE,
+            candidate.list.imageUrl,
+            height: imageSize,
+            width: imageSize,
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Image.network(
-            candidate.imageUrl ?? NOT_AVAILABLE_IMAGE,
-            height: IMAGE_SIZE,
-            width: IMAGE_SIZE,
+            candidate.imageUrl,
+            height: imageSize,
+            width: imageSize,
           ),
         ],
       ),

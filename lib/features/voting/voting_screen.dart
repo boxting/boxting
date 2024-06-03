@@ -3,21 +3,19 @@ import 'package:boxting/features/candidates/providers.dart';
 import 'package:boxting/features/voting/providers.dart';
 import 'package:boxting/features/voting/selectable_candidate.dart';
 import 'package:boxting/features/voting/sucess_voting_screen.dart';
-import 'package:boxting/widgets/boxting_appbar.dart';
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
-import 'package:boxting/widgets/loading_screen.dart';
 import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class VotingScreen extends HookWidget {
+class VotingScreen extends HookConsumerWidget {
   final String election;
   final String event;
   final num winners;
 
-  VotingScreen(this.election, this.winners, this.event);
+  const VotingScreen(this.election, this.winners, this.event, {super.key});
 
   static Future<void> navigate(
     BuildContext context,
@@ -32,26 +30,28 @@ class VotingScreen extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final provider = useProvider(fetchCandidateByElection(election));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(fetchCandidateByElection(election));
     return provider.when(
       data: (data) => VotingScreenBody(data.elements, election, winners, event),
-      loading: () => BoxtingLoadingScreen(),
+      loading: () => const BoxtingLoadingScreen(),
       error: (e, _) => BoxtingErrorScreen(e.toString()),
     );
   }
 }
 
-class VotingScreenBody extends HookWidget {
+class VotingScreenBody extends HookConsumerWidget {
   final List<CandidateElementResponseData> candidates;
   final String electionId;
   final String event;
   final num winners;
 
-  VotingScreenBody(this.candidates, this.electionId, this.winners, this.event);
+  const VotingScreenBody(
+      this.candidates, this.electionId, this.winners, this.event,
+      {super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final selectedCandidates = useState<List<String>>([]);
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
@@ -59,12 +59,12 @@ class VotingScreenBody extends HookWidget {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            Text('Elige a tu candidato', style: titleTextStyle),
+            const Text('Elige a tu candidato', style: titleTextStyle),
             Text(
               'Debes elegir $winners candidato(s)',
               style: subTitleTextStyle,
             ),
-            SizedBox(height: 48),
+            const SizedBox(height: 48),
             Expanded(
               child: ListView.builder(
                 itemCount: candidates.length,
@@ -75,7 +75,7 @@ class VotingScreenBody extends HookWidget {
                       selectedCandidates.value = [selectedCandidates.value]
                           .expand((x) => x)
                           .toList()
-                            ..remove(candidates[index].id.toString());
+                        ..remove(candidates[index].id.toString());
                     } else {
                       selectedCandidates.value = [
                         selectedCandidates.value,
@@ -93,16 +93,15 @@ class VotingScreenBody extends HookWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             BoxtingButton(
-              child: Text('Votar'),
               onPressed: selectedCandidates.value.length == winners
                   ? () async => await BoxtingLoadingDialog.show(
                         context,
                         futureBuilder: () async {
                           final request = VoteRequest(
                               selectedCandidates.value, electionId, event);
-                          await context
+                          await ref
                               .read(votingElectionProvider)
                               .emitVote(request);
                         },
@@ -114,6 +113,7 @@ class VotingScreenBody extends HookWidget {
                         ),
                       )
                   : null,
+              child: const Text('Votar'),
             )
           ],
         ),

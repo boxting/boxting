@@ -1,6 +1,5 @@
 import 'package:boxting/data/network/response/result_response/result_response.dart';
 import 'package:boxting/widgets/styles.dart';
-import 'package:flutter/gestures.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -13,7 +12,7 @@ class BarChartSample1 extends HookWidget {
 
   final touchedIndex = useState<int>(-1);
 
-  BarChartSample1(this.result);
+  BarChartSample1(this.result, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -56,14 +55,13 @@ class BarChartSample1 extends HookWidget {
       alignment: BarChartAlignment.spaceEvenly,
       barTouchData: BarTouchData(
         touchTooltipData: BarTouchTooltipData(
-          tooltipBgColor: Theme.of(context).primaryColor,
           getTooltipItem: (group, groupIndex, rod, rodIndex) {
             final candidate = result.candidates[group.x.toInt()];
             final weekDay = candidate.firstName;
             final percentVote = candidate.voteCount * 100 / result.totalVotes;
             return BarTooltipItem(
               '$weekDay\n${candidate.voteCount}(${percentVote.toStringAsFixed(1)}%)',
-              TextStyle(
+              const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -71,33 +69,16 @@ class BarChartSample1 extends HookWidget {
             );
           },
         ),
-        touchCallback: (barTouchResponse) {
-          if (barTouchResponse.spot != null &&
-              barTouchResponse.touchInput is! PointerUpEvent &&
-              barTouchResponse.touchInput is! PointerExitEvent) {
-            touchedIndex.value = barTouchResponse.spot.touchedBarGroupIndex;
+        touchCallback: (touchEvent, barTouchResponse) {
+          if (barTouchResponse!.spot != null) {
+            touchedIndex.value = barTouchResponse.spot!.touchedBarGroupIndex;
           } else {
             touchedIndex.value = -1;
           }
         },
       ),
-      titlesData: FlTitlesData(
+      titlesData: const FlTitlesData(
         show: true,
-        bottomTitles: SideTitles(
-          showTitles: true,
-          rotateAngle: -90,
-          getTextStyles: (value) => const TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-          margin: 60,
-          getTitles: (double value) =>
-              result.candidates[value.toInt()].firstName,
-        ),
-        leftTitles: SideTitles(
-          showTitles: true,
-        ),
       ),
       borderData: FlBorderData(
         show: false,
@@ -125,8 +106,8 @@ class BarChartSample1 extends HookWidget {
       x: x,
       barRods: [
         BarChartRodData(
-          y: isTouched ? y + 0.25 : y,
-          colors: isTouched ? [Colors.yellow] : [barColor],
+          toY: isTouched ? y + 0.25 : y,
+          color: isTouched ? Colors.yellow : barColor,
           width: width,
         ),
       ],
@@ -144,7 +125,7 @@ extension XString on String {
     var color = '#';
     for (var i = 0; i < 3; i++) {
       var value = (hash >> (i * 8)) & 0xFF;
-      color += ('00' + value.toStringAsPrecision(16)).substring(-2);
+      color += ('00${value.toStringAsPrecision(16)}').substring(-2);
     }
     return color;
   }

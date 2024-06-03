@@ -1,77 +1,75 @@
-import 'package:flutter/material.dart';
-
-const UNKNOWN_ERROR = 999;
+const unknownError = 999;
 // Login error
-const LOGIN_USERNAME_ERROR = 1001;
-const PASSWORD_LOGIN_ERROR = 1002;
-const LOGIN_CREDENTIALS_ERROR = 1003;
+const loginUsernameError = 1001;
+const passwordLoginError = 1002;
+const loginCredentialsError = 1003;
 // Forgot password error
-const MAIL_NOT_REGISTERED_ERROR = 1004;
-const INVALID_TOKEN_ERROR = 1006;
+const mailNotRegisteredError = 1004;
+const invalidTokenError = 1006;
 // Register error
-const REGISTER_USERNAME_ERROR = 2001;
-const REGISTER_PASSWORD_ERROR = 2002;
-const REGISTER_DNI_ERROR = 2006;
-const REGISTER_MAIL_ERROR = 2005;
-const REGISTER_OBLIGATORY_ERROR = 2003;
-const NO_MATCHING_ID_ERROR = 2009;
+const registerUsernameError = 2001;
+const registerPasswordError = 2002;
+const registerDniError = 2006;
+const registerMailError = 2005;
+const registerObligatoryError = 2003;
+const noMatchingIdError = 2009;
 // Event errors
-const NO_EVENT_CODE_ERROR = 4007;
-const WRONG_ACCESS_CODE_ERROR = 4008;
+const noEventCodeError = 4007;
+const wrongAccessCodeError = 4008;
 // Auth errors
-const INVALID_AUTH_TOKEN_ERROR = 401;
+const invalidAuthTokenError = 401;
 
 class BoxtingException implements Exception {
-  final int statusCode;
-  String message;
-  BoxtingException({@required this.statusCode}) {
+  final int? statusCode;
+  late String message;
+  BoxtingException({required this.statusCode}) {
     switch (statusCode) {
-      case UNKNOWN_ERROR:
+      case unknownError:
         message = 'Ocurrió un error desconocido';
         break;
-      case LOGIN_USERNAME_ERROR:
+      case loginUsernameError:
         message = 'El usuario o contraseña ingresado es incorrecto';
         break;
-      case PASSWORD_LOGIN_ERROR:
+      case passwordLoginError:
         message = 'El usuario o contraseña ingresado es incorrecto';
         break;
-      case LOGIN_CREDENTIALS_ERROR:
+      case loginCredentialsError:
         message =
             'Las credenciales de acceso utilizadas no pertenecen al login / El rol no tiene permiso para iniciar sesión con esa ruta';
         break;
-      case REGISTER_USERNAME_ERROR:
+      case registerUsernameError:
         message = 'El nombre de usuario ingresado ya existe';
         break;
-      case REGISTER_PASSWORD_ERROR:
+      case registerPasswordError:
         message =
             'No se ha ingresado una contraseña o se ha ingresado una contraseña vacía';
         break;
-      case REGISTER_OBLIGATORY_ERROR:
+      case registerObligatoryError:
         message =
             'No se ha ingresado un valor para uno de los campos obligatorios';
         break;
-      case REGISTER_DNI_ERROR:
+      case registerDniError:
         message = 'El DNI ingresado ya existe';
         break;
-      case REGISTER_MAIL_ERROR:
+      case registerMailError:
         message = 'El mail ingresado ya existe';
         break;
-      case INVALID_TOKEN_ERROR:
+      case invalidTokenError:
         message = 'El token ingresado es incorrecto';
         break;
-      case MAIL_NOT_REGISTERED_ERROR:
+      case mailNotRegisteredError:
         message = 'El correo ingresado no esta registrado';
         break;
-      case NO_EVENT_CODE_ERROR:
+      case noEventCodeError:
         message = 'El código ingresado no es válido';
         break;
-      case WRONG_ACCESS_CODE_ERROR:
+      case wrongAccessCodeError:
         message = 'El código de acceso es invalido para este evento';
         break;
-      case NO_MATCHING_ID_ERROR:
+      case noMatchingIdError:
         message = 'El DNI ingresado no existe';
         break;
-      case INVALID_AUTH_TOKEN_ERROR:
+      case invalidAuthTokenError:
         message = 'El token ingresado es invalido';
         break;
       default:

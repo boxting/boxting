@@ -14,12 +14,12 @@ class LoginBloc extends ChangeNotifier {
   final AuthRepository authRepository;
   final BiometricRepository biometricRepository;
 
-  BoxtingException _boxtingFailure;
+  late BoxtingException _boxtingFailure;
   BoxtingException get failure => _boxtingFailure;
 
   LoginBloc({
-    @required this.authRepository,
-    @required this.biometricRepository,
+    required this.authRepository,
+    required this.biometricRepository,
   });
 
   Future<bool> loadBiometricInformation() async {
@@ -44,10 +44,9 @@ class LoginBloc extends ChangeNotifier {
   Future<void> refreshToken() async {
     try {
       final secureStorage = getIt.get<FlutterSecureStorage>();
-      final token = await secureStorage.read(key: Constants.AUTH_TOKEN);
-      final refresh =
-          await secureStorage.read(key: Constants.AUTH_REFRESH_TOKEN);
-      final request = RefreshTokenRequest(token, refresh);
+      final token = await secureStorage.read(key: Constants.authToken);
+      final refresh = await secureStorage.read(key: Constants.authRefreshToken);
+      final request = RefreshTokenRequest(token!, refresh!);
       await authRepository.refreshToken(request);
     } on BoxtingException catch (e) {
       throw Exception(e.message);

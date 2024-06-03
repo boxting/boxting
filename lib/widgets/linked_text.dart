@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 
 class LinkedText extends StatelessWidget {
   const LinkedText({
-    Key key,
-    this.prefix,
-    @required this.link,
-    @required this.onTap,
-    this.linkColor,
-  })  : assert(link != null),
-        assert(onTap != null),
-        super(key: key);
+    super.key,
+    this.prefix = const SizedBox.shrink(),
+    required this.link,
+    required this.onTap,
+    this.linkColor = Colors.grey,
+  });
 
   final Widget prefix;
   final Widget link;
@@ -23,9 +21,9 @@ class LinkedText extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (prefix != null) ...[
+        ...[
           DefaultTextStyle(
-            style: TextStyle(fontSize: 12, color: Colors.grey),
+            style: const TextStyle(fontSize: 12, color: Colors.grey),
             child: prefix,
           ),
         ],
@@ -36,7 +34,7 @@ class LinkedText extends StatelessWidget {
               fontSize: 12,
               fontWeight: FontWeight.w600,
               decoration: TextDecoration.underline,
-              color: linkColor ?? Colors.grey,
+              color: linkColor,
             ),
             child: link,
           ),

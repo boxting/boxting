@@ -1,19 +1,17 @@
 import 'package:boxting/data/network/response/event_response/event_response.dart';
 import 'package:boxting/features/elections/elections_screen.dart';
-import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../providers.dart';
 
-class EventDetailScreen extends HookWidget {
+class EventDetailScreen extends HookConsumerWidget {
   final String eventId;
 
-  EventDetailScreen({this.eventId});
+  const EventDetailScreen({super.key, required this.eventId});
 
   static Future<void> navigate(BuildContext context, String id) async {
     await BoxtingNavigation.goto(
@@ -21,8 +19,8 @@ class EventDetailScreen extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final provider = useProvider(fetchEventByIdProvider(eventId));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(fetchEventByIdProvider(eventId));
     return BoxtingScaffold(
       appBar: BoxtingAppBar(
         trailing: IconButton(
@@ -30,12 +28,12 @@ class EventDetailScreen extends HookWidget {
             context: context,
             builder: (_) => SettingsModalBody(eventId: eventId),
           ),
-          icon: Icon(Icons.settings),
+          icon: const Icon(Icons.settings),
         ),
       ),
       body: Center(
         child: provider.when(
-          loading: () => BoxtingLoadingScreen(),
+          loading: () => const BoxtingLoadingScreen(),
           data: (event) => EventDetailBody(event: event),
           error: (e, _) => BoxtingErrorScreen(e.toString()),
         ),
@@ -46,7 +44,7 @@ class EventDetailScreen extends HookWidget {
 
 class EventDetailBody extends HookWidget {
   final EventResponseData event;
-  const EventDetailBody({Key key, this.event}) : super(key: key);
+  const EventDetailBody({super.key, required this.event});
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +55,11 @@ class EventDetailBody extends HookWidget {
       child: Column(
         children: [
           Text(event.name, style: titleTextStyle),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           Text('Evento ${event.code}', style: subTitleTextStyle),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           Text(event.information),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           Text('$startDate - $endDate'),
           const SizedBox(height: 24),
           Text('Estado del evento: ${event.status}'),
@@ -80,40 +78,40 @@ class EventDetailBody extends HookWidget {
 
 class SettingsModalBody extends HookWidget {
   final String eventId;
-  SettingsModalBody({this.eventId});
+  const SettingsModalBody({super.key, required this.eventId});
 
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: [
+      children: const [
         ListTile(
           title: Text('Eliminar suscripción al evento de votación'),
           leading: Icon(Icons.delete, color: Colors.red),
-          onTap: () async => await CoolAlert.show(
-            context: context,
-            type: CoolAlertType.confirm,
-            title: 'Alerta',
-            barrierDismissible: false,
-            text: '¿Desea eliminar su suscripción al evento de votación?',
-            confirmBtnText: 'Sí',
-            cancelBtnText: 'No',
-            confirmBtnColor: Colors.green,
-            onConfirmBtnTap: () async {
-              await BoxtingNavigation.pop(context);
-              await BoxtingLoadingDialog.show(
-                context,
-                futureBuilder: () async {
-                  await context.read(removeUserFromEventProvider(eventId));
-                },
-                onSuccess: () => BoxtingNavigation.gotoRoot(context),
-                onError: (e) => BoxtingModal.show(
-                  context,
-                  title: 'Error',
-                  message: e,
-                ),
-              );
-            },
-          ),
+          // onTap: () async => await CoolAlert.show(
+          //   context: context,
+          //   type: CoolAlertType.confirm,
+          //   title: 'Alerta',
+          //   barrierDismissible: false,
+          //   text: '¿Desea eliminar su suscripción al evento de votación?',
+          //   confirmBtnText: 'Sí',
+          //   cancelBtnText: 'No',
+          //   confirmBtnColor: Colors.green,
+          //   onConfirmBtnTap: () async {
+          //     BoxtingNavigation.pop(context);
+          //     await BoxtingLoadingDialog.show(
+          //       context,
+          //       futureBuilder: () async {
+          //         await context.read(removeUserFromEventProvider(eventId));
+          //       },
+          //       onSuccess: () => BoxtingNavigation.gotoRoot(context),
+          //       onError: (e) => BoxtingModal.show(
+          //         context,
+          //         title: 'Error',
+          //         message: e,
+          //       ),
+          //     );
+          //   },
+          // ),
         )
       ],
     );

@@ -8,15 +8,19 @@ import 'package:boxting/features/voting/voting_screen.dart';
 import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ElectionDetailScreen extends HookWidget {
+class ElectionDetailScreen extends HookConsumerWidget {
   final String eventId;
   final String electionId;
   final num eventStatus;
 
-  ElectionDetailScreen({this.eventId, this.electionId, this.eventStatus});
+  const ElectionDetailScreen({
+    super.key,
+    required this.eventId,
+    required this.electionId,
+    required this.eventStatus,
+  });
 
   static Future<void> navigate(
     BuildContext context,
@@ -35,13 +39,13 @@ class ElectionDetailScreen extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final request = ElectionDetailRequest(eventId, electionId);
-    final provider = useProvider(electionDetailProvider(request));
+    final provider = ref.watch(electionDetailProvider(request));
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: provider.when(
-        loading: () => BoxtingLoadingScreen(),
+        loading: () => const BoxtingLoadingScreen(),
         error: (e, _) => BoxtingErrorScreen(e.toString()),
         data: (data) => ElectionScreenBody(
           election: data,
@@ -59,11 +63,11 @@ class ElectionScreenBody extends StatelessWidget {
   final String event;
 
   const ElectionScreenBody({
-    Key key,
-    this.election,
-    this.eventStatus,
-    this.event,
-  }) : super(key: key);
+    super.key,
+    required this.election,
+    required this.eventStatus,
+    required this.event,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -73,19 +77,16 @@ class ElectionScreenBody extends StatelessWidget {
       child: Column(
         children: [
           Text(election.name, style: titleTextStyle),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(election.information, style: subTitleTextStyle),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           Text('Esta elección puede tener ${election.winners} ganador(es)'),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Expanded(child: CandidatesScreen(electionId: election.id.toString())),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           election.userVoted
               ? _ResultsOptions(election: election, eventStatus: eventStatus)
               : BoxtingButton(
-                  child: Text(
-                    isEventReady ? 'Ir a votar' : 'Elección no disponible',
-                  ),
                   onPressed: isEventReady
                       ? () => VotingScreen.navigate(
                             context,
@@ -94,8 +95,11 @@ class ElectionScreenBody extends StatelessWidget {
                             event,
                           )
                       : null,
+                  child: Text(
+                    isEventReady ? 'Ir a votar' : 'Elección no disponible',
+                  ),
                 ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
         ],
       ),
     );
@@ -104,10 +108,9 @@ class ElectionScreenBody extends StatelessWidget {
 
 class _ResultsOptions extends StatelessWidget {
   const _ResultsOptions({
-    Key key,
-    @required this.election,
-    this.eventStatus,
-  }) : super(key: key);
+    required this.election,
+    required this.eventStatus,
+  });
 
   final ElectionElementResponseData election;
   final num eventStatus;
@@ -120,13 +123,13 @@ class _ResultsOptions extends StatelessWidget {
       children: [
         if (eventStatus == 3)
           BoxtingButton.outline(
-            child: Text('Ver resultados'),
+            child: const Text('Ver resultados'),
             onPressed: () =>
                 ResultsScreen.navigate(context, election.id.toString()),
           ),
-        SizedBox(width: 20),
+        const SizedBox(width: 20),
         BoxtingButton.outline(
-          child: Text('Ver mi voto'),
+          child: const Text('Ver mi voto'),
           onPressed: () =>
               MyVoteScreen.navigate(context, election.id.toString()),
         ),

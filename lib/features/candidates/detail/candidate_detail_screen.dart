@@ -6,12 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class CandidateDetailScreen extends HookWidget {
+class CandidateDetailScreen extends HookConsumerWidget {
   final String candidateId;
   final String listId;
 
-  const CandidateDetailScreen({Key key, this.candidateId, this.listId})
-      : super(key: key);
+  const CandidateDetailScreen({
+    super.key,
+    required this.candidateId,
+    required this.listId,
+  });
 
   static Future<void> navigate(
     BuildContext context,
@@ -23,14 +26,14 @@ class CandidateDetailScreen extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final request = CandidateDetailRequest(candidateId, listId);
-    final provider = useProvider(fetchCandidateById(request));
+    final provider = ref.watch(fetchCandidateById(request));
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: provider.when(
         data: (data) => CandidateDetailBody(candidate: data),
-        loading: () => BoxtingLoadingScreen(),
+        loading: () => const BoxtingLoadingScreen(),
         error: (e, _) => BoxtingErrorScreen(e.toString()),
       ),
     );
@@ -40,10 +43,7 @@ class CandidateDetailScreen extends HookWidget {
 class CandidateDetailBody extends HookWidget {
   final CandidateElementResponseData candidate;
 
-  final NOT_AVAILABLE_IMAGE =
-      'https://corp.sellerscommerce.com//SCAssets/images/noimage.png';
-
-  const CandidateDetailBody({Key key, this.candidate}) : super(key: key);
+  const CandidateDetailBody({super.key, required this.candidate});
 
   @override
   Widget build(BuildContext context) {
@@ -52,28 +52,29 @@ class CandidateDetailBody extends HookWidget {
       child: Column(
         children: [
           Image.network(
-            candidate.imageUrl ?? NOT_AVAILABLE_IMAGE,
+            candidate.imageUrl,
             height: 120,
             width: 120,
           ),
-          SizedBox(height: 48),
+          const SizedBox(height: 48),
           Text(
             '${candidate.firstName} ${candidate.lastName} (${candidate.age} años)',
             style: titleTextStyle,
           ),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           Text(candidate.information),
-          SizedBox(height: 48),
-          Text('Candidato por parte de la lista', style: subTitleTextStyle),
-          SizedBox(height: 48),
+          const SizedBox(height: 48),
+          const Text('Candidato por parte de la lista',
+              style: subTitleTextStyle),
+          const SizedBox(height: 48),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.network(
-                candidate.list.imageUrl ?? NOT_AVAILABLE_IMAGE,
+                candidate.list.imageUrl,
                 height: 96,
               ),
-              SizedBox(width: 48),
+              const SizedBox(width: 48),
               Text(candidate.list.name, style: titleTextStyle)
             ],
           )

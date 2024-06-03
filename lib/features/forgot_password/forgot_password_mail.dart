@@ -9,25 +9,25 @@ import 'package:provider/provider.dart';
 import 'forgot_password_bloc.dart';
 
 class ForgotPasswordMailScreen extends HookWidget {
-  const ForgotPasswordMailScreen({Key key}) : super(key: key);
+  const ForgotPasswordMailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     final mailController = useTextEditingController();
 
-    final EMAIL_REGEX =
+    const emailRegex =
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: Form(
-        key: _formKey,
+        key: formKey,
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 40.0),
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 40.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 40.0),
               child: Text(
                 'Recupera tu contraseña',
                 style: TextStyle(
@@ -38,7 +38,7 @@ class ForgotPasswordMailScreen extends HookWidget {
               ),
             ),
             RichText(
-              text: TextSpan(
+              text: const TextSpan(
                 text: 'Ingresa tu correo y te enviaremos ',
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
@@ -65,10 +65,10 @@ class ForgotPasswordMailScreen extends HookWidget {
               controller: mailController,
               type: BoxtingInputType.email,
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return 'Debe ingresar un correo';
                 }
-                if (!RegExp(EMAIL_REGEX).hasMatch(value)) {
+                if (!RegExp(emailRegex).hasMatch(value)) {
                   return 'Ingrese un correo válido';
                 }
                 return null;
@@ -76,10 +76,9 @@ class ForgotPasswordMailScreen extends HookWidget {
             ),
             const SizedBox(height: 28),
             BoxtingButton(
-              child: Text('Recibir código'),
               width: double.infinity,
               onPressed: () async {
-                if (_formKey.currentState.validate()) {
+                if (formKey.currentState!.validate()) {
                   await BoxtingLoadingDialog.show(
                     context,
                     futureBuilder: () async => sendVerificationCode(
@@ -96,6 +95,7 @@ class ForgotPasswordMailScreen extends HookWidget {
                   );
                 }
               },
+              child: const Text('Recibir código'),
             ),
           ],
         ),
@@ -104,14 +104,14 @@ class ForgotPasswordMailScreen extends HookWidget {
   }
 
   void sendVerificationCode(BuildContext context, String mail) async {
-    final bloc = await context.read<ForgotPasswordBloc>();
-    await bloc.forgotPassword(mail);
+    final bloc = context.read<ForgotPasswordBloc>();
+    bloc.forgotPassword(mail);
   }
 
   static Widget init(BuildContext context) {
     return ChangeNotifierProvider.value(
       value: getIt.get<ForgotPasswordBloc>(),
-      builder: (_, __) => ForgotPasswordMailScreen(),
+      builder: (_, __) => const ForgotPasswordMailScreen(),
     );
   }
 

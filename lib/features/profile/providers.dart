@@ -12,21 +12,25 @@ final userInfoProvider = FutureProvider<User>((ref) async {
   return result.data.toUser();
 });
 
-final profileEventProvider = StateNotifierProvider<ProfileEvent>((ref) {
-  final repository = ref.watch(authRepositoryProvider);
-  return ProfileEvent(repository, ref);
-});
+final profileEventProvider = StateNotifierProvider<ProfileEvent, dynamic>(
+  (ref) {
+    final repository = ref.watch(authRepositoryProvider);
+    return ProfileEvent(repository, () {
+      ref.container.refresh(userInfoProvider);
+    });
+  },
+);
 
 class ProfileEvent extends StateNotifier {
-  ProfileEvent(this.repository, this.ref) : super(null);
+  ProfileEvent(this.repository, this.callback) : super(null);
 
   final AuthRepository repository;
-  final ProviderReference ref;
+  final Function callback;
 
   void updateProfile(UpdateProfileRequest req) async {
     try {
       await repository.updateUserInformation(req);
-      await ref.container.refresh(userInfoProvider);
+      callback.call();
     } on BoxtingException catch (e) {
       throw Exception(e.message);
     }

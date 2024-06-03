@@ -8,7 +8,11 @@ class SubscribeEventResponse {
   final SubscribeEventResponseData data;
   final ErrorResponse error;
 
-  SubscribeEventResponse({this.success, this.data, this.error});
+  SubscribeEventResponse({
+    required this.success,
+    required this.data,
+    required this.error,
+  });
   factory SubscribeEventResponse.fromJson(Map<String, dynamic> json) =>
       _$SubscribeEventResponseFromJson(json);
 }
@@ -23,12 +27,12 @@ class SubscribeEventResponseData {
   final String updatedAt;
 
   SubscribeEventResponseData({
-    this.isOwner,
-    this.isCollaborator,
-    this.userId,
-    this.eventId,
-    this.accessCode,
-    this.updatedAt,
+    required this.isOwner,
+    required this.isCollaborator,
+    required this.userId,
+    required this.eventId,
+    required this.accessCode,
+    required this.updatedAt,
   });
   factory SubscribeEventResponseData.fromJson(Map<String, dynamic> json) =>
       _$SubscribeEventResponseDataFromJson(json);

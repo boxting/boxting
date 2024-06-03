@@ -1,23 +1,28 @@
-import 'package:boxting/widgets/loading_screen.dart';
 import 'package:boxting/widgets/widgets.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 
 class FaqScreen extends HookWidget {
+  const FaqScreen({super.key});
+
   Future<String> fetchFrequentQuestions() async {
-    final remoteConfig = await RemoteConfig.instance;
-    await Future.delayed(Duration(seconds: 3));
-    await remoteConfig.fetch(expiration: const Duration(days: 1));
-    await remoteConfig.activateFetched();
+    final remoteConfig = FirebaseRemoteConfig.instance;
+    await Future.delayed(const Duration(seconds: 3));
+    await remoteConfig.setConfigSettings(
+      RemoteConfigSettings(
+        fetchTimeout: const Duration(minutes: 1),
+        minimumFetchInterval: const Duration(hours: 1),
+      ),
+    );
     return remoteConfig.getString('faq');
   }
 
   @override
   Widget build(BuildContext context) {
     return BoxtingScaffold(
-      appBar: AppBar(title: Text('Preguntas frecuentes')),
+      appBar: AppBar(title: const Text('Preguntas frecuentes')),
       body: FutureBuilder(
         future: fetchFrequentQuestions(),
         builder: (context, snapshot) {
@@ -27,7 +32,7 @@ class FaqScreen extends HookWidget {
               child: SingleChildScrollView(child: Html(data: snapshot.data)),
             );
           }
-          return BoxtingLoadingScreen();
+          return const BoxtingLoadingScreen();
         },
       ),
     );

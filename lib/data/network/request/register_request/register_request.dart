@@ -7,11 +7,14 @@ class RegisterRequest {
   String username;
   String password;
   String mail;
-  VoterRequest voter;
+  VoterRequest? voter;
 
-  RegisterRequest({this.username, this.password, this.voter, this.mail}) {
-    voter ??= VoterRequest();
-  }
+  RegisterRequest({
+    this.username = '',
+    this.password = '',
+    this.mail = '',
+    this.voter,
+  });
 
   Map<String, dynamic> toJson() => _$RegisterRequestToJson(this);
 }
@@ -24,10 +27,10 @@ class VoterRequest {
   String phone;
 
   VoterRequest({
-    this.firstName,
-    this.lastName,
-    this.dni,
-    this.phone,
+    required this.firstName,
+    required this.lastName,
+    required this.dni,
+    required this.phone,
   });
 
   factory VoterRequest.fromJson(Map<String, dynamic> json) =>
