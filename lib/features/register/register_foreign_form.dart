@@ -23,10 +23,11 @@ class RegisterForeignForm extends HookWidget {
         context, (_) => RegisterForeignForm.init(context, document));
   }
 
-  const RegisterForeignForm({Key key, this.document}) : super(key: key);
+  const RegisterForeignForm({super.key, required this.document});
+
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     final nameController = useTextEditingController();
     final firstLastnameController = useTextEditingController();
     final secondLastnameController = useTextEditingController();
@@ -35,42 +36,42 @@ class RegisterForeignForm extends HookWidget {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: Column(
             children: [
-              Text(
+              const Text(
                 'Registra tus datos personales aquí',
                 style: subTitleTextStyle,
               ),
-              SizedBox(height: 48),
+              const SizedBox(height: 48),
               BoxtingInput(
                 labelText: 'Nombres',
                 controller: nameController,
                 validator: (value) {
-                  return value.isNotEmpty ? null : 'Debe ingresar un nombre';
+                  return value!.isNotEmpty ? null : 'Debe ingresar un nombre';
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               BoxtingInput(
                 labelText: 'Apellido paterno',
                 controller: firstLastnameController,
                 validator: (value) {
-                  return value.isNotEmpty ? null : 'Debe ingresar un apellido';
+                  return value!.isNotEmpty ? null : 'Debe ingresar un apellido';
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               BoxtingInput(
                 labelText: 'Apellido materno',
                 controller: secondLastnameController,
                 validator: (value) {
-                  return value.isNotEmpty ? null : 'Debe ingresar un apellido';
+                  return value!.isNotEmpty ? null : 'Debe ingresar un apellido';
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               BoxtingButton(
-                child: Text('Guardar'),
+                child: const Text('Guardar'),
                 onPressed: () {
-                  if (_formKey.currentState.validate()) {
+                  if (formKey.currentState!.validate()) {
                     final bloc = context.read<RegisterBloc>();
                     final data = DniResponseData(
                       names: nameController.text.trim(),

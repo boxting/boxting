@@ -7,7 +7,7 @@ import 'detail/event_detail_screen.dart';
 class EventItem extends StatelessWidget {
   final EventResponseData event;
 
-  const EventItem({Key key, this.event}) : super(key: key);
+  const EventItem({super.key, required this.event});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class EventItem extends StatelessWidget {
           child: ListTile(
             leading: Column(
               children: [
-                Icon(Icons.calendar_today),
+                const Icon(Icons.calendar_today),
                 Text(event.startDate.toShortDate()),
               ],
             ),
@@ -29,7 +29,7 @@ class EventItem extends StatelessWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-            trailing: Icon(Icons.arrow_forward_ios),
+            trailing: const Icon(Icons.arrow_forward_ios),
           ),
         ),
       ),

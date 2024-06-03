@@ -7,55 +7,55 @@ import 'package:introduction_screen/introduction_screen.dart';
 // import 'onboarding_pages.dart';
 
 class OnBoardingScreen extends HookWidget {
+  const OnBoardingScreen({super.key});
+
   static Future<void> navigate(BuildContext context) async {
-    await BoxtingNavigation.replace(context, (_) => OnBoardingScreen());
+    await BoxtingNavigation.replace(context, (_) => const OnBoardingScreen());
   }
 
   @override
   Widget build(BuildContext context) {
-    final pageDecoration = const PageDecoration(
+    const pageDecoration = PageDecoration(
       titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
       bodyTextStyle: TextStyle(fontSize: 16.0),
-      descriptionPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
       pageColor: Colors.white,
       imagePadding: EdgeInsets.zero,
     );
 
-    Widget _buildImage(String assetName) {
+    Widget buildImage(String assetName) {
       return Align(
+        alignment: Alignment.bottomCenter,
         child: Image.asset('assets/images/onboarding/$assetName.png',
             width: 350.0),
-        alignment: Alignment.bottomCenter,
       );
     }
 
-    final _introKey = GlobalKey();
+    final introKey = GlobalKey();
 
     return IntroductionScreen(
-      key: _introKey,
+      key: introKey,
       pages: [
         PageViewModel(
           title: 'Bienvenido a la mejor solución de votación.',
           body: 'Emite tus votos de forma rápida y segura',
           decoration: pageDecoration,
-          image: _buildImage('boxtingphone'),
+          image: buildImage('boxtingphone'),
         ),
         PageViewModel(
           title: 'Investiga acerca de tus candidatos antes de votar',
           body: 'Conoce la información acerca de tus candidatos',
           decoration: pageDecoration,
-          image: _buildImage('peoplevote'),
+          image: buildImage('peoplevote'),
         ),
         PageViewModel(
           title: 'Identificate de manera digital',
           body: 'Asegura tu voto utilizando tu huella digital',
           decoration: pageDecoration,
-          image: _buildImage('virtualidentity'),
+          image: buildImage('virtualidentity'),
         ),
       ],
       onDone: () => LoginScreen.navigate(context),
       showSkipButton: true,
-      skipFlex: 0,
       nextFlex: 0,
       skip: const Text('Saltar'),
       next: const Icon(Icons.arrow_forward),

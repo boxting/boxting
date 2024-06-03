@@ -8,20 +8,27 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'election_item.dart';
 
-class ElectionsScreen extends HookWidget {
+class ElectionsScreen extends HookConsumerWidget {
   final String eventId;
   final num eventStatus;
 
-  const ElectionsScreen({Key key, this.eventId, this.eventStatus})
-      : super(key: key);
+  const ElectionsScreen({
+    super.key,
+    required this.eventId,
+    required this.eventStatus,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    final provider = useProvider(electionsFromEventProvider(eventId));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(electionsFromEventProvider(eventId));
     return provider.when(
-      loading: () => Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => BoxtingErrorScreen(e.toString()),
-      data: (data) => ElectionsScreenBody(data, eventId, eventStatus),
+      data: (data) => ElectionsScreenBody(
+        election: data,
+        eventId: eventId,
+        eventStatus: eventStatus,
+      ),
     );
   }
 }
@@ -31,13 +38,17 @@ class ElectionsScreenBody extends HookWidget {
   final String eventId;
   final num eventStatus;
 
-  const ElectionsScreenBody(this.election, this.eventId, this.eventStatus,
-      {Key key})
-      : super(key: key);
+  const ElectionsScreenBody({
+    required this.election,
+    required this.eventId,
+    required this.eventStatus,
+    super.key,
+  });
+
   @override
   Widget build(BuildContext context) {
     if (election.elements.isEmpty) {
-      return BoxtingEmptyScreen('No hay elecciones aún.');
+      return const BoxtingEmptyScreen('No hay elecciones aún.');
     }
     return ListView.builder(
       itemCount: election.elements.length,

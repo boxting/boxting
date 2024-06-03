@@ -5,18 +5,24 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 class TermsScreen extends HookWidget {
+  const TermsScreen({super.key});
+
   Future<String> fetchTerms() async {
-    final remoteConfig = await RemoteConfig.instance;
-    await Future.delayed(Duration(seconds: 3));
-    await remoteConfig.fetch(expiration: const Duration(days: 1));
-    await remoteConfig.activateFetched();
+    final remoteConfig = FirebaseRemoteConfig.instance;
+    await Future.delayed(const Duration(seconds: 3));
+    await remoteConfig.setConfigSettings(
+      RemoteConfigSettings(
+        fetchTimeout: const Duration(minutes: 1),
+        minimumFetchInterval: const Duration(hours: 1),
+      ),
+    );
     return remoteConfig.getString('terms');
   }
 
   @override
   Widget build(BuildContext context) {
     return BoxtingScaffold(
-      appBar: AppBar(title: Text('Terminos y condiciones')),
+      appBar: AppBar(title: const Text('Terminos y condiciones')),
       body: FutureBuilder(
         future: fetchTerms(),
         builder: (context, snapshot) {
@@ -26,13 +32,13 @@ class TermsScreen extends HookWidget {
               child: SingleChildScrollView(child: Html(data: snapshot.data)),
             );
           }
-          return BoxtingLoadingScreen();
+          return const BoxtingLoadingScreen();
         },
       ),
     );
   }
 
   static Future<void> navigate(BuildContext context) async {
-    await BoxtingNavigation.goto(context, (_) => TermsScreen());
+    await BoxtingNavigation.goto(context, (_) => const TermsScreen());
   }
 }

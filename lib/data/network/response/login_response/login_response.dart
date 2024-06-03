@@ -6,33 +6,38 @@ part 'login_response.g.dart';
 @JsonSerializable()
 class LoginResponse {
   final bool success;
-  final LoginResponseData data;
-  final ErrorResponse error;
+  final LoginResponseData? data;
+  final ErrorResponse? error;
 
-  LoginResponse({this.success, this.data, this.error});
+  LoginResponse({
+    required this.success,
+    this.data,
+    this.error,
+  });
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>
       _$LoginResponseFromJson(json);
 }
 
-@JsonSerializable(nullable: true)
+@JsonSerializable()
 class LoginResponseData {
-  int id;
-  String username;
-  LoginResponseRole role;
-  LoginResponseVoter voter;
-  String mail;
-  String token;
-  String refreshToken;
   LoginResponseData({
-    this.id,
-    this.username,
-    this.role,
-    this.voter,
-    this.token,
-    this.mail,
-    this.refreshToken,
+    required this.id,
+    required this.username,
+    required this.role,
+    required this.voter,
+    required this.token,
+    required this.mail,
+    required this.refreshToken,
   });
+
+  final int id;
+  final String username;
+  final LoginResponseRole role;
+  final LoginResponseVoter voter;
+  final String mail;
+  final String token;
+  final String refreshToken;
 
   factory LoginResponseData.fromJson(Map<String, dynamic> json) =>
       _$LoginResponseDataFromJson(json);
@@ -41,7 +46,7 @@ class LoginResponseData {
 @JsonSerializable()
 class LoginResponseRole {
   String name;
-  LoginResponseRole({this.name});
+  LoginResponseRole({required this.name});
 
   factory LoginResponseRole.fromJson(Map<String, dynamic> json) =>
       _$LoginResponseRoleFromJson(json);
@@ -57,11 +62,11 @@ class LoginResponseVoter {
   String phone;
 
   LoginResponseVoter({
-    this.id,
-    this.firstName,
-    this.lastName,
-    this.dni,
-    this.phone,
+    required this.id,
+    required this.firstName,
+    required this.lastName,
+    required this.dni,
+    required this.phone,
   });
 
   factory LoginResponseVoter.fromJson(Map<String, dynamic> json) =>

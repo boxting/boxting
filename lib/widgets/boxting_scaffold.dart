@@ -4,21 +4,19 @@ import 'connectivity.dart';
 
 class BoxtingScaffold extends StatelessWidget {
   const BoxtingScaffold({
-    this.key,
+    super.key,
     this.appBar,
-    this.body,
+    required this.body,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
     this.bottomNavigationBar,
   });
 
-  @override
-  final Key key;
-  final PreferredSizeWidget appBar;
+  final PreferredSizeWidget? appBar;
   final Widget body;
-  final Widget floatingActionButton;
-  final FloatingActionButtonLocation floatingActionButtonLocation;
-  final Widget bottomNavigationBar;
+  final Widget? floatingActionButton;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
+  final Widget? bottomNavigationBar;
 
   @override
   Widget build(BuildContext context) {

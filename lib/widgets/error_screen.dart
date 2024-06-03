@@ -7,7 +7,7 @@ import 'package:lottie/lottie.dart';
 class BoxtingErrorScreen extends HookWidget {
   final String message;
 
-  BoxtingErrorScreen(this.message);
+  const BoxtingErrorScreen(this.message, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +21,13 @@ class BoxtingErrorScreen extends HookWidget {
           fit: BoxFit.fill,
         ),
         Text(message),
-        SizedBox(height: 48),
+        const SizedBox(height: 48),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32.0),
           child: BoxtingButton(
-            child: Text('Volver a ingresar'),
             backgroudColor: Colors.red,
             onPressed: () => LoginScreen.navigate(context),
+            child: const Text('Volver a ingresar'),
           ),
         )
       ],

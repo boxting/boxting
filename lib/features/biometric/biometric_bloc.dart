@@ -17,27 +17,25 @@ class BiometricBloc extends ChangeNotifier {
     try {
       await auth.canCheckBiometrics;
     } on PlatformException catch (e) {
-      print(e);
+      throw Exception(e);
     }
   }
 
   Future<void> authenticate({
-    VoidCallback onSuccess,
-    FailureCallback onFailure,
+    required VoidCallback onSuccess,
+    required FailureCallback onFailure,
   }) async {
     try {
-      final authenticated = await auth.authenticateWithBiometrics(
+      final authenticated = await auth.authenticate(
         localizedReason: 'Scan your fingerprint to authenticate',
-        useErrorDialogs: true,
-        stickyAuth: true,
       );
       if (authenticated) {
-        await onSuccess();
+        onSuccess();
       } else {
         throw PlatformException(code: 'La autenticación fallo');
       }
     } on PlatformException catch (e) {
-      await onFailure(e);
+      onFailure(e);
     }
   }
 
@@ -45,7 +43,7 @@ class BiometricBloc extends ChangeNotifier {
     try {
       await auth.getAvailableBiometrics();
     } on PlatformException catch (e) {
-      print(e);
+      throw Exception(e);
     }
   }
 

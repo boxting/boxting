@@ -1,22 +1,19 @@
-import 'package:boxting/features/settings/providers.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/widgets.dart';
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class BiometricScreen extends HookWidget {
+class BiometricScreen extends HookConsumerWidget {
+  const BiometricScreen({super.key});
+
   static Future<void> navigate(
     BuildContext context,
   ) async {
-    await BoxtingNavigation.goto(context, (_) => BiometricScreen());
+    await BoxtingNavigation.goto(context, (_) => const BiometricScreen());
   }
 
   @override
-  Widget build(BuildContext context) {
-    // final fingerProvider = useProvider(fingerBioIsAvailableProvider);
-
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
     return BoxtingScaffold(
       body: SafeArea(
@@ -29,7 +26,7 @@ class BiometricScreen extends HookWidget {
                 width: size.width,
                 height: size.height * 0.4,
               ),
-              Center(
+              const Center(
                 child: Text(
                   'Asegura tu voto utilizando tu huella digital!',
                   textAlign: TextAlign.center,
@@ -46,51 +43,49 @@ class BiometricScreen extends HookWidget {
                 'tu accesso con huella digital dentro de Configuración > Biometria',
                 textAlign: TextAlign.justify,
               ),
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
               BoxtingButton(
-                child: Text(
+                child: const Text(
                   'Autenticar',
                   style: TextStyle(
                     color: Colors.white,
                   ),
                 ),
                 onPressed: () async {
-                  final localAuth = context.read(localAuthProvider);
-                  final result = await localAuth.authenticateWithBiometrics(
+                  final localAuth = ref.read(localAuthProvider);
+                  final result = await localAuth.authenticate(
                     localizedReason:
                         'Escanea tu huella digital para autenticarte',
-                    useErrorDialogs: true,
-                    stickyAuth: true,
                   );
                   if (result) {
-                    await CoolAlert.show(
-                        context: context,
-                        type: CoolAlertType.success,
-                        title: 'Perfecto',
-                        text: 'Tu huella digital ha sido validada',
-                        barrierDismissible: false,
-                        confirmBtnText: 'Continuar',
-                        onConfirmBtnTap: () async {
-                          context.read(setBioInformationProvider(true));
-                          await BoxtingNavigation.gotoRoot(context);
-                        });
+                    // await CoolAlert.show(
+                    //     context: context,
+                    //     type: CoolAlertType.success,
+                    //     title: 'Perfecto',
+                    //     text: 'Tu huella digital ha sido validada',
+                    //     barrierDismissible: false,
+                    //     confirmBtnText: 'Continuar',
+                    //     onConfirmBtnTap: () async {
+                    //       context.read(setBioInformationProvider(true));
+                    //       BoxtingNavigation.gotoRoot(context);
+                    //     });
                   } else {
-                    await CoolAlert.show(
-                        context: context,
-                        type: CoolAlertType.error,
-                        barrierDismissible: false,
-                        title: 'Algo salio mal',
-                        text: 'No se pudo validar tu huella',
-                        onConfirmBtnTap: () {
-                          BoxtingNavigation.pop(context);
-                        });
+                    // await CoolAlert.show(
+                    //     context: context,
+                    //     type: CoolAlertType.error,
+                    //     barrierDismissible: false,
+                    //     title: 'Algo salio mal',
+                    //     text: 'No se pudo validar tu huella',
+                    //     onConfirmBtnTap: () {
+                    //       BoxtingNavigation.pop(context);
+                    //     });
                   }
                 },
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               InkWell(
                 onTap: () => BoxtingNavigation.pop(context),
-                child: Text('Omitir por ahora'),
+                child: const Text('Omitir por ahora'),
               )
             ],
           ),

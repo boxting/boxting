@@ -11,17 +11,18 @@ class BoxtingInput extends StatelessWidget {
   final String labelText;
   final Widget suffix;
   final bool enabled;
-  final TextEditingController controller;
-  final String Function(String) validator;
+  final TextEditingController? controller;
+  final String? Function(String?)? validator;
   final int maxLines;
   final BoxtingInputType type;
-  final VoidCallback onFocus;
+  final VoidCallback? onFocus;
   final double borderRadius;
   final bool readOnly;
   final bool autofocus;
 
-  BoxtingInput({
-    @required this.labelText,
+  const BoxtingInput({
+    super.key,
+    required this.labelText,
     this.controller,
     this.suffix = const SizedBox(),
     this.type = BoxtingInputType.text,
@@ -31,7 +32,7 @@ class BoxtingInput extends StatelessWidget {
     this.onFocus,
     this.borderRadius = 5,
     this.readOnly = false,
-    this.autofocus,
+    this.autofocus = false,
   });
 
   @override
@@ -39,15 +40,15 @@ class BoxtingInput extends StatelessWidget {
     return TextFormField(
       validator: validator,
       onTap: onFocus,
-      autofocus: autofocus ?? false,
+      autofocus: autofocus,
       obscureText: type == BoxtingInputType.password,
       keyboardType: chooseTextInput(),
-      controller: controller,
+      controller: controller ?? TextEditingController(),
       enabled: enabled,
       enableInteractiveSelection: !readOnly,
       maxLines: maxLines,
       readOnly: readOnly,
-      style: TextStyle(
+      style: const TextStyle(
         color: Colors.black,
         fontSize: 14,
       ),
@@ -60,7 +61,7 @@ class BoxtingInput extends StatelessWidget {
         labelStyle: TextStyle(
           color: enabled || readOnly ? Colors.grey[800] : Colors.grey[200],
         ),
-        errorStyle: TextStyle(
+        errorStyle: const TextStyle(
           fontSize: 9,
         ),
         fillColor: enabled ? Colors.white : Colors.grey,
@@ -77,10 +78,8 @@ class BoxtingInput extends StatelessWidget {
     switch (type) {
       case BoxtingInputType.numeric:
         return TextInputType.number;
-        break;
       case BoxtingInputType.email:
         return TextInputType.emailAddress;
-        break;
       default:
         return TextInputType.text;
     }

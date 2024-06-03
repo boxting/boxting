@@ -11,29 +11,32 @@ class VoteRequest extends Equatable {
   final String election;
   final String event;
 
-  VoteRequest(this.candidates, this.election, this.event);
+  const VoteRequest(this.candidates, this.election, this.event);
 
   @override
   List<Object> get props => [candidates, election, event];
 }
 
-final votingElectionProvider = StateNotifierProvider<VotingElection>((ref) {
+final votingElectionProvider =
+    StateNotifierProvider<VotingElection, dynamic>((ref) {
   final repository = ref.watch(votingRepositoryProvider);
-  return VotingElection(repository, ref);
+  return VotingElection(repository, (req) async {
+    await repository.emitVoteForElection(req.election, req.candidates);
+    final reqElection = ElectionDetailRequest(req.event, req.election);
+    ref.container.refresh(electionDetailProvider(reqElection));
+    ref.container.refresh(fetchEventByIdProvider(req.event));
+  });
 });
 
 class VotingElection extends StateNotifier {
-  VotingElection(this.repository, this.ref) : super(null);
+  VotingElection(this.repository, this.callback) : super(null);
 
   final VotingRepository repository;
-  final ProviderReference ref;
+  final Function(VoteRequest req) callback;
 
   void emitVote(VoteRequest req) async {
     try {
-      await repository.emitVoteForElection(req.election, req.candidates);
-      final reqElection = ElectionDetailRequest(req.event, req.election);
-      await ref.container.refresh(electionDetailProvider(reqElection));
-      await ref.container.refresh(fetchEventByIdProvider(req.event));
+      callback.call(req);
     } on BoxtingException catch (e) {
       throw Exception(e.message);
     }

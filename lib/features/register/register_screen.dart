@@ -10,8 +10,10 @@ import 'package:provider/provider.dart';
 class RegisterScreen extends HookWidget {
   final _formKey = GlobalKey<FormState>();
 
-  final EMAIL_REGEX =
+  final emailRegex =
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+
+  RegisterScreen({super.key});
 
   void registerPersonalInfo(
     BuildContext context,
@@ -36,7 +38,7 @@ class RegisterScreen extends HookWidget {
           key: _formKey,
           child: ListView(
             children: [
-              Text(
+              const Text(
                 'Registrate dentro de Boxting!',
                 style: TextStyle(
                   fontSize: 16,
@@ -44,7 +46,7 @@ class RegisterScreen extends HookWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              Text(
+              const Text(
                 'Ingresa tus datos para continuar',
                 style: TextStyle(fontSize: 16),
               ),
@@ -53,7 +55,7 @@ class RegisterScreen extends HookWidget {
                 labelText: 'Usuario',
                 controller: usernameController,
                 validator: (value) {
-                  return value.length < 3 || value.length > 25
+                  return value!.length < 3 || value.length > 25
                       ? 'Ingrese un usuario de un tamaño valido'
                       : null;
                 },
@@ -61,35 +63,35 @@ class RegisterScreen extends HookWidget {
               const SizedBox(height: 16),
               BoxtingInput(
                 labelText: 'Correo',
-                suffix: Icon(Icons.email),
+                suffix: const Icon(Icons.email),
                 controller: mailController,
                 type: BoxtingInputType.email,
                 validator: (value) {
-                  return RegExp(EMAIL_REGEX).hasMatch(value)
+                  return RegExp(emailRegex).hasMatch(value!)
                       ? null
                       : 'Ingrese un correo válido';
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               BoxtingInput(
                 labelText: 'Telefono',
-                suffix: Icon(Icons.phone),
+                suffix: const Icon(Icons.phone),
                 controller: phoneController,
                 type: BoxtingInputType.numeric,
                 validator: (value) {
-                  return value.isEmpty ? 'Debe ingresar información' : null;
+                  return value!.isEmpty ? 'Debe ingresar información' : null;
                 },
               ),
               const SizedBox(height: 16),
               BoxtingButton(
                 child: Text(
                   'Registrar'.toUpperCase(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                   ),
                 ),
                 onPressed: () async {
-                  if (_formKey.currentState.validate()) {
+                  if (_formKey.currentState!.validate()) {
                     await BoxtingLoadingDialog.show(
                       context,
                       futureBuilder: () async => registerPersonalInfo(

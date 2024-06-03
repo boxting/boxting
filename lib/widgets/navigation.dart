@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class BoxtingNavigation {
-  static Future<T> goto<T>(BuildContext context, WidgetBuilder builer) {
-    return Navigator.push(
+  static Future<T?> goto<T>(BuildContext context, WidgetBuilder builer) {
+    return Navigator.push<T>(
       context,
       MaterialPageRoute(builder: builer),
     );
   }
 
-  static void pop<T>(BuildContext context, [T result]) {
+  static void pop<T>(BuildContext context, [T? result]) {
     return Navigator.pop(context, result);
   }
 

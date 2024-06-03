@@ -9,12 +9,12 @@ import 'package:provider/provider.dart';
 import 'forgot_password_bloc.dart';
 
 class ForgotPasswordVerifyScreen extends HookWidget {
-  const ForgotPasswordVerifyScreen({Key key}) : super(key: key);
+  const ForgotPasswordVerifyScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final verifyCodeController = useTextEditingController();
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     final bloc = context.watch<ForgotPasswordBloc>();
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
@@ -23,11 +23,11 @@ class ForgotPasswordVerifyScreen extends HookWidget {
           horizontal: 40.0,
         ),
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: ListView(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 40.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 40.0),
                 child: Text(
                   'Recupera tu contraseña',
                   style: TextStyle(
@@ -38,7 +38,7 @@ class ForgotPasswordVerifyScreen extends HookWidget {
                 ),
               ),
               RichText(
-                text: TextSpan(
+                text: const TextSpan(
                   text: 'Ingresa el código de verificación que ',
                   style: TextStyle(
                     fontWeight: FontWeight.normal,
@@ -64,22 +64,21 @@ class ForgotPasswordVerifyScreen extends HookWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               BoxtingInput(
                 controller: verifyCodeController,
                 labelText: 'Código de verificación',
                 validator: (value) =>
-                    value.isEmpty ? 'Este campo no puede estar vacio' : null,
+                    value!.isEmpty ? 'Este campo no puede estar vacio' : null,
               ),
               const SizedBox(height: 28),
               BoxtingButton(
-                child: Text('Verificar'),
                 width: double.infinity,
                 onPressed: () async {
-                  if (_formKey.currentState.validate()) {
+                  if (formKey.currentState!.validate()) {
                     await BoxtingLoadingDialog.show(
                       context,
-                      futureBuilder: () async => await bloc.verifyCode(
+                      futureBuilder: () async => bloc.verifyCode(
                         verifyCodeController.text.trim(),
                       ),
                       onSuccess: () =>
@@ -92,6 +91,7 @@ class ForgotPasswordVerifyScreen extends HookWidget {
                     );
                   }
                 },
+                child: const Text('Verificar'),
               ),
             ],
           ),
@@ -103,7 +103,7 @@ class ForgotPasswordVerifyScreen extends HookWidget {
   static Widget init(BuildContext context) {
     return ChangeNotifierProvider.value(
       value: getIt.get<ForgotPasswordBloc>(),
-      builder: (_, __) => ForgotPasswordVerifyScreen(),
+      builder: (_, __) => const ForgotPasswordVerifyScreen(),
     );
   }
 

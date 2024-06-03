@@ -5,17 +5,18 @@ import 'package:boxting/features/register/register_identifier_screen.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/boxting_icon.dart';
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
-import 'package:boxting/widgets/boxting_password_input.dart';
 import 'package:boxting/widgets/widgets.dart';
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
+import 'package:quickalert/quickalert.dart';
 import 'login_bloc.dart';
 
 class LoginScreen extends HookWidget {
   final _formKey = GlobalKey<FormState>();
+
+  LoginScreen({super.key});
 
   static Widget init(BuildContext context) {
     return MultiProvider(
@@ -33,18 +34,20 @@ class LoginScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _isAuthenticating = useState<bool>(false);
+    final isAuthenticating = useState<bool>(false);
     final loginBloc = context.watch<LoginBloc>();
     final biometricBloc = context.watch<BiometricBloc>();
 
     final usernameController = useTextEditingController();
     final passwordController = useTextEditingController();
 
-    void showErrorAlert({String title, String text}) async =>
-        await CoolAlert.show(
+    void showErrorAlert({
+      required String title,
+      String text = '',
+    }) =>
+        QuickAlert.show(
           context: context,
-          type: CoolAlertType.error,
-          title: title,
+          type: QuickAlertType.error,
           text: text,
         );
 
@@ -66,7 +69,7 @@ class LoginScreen extends HookWidget {
         await biometricBloc.checkBiometrics();
         await biometricBloc.getAvailableBiometrics();
         if (bioAuthEnabled) {
-          if (_isAuthenticating.value) {
+          if (isAuthenticating.value) {
             biometricBloc.cancelAuthentication();
           } else {
             await biometricBloc.authenticate(
@@ -82,7 +85,7 @@ class LoginScreen extends HookWidget {
               ),
               onFailure: (PlatformException e) => showErrorAlert(
                 title: 'Algo malio sal',
-                text: e.message,
+                text: e.message!,
               ),
             );
           }
@@ -113,18 +116,16 @@ class LoginScreen extends HookWidget {
                 labelText: 'Usuario',
                 controller: usernameController,
                 validator: (value) =>
-                    value.isEmpty ? 'Debe ingresar un usuario' : null,
+                    value!.isEmpty ? 'Debe ingresar un usuario' : null,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               BoxtingPasswordInput(
                 controller: passwordController,
-                validator: (value) =>
-                    value.isEmpty ? 'Debe ingresar una contraseña' : null,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               InkWell(
                 onTap: () => ForgotPasswordMailScreen.navigate(context),
-                child: Text(
+                child: const Text(
                   'Olvide mi contraseña',
                   textAlign: TextAlign.end,
                   style: TextStyle(
@@ -134,15 +135,14 @@ class LoginScreen extends HookWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              FlatButton.icon(
+              IconButton(
                 onPressed: () async => await authenticateBiometrical(context),
-                icon: Icon(Icons.fingerprint_outlined),
-                label: Text('Autenticación biométrica'),
+                icon: const Icon(Icons.fingerprint_outlined),
               ),
               const SizedBox(height: 48),
               BoxtingButton(
                 onPressed: () async {
-                  if (_formKey.currentState.validate()) {
+                  if (_formKey.currentState!.validate()) {
                     await BoxtingLoadingDialog.show(
                       context,
                       futureBuilder: () async => login(context),
@@ -157,7 +157,7 @@ class LoginScreen extends HookWidget {
                 },
                 child: Text(
                   'Ingresar'.toUpperCase(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
@@ -167,7 +167,8 @@ class LoginScreen extends HookWidget {
               Center(
                 child: InkWell(
                   onTap: () => IdentifierRegisterScreen.navigate(context),
-                  child: Text('Aún no tienes una cuenta? Registrate aquí'),
+                  child:
+                      const Text('Aún no tienes una cuenta? Registrate aquí'),
                 ),
               ),
             ],

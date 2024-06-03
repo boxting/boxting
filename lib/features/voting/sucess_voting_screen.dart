@@ -1,4 +1,3 @@
-import 'package:boxting/widgets/navigation.dart';
 import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/success_vote.dart';
 import 'package:boxting/widgets/widgets.dart';
@@ -6,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class SuccessVotingScreen extends HookWidget {
+  const SuccessVotingScreen({super.key});
+
   static Future<void> navigate(BuildContext context) async {
-    await BoxtingNavigation.goto(context, (_) => SuccessVotingScreen());
+    await BoxtingNavigation.goto(context, (_) => const SuccessVotingScreen());
   }
 
   @override
@@ -18,10 +19,11 @@ class SuccessVotingScreen extends HookWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('El voto se registró correctamente', style: titleTextStyle),
-            SuccessVote(),
+            const Text('El voto se registró correctamente',
+                style: titleTextStyle),
+            const SuccessVote(),
             BoxtingButton(
-              child: Text('Volver'),
+              child: const Text('Volver'),
               onPressed: () {
                 // TODO: Refresh election detail screeen
                 BoxtingNavigation.pop(context);

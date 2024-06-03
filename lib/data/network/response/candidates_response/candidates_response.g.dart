@@ -6,14 +6,11 @@ part of 'candidates_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CandidatesResponse _$CandidatesResponseFromJson(Map<String, dynamic> json) {
-  return CandidatesResponse(
-    json['success'] as bool,
-    json['data'] == null
-        ? null
-        : CandidateResponseData.fromJson(json['data'] as Map<String, dynamic>),
-  );
-}
+CandidatesResponse _$CandidatesResponseFromJson(Map<String, dynamic> json) =>
+    CandidatesResponse(
+      json['success'] as bool,
+      CandidateResponseData.fromJson(json['data'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$CandidatesResponseToJson(CandidatesResponse instance) =>
     <String, dynamic>{
@@ -22,15 +19,12 @@ Map<String, dynamic> _$CandidatesResponseToJson(CandidatesResponse instance) =>
     };
 
 SingleCandidateResponse _$SingleCandidateResponseFromJson(
-    Map<String, dynamic> json) {
-  return SingleCandidateResponse(
-    json['success'] as bool,
-    json['data'] == null
-        ? null
-        : CandidateElementResponseData.fromJson(
-            json['data'] as Map<String, dynamic>),
-  );
-}
+        Map<String, dynamic> json) =>
+    SingleCandidateResponse(
+      json['success'] as bool,
+      CandidateElementResponseData.fromJson(
+          json['data'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$SingleCandidateResponseToJson(
         SingleCandidateResponse instance) =>
@@ -40,16 +34,14 @@ Map<String, dynamic> _$SingleCandidateResponseToJson(
     };
 
 CandidateResponseData _$CandidateResponseDataFromJson(
-    Map<String, dynamic> json) {
-  return CandidateResponseData(
-    json['eventStatus'] as num,
-    (json['elements'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CandidateElementResponseData.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-  );
-}
+        Map<String, dynamic> json) =>
+    CandidateResponseData(
+      json['eventStatus'] as num,
+      (json['elements'] as List<dynamic>)
+          .map((e) =>
+              CandidateElementResponseData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
 Map<String, dynamic> _$CandidateResponseDataToJson(
         CandidateResponseData instance) =>
@@ -59,24 +51,21 @@ Map<String, dynamic> _$CandidateResponseDataToJson(
     };
 
 CandidateElementResponseData _$CandidateElementResponseDataFromJson(
-    Map<String, dynamic> json) {
-  return CandidateElementResponseData(
-    id: json['id'] as int,
-    firstName: json['firstName'] as String,
-    lastName: json['lastName'] as String,
-    information: json['information'] as String,
-    age: json['age'] as int,
-    isActive: json['isActive'] as bool,
-    listId: json['listId'] as int,
-    electionId: json['electionId'] as int,
-    createdAt: json['createdAt'] as String,
-    updatedAt: json['updatedAt'] as String,
-    imageUrl: json['imageUrl'] as String,
-    list: json['list'] == null
-        ? null
-        : ElectionList.fromJson(json['list'] as Map<String, dynamic>),
-  );
-}
+        Map<String, dynamic> json) =>
+    CandidateElementResponseData(
+      id: (json['id'] as num).toInt(),
+      firstName: json['firstName'] as String,
+      lastName: json['lastName'] as String,
+      information: json['information'] as String,
+      age: (json['age'] as num).toInt(),
+      isActive: json['isActive'] as bool,
+      listId: (json['listId'] as num).toInt(),
+      electionId: (json['electionId'] as num).toInt(),
+      createdAt: json['createdAt'] as String,
+      updatedAt: json['updatedAt'] as String,
+      list: ElectionList.fromJson(json['list'] as Map<String, dynamic>),
+      imageUrl: json['imageUrl'] as String? ?? notAvailableImage,
+    );
 
 Map<String, dynamic> _$CandidateElementResponseDataToJson(
         CandidateElementResponseData instance) =>
@@ -95,15 +84,13 @@ Map<String, dynamic> _$CandidateElementResponseDataToJson(
       'list': instance.list,
     };
 
-ElectionList _$ElectionListFromJson(Map<String, dynamic> json) {
-  return ElectionList(
-    id: json['id'] as int,
-    name: json['name'] as String,
-    information: json['information'] as String,
-    electionId: json['electionId'] as int,
-    imageUrl: json['imageUrl'] as String,
-  );
-}
+ElectionList _$ElectionListFromJson(Map<String, dynamic> json) => ElectionList(
+      id: (json['id'] as num).toInt(),
+      name: json['name'] as String,
+      information: json['information'] as String,
+      electionId: (json['electionId'] as num).toInt(),
+      imageUrl: json['imageUrl'] as String,
+    );
 
 Map<String, dynamic> _$ElectionListToJson(ElectionList instance) =>
     <String, dynamic>{

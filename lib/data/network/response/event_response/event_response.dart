@@ -7,10 +7,14 @@ part 'event_response.g.dart';
 @JsonSerializable()
 class EventsResponse {
   final bool success;
-  final List<EventResponseData> data;
-  final ErrorResponse error;
+  final List<EventResponseData>? data;
+  final ErrorResponse? error;
 
-  EventsResponse({this.success, this.data, this.error});
+  EventsResponse({
+    this.success = false,
+    this.data,
+    this.error,
+  });
   factory EventsResponse.fromJson(Map<String, dynamic> json) =>
       _$EventsResponseFromJson(json);
 }
@@ -18,10 +22,14 @@ class EventsResponse {
 @JsonSerializable()
 class SingleEventResponse {
   final bool success;
-  final EventResponseData data;
-  final ErrorResponse error;
+  final EventResponseData? data;
+  final ErrorResponse? error;
 
-  SingleEventResponse({this.success, this.data, this.error});
+  SingleEventResponse({
+    this.success = false,
+    this.data,
+    this.error,
+  });
   factory SingleEventResponse.fromJson(Map<String, dynamic> json) =>
       _$SingleEventResponseFromJson(json);
 }
@@ -41,30 +49,26 @@ class EventResponseData {
     switch (eventStatus) {
       case 1:
         return 'No ha empezado';
-        break;
       case 2:
         return 'En progreso';
-        break;
       case 3:
         return 'Finalizado';
-        break;
       case 4:
         return 'Edición cerrada';
-        break;
       default:
         return 'No ha empezado';
     }
   }
 
   EventResponseData({
-    this.id,
-    this.name,
-    this.information,
-    this.startDate,
-    this.endDate,
-    this.code,
-    this.updatedAt,
-    this.eventStatus,
+    required this.id,
+    required this.name,
+    required this.information,
+    required this.startDate,
+    required this.endDate,
+    required this.code,
+    required this.updatedAt,
+    required this.eventStatus,
   });
 
   factory EventResponseData.fromJson(Map<String, dynamic> json) =>
@@ -73,14 +77,12 @@ class EventResponseData {
 
 extension XString on String {
   String toShortDate() {
-    final dateTime = DateTime.tryParse(this).toLocal();
-    if (dateTime == null) return 'Fecha desconocida';
-    return DateFormat(Constants.MIN_DATE_FORMAT).format(dateTime);
+    final dateTime = DateTime.tryParse(this)?.toLocal();
+    return DateFormat(Constants.minDateFormat).format(dateTime!);
   }
 
   String toDetailDate() {
-    final dateTime = DateTime.tryParse(this).toLocal();
-    if (dateTime == null) return 'Fecha desconocida';
-    return DateFormat(Constants.DETAIL_DATE_FORMAT).format(dateTime);
+    final dateTime = DateTime.tryParse(this)?.toLocal();
+    return DateFormat(Constants.detailDateFormat).format(dateTime!);
   }
 }

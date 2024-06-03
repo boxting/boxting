@@ -11,7 +11,7 @@ final fetchEventByIdProvider = FutureProvider.autoDispose
   try {
     final repository = ref.watch(eventsRepositoryProvider);
     final result = await repository.fetchEventById(id);
-    return result.data;
+    return result.data!;
   } on BoxtingException catch (e) {
     throw Exception(e.message);
   }
@@ -22,7 +22,7 @@ final removeUserFromEventProvider =
   try {
     final repository = ref.watch(eventsRepositoryProvider);
     await repository.unsubscribeVoterFromEvent(id);
-    await ref.container.refresh(fetchUserEventsProvider);
+    ref.container.refresh(fetchUserEventsProvider);
   } on BoxtingException catch (e) {
     throw Exception(e.message);
   }
@@ -33,28 +33,32 @@ final fetchUserEventsProvider =
   try {
     final repository = ref.watch(eventsRepositoryProvider);
     final result = await repository.fetchEvents();
-    return result.data;
+    return result.data!;
   } on BoxtingException catch (e) {
-    await ref.container.refresh(tokenProvider);
+    ref.container.refresh(tokenProvider);
     throw Exception(e.message);
   }
 });
 
-final subscribeEventProvider = StateNotifierProvider<SubscribeEvent>((ref) {
-  final repository = ref.watch(eventsRepositoryProvider);
-  return SubscribeEvent(repository, ref);
-});
+final subscribeEventProvider = StateNotifierProvider<SubscribeEvent, dynamic>(
+  (ref) {
+    final repository = ref.watch(eventsRepositoryProvider);
+    return SubscribeEvent(repository, () {
+      ref.container.refresh(fetchUserEventsProvider);
+    });
+  },
+);
 
 class SubscribeEvent extends StateNotifier {
-  SubscribeEvent(this.repository, this.ref) : super(null);
+  SubscribeEvent(this.repository, this.callback) : super(null);
 
   final EventRepository repository;
-  final ProviderReference ref;
+  final Function callback;
 
   void subscribe(SubscribeEventRequest req) async {
     try {
       await repository.subscribeNewEvent(req);
-      await ref.container.refresh(fetchUserEventsProvider);
+      callback.call();
     } on BoxtingException catch (e) {
       throw Exception(e.message);
     }

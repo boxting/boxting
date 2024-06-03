@@ -8,6 +8,10 @@ class NewPasswordRequest {
   final String token;
   final String newPassword;
 
-  NewPasswordRequest({this.mail, this.token, this.newPassword});
+  NewPasswordRequest({
+    required this.mail,
+    required this.token,
+    required this.newPassword,
+  });
   Map<String, dynamic> toJson() => _$NewPasswordRequestToJson(this);
 }

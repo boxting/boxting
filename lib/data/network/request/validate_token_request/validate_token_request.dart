@@ -7,6 +7,6 @@ class ValidateTokenRequest {
   final String mail;
   final String token;
 
-  ValidateTokenRequest({this.mail, this.token});
+  ValidateTokenRequest({required this.mail, required this.token});
   Map<String, dynamic> toJson() => _$ValidateTokenRequestToJson(this);
 }

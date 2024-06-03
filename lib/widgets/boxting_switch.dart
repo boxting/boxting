@@ -3,17 +3,13 @@ import 'package:flutter/material.dart';
 
 class BoxtingSwitch extends StatelessWidget {
   const BoxtingSwitch({
-    Key key,
-    @required this.title,
-    this.labelStyle,
-    this.value,
-    @required this.onChanged,
-  })  : assert(onChanged != null),
-        assert(title != null),
-        super(key: key);
+    super.key,
+    required this.title,
+    this.value = false,
+    required this.onChanged,
+  });
 
   final Widget title;
-  final TextStyle labelStyle;
   final ValueChanged<bool> onChanged;
   final bool value;
 
@@ -30,7 +26,7 @@ class BoxtingSwitch extends StatelessWidget {
             ),
           ],
         ),
-        Divider(
+        const Divider(
           height: 1,
           color: Colors.grey,
         ),

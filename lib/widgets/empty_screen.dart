@@ -5,12 +5,12 @@ import 'package:lottie/lottie.dart';
 class BoxtingEmptyScreen extends HookWidget {
   final String message;
 
-  BoxtingEmptyScreen(this.message);
+  const BoxtingEmptyScreen(this.message, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      physics: AlwaysScrollableScrollPhysics(),
+      physics: const AlwaysScrollableScrollPhysics(),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

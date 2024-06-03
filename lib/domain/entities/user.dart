@@ -15,19 +15,19 @@ class User extends HiveObject {
   @HiveField(5)
   final String phone;
   @HiveField(6)
-  final String username;
+  final String? username;
   final String birthday;
 
   User({
-    this.name,
-    this.lastname,
-    this.dni,
-    this.id,
-    this.mail,
-    this.phone,
+    required this.name,
+    required this.lastname,
+    required this.dni,
+    required this.id,
+    required this.mail,
+    required this.phone,
+    required this.birthday,
     this.username,
-    this.birthday,
   });
   @override
-  String toString() => 'User: ${name} ${lastname} ${dni} ${mail}';
+  String toString() => 'User: $name $lastname $dni $mail';
 }

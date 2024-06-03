@@ -2,15 +2,14 @@ import 'package:boxting/data/network/request/update_profile/update_profile_reque
 import 'package:boxting/domain/constants/constants.dart';
 import 'package:boxting/domain/entities/user.dart';
 import 'package:boxting/features/profile/providers.dart';
-import 'package:boxting/widgets/boxting_button.dart';
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class EditProfileScreen extends HookWidget {
   final User user;
@@ -19,7 +18,7 @@ class EditProfileScreen extends HookWidget {
     await BoxtingNavigation.goto(context, (_) => EditProfileScreen(user));
   }
 
-  EditProfileScreen(this.user);
+  const EditProfileScreen(this.user, {super.key});
   @override
   Widget build(BuildContext context) {
     final phoneController = useTextEditingController(text: user.phone);
@@ -32,30 +31,30 @@ class EditProfileScreen extends HookWidget {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            Text('Editar perfil', style: titleTextStyle),
-            SizedBox(height: 48),
+            const Text('Editar perfil', style: titleTextStyle),
+            const SizedBox(height: 48),
             ListTile(
               title: Text('${user.name} ${user.lastname}'),
               subtitle: Text(user.dni),
-              leading: Icon(Icons.perm_identity),
+              leading: const Icon(Icons.perm_identity),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             BoxtingInput(
               labelText: 'Celular',
               controller: phoneController,
-              suffix: Icon(Icons.phone),
+              suffix: const Icon(Icons.phone),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             BoxtingInput(
               labelText: 'Correo',
               controller: mailController,
-              suffix: Icon(Icons.mail),
+              suffix: const Icon(Icons.mail),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             BoxtingInput(
               labelText: 'Cumpleaños',
               controller: birthdayController,
-              suffix: Icon(Icons.cake),
+              suffix: const Icon(Icons.cake),
               readOnly: true,
               onFocus: () => DatePicker.showDatePicker(
                 context,
@@ -63,28 +62,28 @@ class EditProfileScreen extends HookWidget {
                 minTime: DateTime(1900, 3, 5),
                 maxTime: DateTime.now(),
                 onConfirm: (date) {
-                  final df = DateFormat(Constants.LOCAL_DATE_FORMAT);
+                  final df = DateFormat(Constants.localDateFormat);
                   birthdayController.text = df.format(date);
                 },
                 currentTime: DateTime.now(),
                 locale: LocaleType.es,
               ),
             ),
-            SizedBox(height: 48),
+            const SizedBox(height: 48),
             BoxtingButton(
-              child: Text('Guardar'),
+              child: const Text('Guardar'),
               onPressed: () => BoxtingLoadingDialog.show(
                 context,
                 futureBuilder: () async {
-                  final date = DateFormat(Constants.LOCAL_DATE_FORMAT)
+                  final date = DateFormat(Constants.localDateFormat)
                       .parse(birthdayController.text);
                   final reqDate =
-                      DateFormat(Constants.SERVER_DATE_FORMAT).format(date);
+                      DateFormat(Constants.serverDateFormat).format(date);
                   final request = UpdateProfileRequest(
                       mailController.text, phoneController.text, reqDate);
-                  await context
-                      .read(profileEventProvider)
-                      .updateProfile(request);
+                  // await context
+                  //     .read(profileEventProvider)
+                  //     .updateProfile(request);
                 },
                 onError: (e) => BoxtingModal.show(
                   context,

@@ -38,8 +38,8 @@ class UserResponseData {
 
 extension XUserResponseData on UserResponseData {
   User toUser() {
-    final df = DateFormat(Constants.LOCAL_DATE_FORMAT);
-    var date;
+    final df = DateFormat(Constants.localDateFormat);
+    String date;
     try {
       date = df.format(DateTime.parse(voter.birthday));
     } catch (_) {

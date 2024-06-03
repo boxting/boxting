@@ -8,28 +8,28 @@ import 'package:flutter/material.dart';
 class RegisterBloc extends ChangeNotifier {
   final AuthRepository authRepository;
 
-  BoxtingException _boxtingFailure;
+  late BoxtingException _boxtingFailure;
   BoxtingException get failure => _boxtingFailure;
 
-  RegisterRequest _registerRequest;
+  late RegisterRequest _registerRequest;
 
-  RegisterBloc({@required this.authRepository}) {
+  RegisterBloc({required this.authRepository}) {
     _registerRequest = RegisterRequest();
   }
 
   Future<void> _register() async {
     try {
-      return await authRepository.registerUser(_registerRequest);
+      await authRepository.registerUser(_registerRequest);
     } on BoxtingException catch (e) {
       throw Exception(e.message);
     }
   }
 
   void registerIdentifierInformation(DniResponseData data) {
-    _registerRequest.voter.dni = data.dni;
-    _registerRequest.voter.firstName = data.names;
-    _registerRequest.voter.lastName =
-        data.fatherLastname + ' ' + data.motherLastname;
+    _registerRequest.voter?.dni = data.dni;
+    _registerRequest.voter?.firstName = data.names;
+    _registerRequest.voter?.lastName =
+        '${data.fatherLastname} ${data.motherLastname}';
   }
 
   Future<void> registerPersonalInformation(
@@ -39,7 +39,7 @@ class RegisterBloc extends ChangeNotifier {
   ) async {
     _registerRequest.username = username;
     _registerRequest.mail = mail;
-    _registerRequest.voter.phone = phone;
+    _registerRequest.voter?.phone = phone;
   }
 
   Future<void> registerPassword(String password) async {

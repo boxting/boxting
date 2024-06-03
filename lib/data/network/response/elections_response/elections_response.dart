@@ -6,7 +6,7 @@ class ElectionsResponse {
   final bool success;
   final ElectionResponseData data;
 
-  ElectionsResponse({this.success, this.data});
+  ElectionsResponse({required this.success, required this.data});
   factory ElectionsResponse.fromJson(Map<String, dynamic> json) =>
       _$ElectionsResponseFromJson(json);
 }
@@ -16,7 +16,7 @@ class SingleElectionResponse {
   final bool success;
   final ElectionElementResponseData data;
 
-  SingleElectionResponse({this.success, this.data});
+  SingleElectionResponse({required this.success, required this.data});
 
   factory SingleElectionResponse.fromJson(Map<String, dynamic> json) =>
       _$SingleElectionResponseFromJson(json);
@@ -46,15 +46,15 @@ class ElectionElementResponseData {
   final bool userVoted;
 
   ElectionElementResponseData({
-    this.id,
-    this.name,
-    this.information,
-    this.winners,
-    this.eventId,
-    this.typeId,
-    this.updatedAt,
-    this.createdAt,
-    this.userVoted,
+    required this.id,
+    required this.name,
+    required this.information,
+    required this.winners,
+    required this.eventId,
+    required this.typeId,
+    required this.updatedAt,
+    required this.createdAt,
+    required this.userVoted,
   });
 
   factory ElectionElementResponseData.fromJson(Map<String, dynamic> json) =>

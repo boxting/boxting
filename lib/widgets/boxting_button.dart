@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 class BoxtingButton extends StatelessWidget {
   const BoxtingButton({
-    Key key,
-    @required this.child,
+    required this.child,
     this.onPressed,
-    this.backgroudColor,
+    this.backgroudColor = Colors.white,
     this.disabledBackgroudColor = Colors.grey,
     this.height = 50,
     this.width = double.infinity,
@@ -18,22 +17,20 @@ class BoxtingButton extends StatelessWidget {
       fontWeight: FontWeight.bold,
     ),
     this.padding = const EdgeInsets.symmetric(horizontal: 12),
-  })  : assert(child != null),
-        assert(height != null),
-        assert(textStyle != null),
-        assert(padding != null),
-        super(key: key);
+    super.key,
+  });
 
   const BoxtingButton.outline({
-    double width,
+    double width = 100,
     double height = 40,
     TextStyle textStyle = const TextStyle(
       color: Colors.pink,
       fontSize: 14,
       fontWeight: FontWeight.bold,
     ),
-    VoidCallback onPressed,
-    @required Widget child,
+    VoidCallback? onPressed,
+    required Widget child,
+    Key? key,
   }) : this(
           width: width,
           height: height,
@@ -42,24 +39,25 @@ class BoxtingButton extends StatelessWidget {
           borderColor: Colors.pink,
           onPressed: onPressed,
           child: child,
+          key: key,
         );
 
   final double height; // choose a default height
   final double width; // if null, use dense button
   final Widget child;
   final Color backgroudColor;
-  final Color borderColor;
+  final Color? borderColor;
   final Color disabledBackgroudColor;
   final TextStyle textStyle;
-  final VoidCallback onPressed; // if null, the button is disabled
+  final VoidCallback? onPressed; // if null, the button is disabled
   final EdgeInsets padding;
   final double borderRadius;
   final bool disabled;
 
   @override
   Widget build(BuildContext context) {
-    final isDisabled = onPressed == null || disabled == true;
-    final _backgroudColor = backgroudColor ?? Theme.of(context).primaryColor;
+    final isDisabled = disabled == true;
+
     return DefaultTextStyle(
       style: textStyle,
       child: Align(
@@ -71,11 +69,11 @@ class BoxtingButton extends StatelessWidget {
             height: height,
             padding: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
-              color: isDisabled ? disabledBackgroudColor : _backgroudColor,
+              color: isDisabled ? disabledBackgroudColor : backgroudColor,
               borderRadius: BorderRadius.circular(borderRadius),
-              border: borderColor == null
-                  ? null
-                  : Border.all(width: 1.0, color: borderColor),
+              border: borderColor != null
+                  ? Border.all(width: 1.0, color: borderColor!)
+                  : null,
             ),
             child: Column(
               mainAxisSize: MainAxisSize.max,

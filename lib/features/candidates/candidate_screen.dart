@@ -8,17 +8,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class CandidatesScreen extends HookWidget {
+class CandidatesScreen extends HookConsumerWidget {
   final String electionId;
 
-  const CandidatesScreen({Key key, this.electionId}) : super(key: key);
+  const CandidatesScreen({super.key, required this.electionId});
 
   @override
-  Widget build(BuildContext context) {
-    final provider = useProvider(fetchCandidateByElection(electionId));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(fetchCandidateByElection(electionId));
     return provider.when(
       data: (data) => CandidatesScreenBody(data: data),
-      loading: () => BoxtingLoadingScreen(),
+      loading: () => const BoxtingLoadingScreen(),
       error: (e, _) => BoxtingErrorScreen(e.toString()),
     );
   }
@@ -27,12 +27,12 @@ class CandidatesScreen extends HookWidget {
 class CandidatesScreenBody extends HookWidget {
   final CandidateResponseData data;
 
-  const CandidatesScreenBody({Key key, this.data}) : super(key: key);
+  const CandidatesScreenBody({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
     if (data.elements.isEmpty) {
-      return BoxtingEmptyScreen('Aún no hay candidatos');
+      return const BoxtingEmptyScreen('Aún no hay candidatos');
     }
     return ListView.builder(
       itemCount: data.elements.length,

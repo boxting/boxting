@@ -4,10 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final firstTimeOpenProvider = FutureProvider<bool>((ref) async {
   final repository = ref.watch(authRepositoryProvider);
-  final remoteConfig = await RemoteConfig.instance;
-  await remoteConfig.fetch(expiration: const Duration(days: 1));
-  await remoteConfig.activateFetched();
+  final remoteConfig = FirebaseRemoteConfig.instance;
+  await remoteConfig.fetchAndActivate();
   // final version =
-  await remoteConfig.getString('last_version');
+  remoteConfig.getString('last_version');
   return await repository.isFirstTimeLogin();
 });

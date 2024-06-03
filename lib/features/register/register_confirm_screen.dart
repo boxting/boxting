@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ConfirmRegisterScreen extends StatelessWidget {
+  const ConfirmRegisterScreen({super.key});
+
   static Widget init(BuildContext context) {
     return ChangeNotifierProvider.value(
       value: getIt.get<RegisterBloc>(),
-      builder: (_, __) => ConfirmRegisterScreen(),
+      builder: (_, __) => const ConfirmRegisterScreen(),
     );
   }
 
@@ -19,10 +21,9 @@ class ConfirmRegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        await BoxtingNavigation.gotoRoot(context);
-        return true;
+    return PopScope(
+      onPopInvoked: (canPop) async {
+        BoxtingNavigation.gotoRoot(context);
       },
       child: BoxtingScaffold(
         appBar: BoxtingAppBar(),
@@ -39,7 +40,7 @@ class ConfirmRegisterScreen extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               BoxtingButton(
-                child: Text('Volver a iniciar sesión'),
+                child: const Text('Volver a iniciar sesión'),
                 onPressed: () async => BoxtingNavigation.gotoRoot(context),
               )
             ],

@@ -6,406 +6,606 @@ part of 'boxting_client.dart';
 // RetrofitGenerator
 // **************************************************************************
 
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
+
 class _BoxtingClient implements BoxtingClient {
-  _BoxtingClient(this._dio, {this.baseUrl}) {
-    ArgumentError.checkNotNull(_dio, '_dio');
+  _BoxtingClient(
+    this._dio, {
+    this.baseUrl,
+  }) {
     baseUrl ??= 'https://boxting-rest-api.herokuapp.com';
   }
 
   final Dio _dio;
 
-  String baseUrl;
+  String? baseUrl;
 
   @override
-  Future<LoginResponse> login(loginRequest) async {
-    ArgumentError.checkNotNull(loginRequest, 'loginRequest');
-    const _extra = <String, dynamic>{};
+  Future<LoginResponse> login(LoginRequest loginRequest) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(loginRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
-    final _result = await _dio.request<Map<String, dynamic>>('/login/voter',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'POST',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = LoginResponse.fromJson(_result.data);
+    _data.addAll(loginRequest.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<LoginResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/login/voter',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = LoginResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<RegisterResponse> register(registerRequest) async {
-    ArgumentError.checkNotNull(registerRequest, 'registerRequest');
-    const _extra = <String, dynamic>{};
+  Future<RegisterResponse> register(RegisterRequest registerRequest) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(registerRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
-    final _result = await _dio.request<Map<String, dynamic>>(
-        '/login/register/voter',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'POST',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = RegisterResponse.fromJson(_result.data);
+    _data.addAll(registerRequest.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<RegisterResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/login/register/voter',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = RegisterResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<DniResponse> getDniInformation(dni) async {
-    ArgumentError.checkNotNull(dni, 'dni');
-    const _extra = <String, dynamic>{};
+  Future<DniResponse> getDniInformation(String dni) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>('/login/dni/$dni',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = DniResponse.fromJson(_result.data);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DniResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/login/dni/${dni}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DniResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<DefaultResponse> sendForgotPassword(forgotPasswordRequest) async {
-    ArgumentError.checkNotNull(forgotPasswordRequest, 'forgotPasswordRequest');
-    const _extra = <String, dynamic>{};
+  Future<DefaultResponse> sendForgotPassword(
+      ForgotPasswordRequest forgotPasswordRequest) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(forgotPasswordRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
-    final _result = await _dio.request<Map<String, dynamic>>(
-        '/login/forgot/password',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'POST',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = DefaultResponse.fromJson(_result.data);
+    _data.addAll(forgotPasswordRequest.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DefaultResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/login/forgot/password',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DefaultResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<DefaultResponse> validatePasswordToken(validateTokenRequest) async {
-    ArgumentError.checkNotNull(validateTokenRequest, 'validateTokenRequest');
-    const _extra = <String, dynamic>{};
+  Future<DefaultResponse> validatePasswordToken(
+      ValidateTokenRequest validateTokenRequest) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(validateTokenRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
-    final _result = await _dio.request<Map<String, dynamic>>(
-        '/login/validate/password-token',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'POST',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = DefaultResponse.fromJson(_result.data);
+    _data.addAll(validateTokenRequest.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DefaultResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/login/validate/password-token',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DefaultResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<DefaultResponse> setNewPassword(newPasswordRequest) async {
-    ArgumentError.checkNotNull(newPasswordRequest, 'newPasswordRequest');
-    const _extra = <String, dynamic>{};
+  Future<DefaultResponse> setNewPassword(
+      NewPasswordRequest newPasswordRequest) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(newPasswordRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
-    final _result = await _dio.request<Map<String, dynamic>>(
-        '/login/set/password',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'POST',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = DefaultResponse.fromJson(_result.data);
+    _data.addAll(newPasswordRequest.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DefaultResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/login/set/password',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DefaultResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
   Future<SubscribeEventResponse> subscribeNewEvent(
-      subscribeEventRequest) async {
-    ArgumentError.checkNotNull(subscribeEventRequest, 'subscribeEventRequest');
-    const _extra = <String, dynamic>{};
+      SubscribeEventRequest subscribeEventRequest) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(subscribeEventRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
-    final _result = await _dio.request<Map<String, dynamic>>(
-        '/event/subscribe/voter',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'POST',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = SubscribeEventResponse.fromJson(_result.data);
+    _data.addAll(subscribeEventRequest.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<SubscribeEventResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/event/subscribe/voter',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = SubscribeEventResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
   Future<EventsResponse> fetchEvents() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>('/user/events',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = EventsResponse.fromJson(_result.data);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<EventsResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/user/events',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = EventsResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<SingleEventResponse> fetchEventById(id) async {
-    ArgumentError.checkNotNull(id, 'id');
-    const _extra = <String, dynamic>{};
+  Future<SingleEventResponse> fetchEventById(String id) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>('/event/id/$id',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = SingleEventResponse.fromJson(_result.data);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<SingleEventResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/event/id/${id}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = SingleEventResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<ElectionsResponse> fetchElectionsFromEvent(id) async {
-    ArgumentError.checkNotNull(id, 'id');
-    const _extra = <String, dynamic>{};
+  Future<ElectionsResponse> fetchElectionsFromEvent(String id) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>(
-        '/election/event/$id',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = ElectionsResponse.fromJson(_result.data);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ElectionsResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/election/event/${id}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ElectionsResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<SingleElectionResponse> fetchElectionsById(event, election) async {
-    ArgumentError.checkNotNull(event, 'event');
-    ArgumentError.checkNotNull(election, 'election');
-    const _extra = <String, dynamic>{};
+  Future<SingleElectionResponse> fetchElectionsById(
+    String event,
+    String election,
+  ) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>(
-        '/election/$election/event/$event',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = SingleElectionResponse.fromJson(_result.data);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<SingleElectionResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/election/${election}/event/${event}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = SingleElectionResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<DefaultResponse> unsubscribeVoterFromEvent(id) async {
-    ArgumentError.checkNotNull(id, 'id');
-    const _extra = <String, dynamic>{};
+  Future<DefaultResponse> unsubscribeVoterFromEvent(String id) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>(
-        '/event/$id/unsubscribe/voter',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'DELETE',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = DefaultResponse.fromJson(_result.data);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DefaultResponse>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/event/${id}/unsubscribe/voter',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DefaultResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<CandidatesResponse> fetchCandidatesByElection(election) async {
-    ArgumentError.checkNotNull(election, 'election');
-    const _extra = <String, dynamic>{};
+  Future<CandidatesResponse> fetchCandidatesByElection(String election) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>(
-        '/candidate/election/$election',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = CandidatesResponse.fromJson(_result.data);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<CandidatesResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/candidate/election/${election}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = CandidatesResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<SingleCandidateResponse> fetchCandidateById(candidate, listId) async {
-    ArgumentError.checkNotNull(candidate, 'candidate');
-    ArgumentError.checkNotNull(listId, 'listId');
-    const _extra = <String, dynamic>{};
+  Future<SingleCandidateResponse> fetchCandidateById(
+    String candidate,
+    String listId,
+  ) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>(
-        '/candidate/$candidate/list/$listId',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = SingleCandidateResponse.fromJson(_result.data);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<SingleCandidateResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/candidate/${candidate}/list/${listId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = SingleCandidateResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
   Future<UserResponse> getUserInformation() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>('/user',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = UserResponse.fromJson(_result.data);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UserResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/user',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = UserResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<DefaultResponse> emitVote(election, emitVoteRequest) async {
-    ArgumentError.checkNotNull(election, 'election');
-    ArgumentError.checkNotNull(emitVoteRequest, 'emitVoteRequest');
-    const _extra = <String, dynamic>{};
+  Future<DefaultResponse> emitVote(
+    String election,
+    EmitVoteRequest emitVoteRequest,
+  ) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(emitVoteRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
-    final _result = await _dio.request<Map<String, dynamic>>(
-        '/election/$election/vote',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'POST',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = DefaultResponse.fromJson(_result.data);
+    _data.addAll(emitVoteRequest.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DefaultResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/election/${election}/vote',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DefaultResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<ResultResponse> getResultsByElection(election) async {
-    ArgumentError.checkNotNull(election, 'election');
-    const _extra = <String, dynamic>{};
+  Future<ResultResponse> getResultsByElection(String election) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>(
-        '/election/$election/results',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = ResultResponse.fromJson(_result.data);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ResultResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/election/${election}/results',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ResultResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<VoteResponse> getMyVoteFromElection(election) async {
-    ArgumentError.checkNotNull(election, 'election');
-    const _extra = <String, dynamic>{};
+  Future<VoteResponse> getMyVoteFromElection(String election) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>(
-        '/election/$election/vote',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = VoteResponse.fromJson(_result.data);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<VoteResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/election/${election}/vote',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = VoteResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<void> updateProfile(request) async {
-    ArgumentError.checkNotNull(request, 'request');
-    const _extra = <String, dynamic>{};
+  Future<void> updateProfile(UpdateProfileRequest request) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
-    await _dio.request<void>('/user',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'PUT',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    return null;
+    _data.addAll(request.toJson());
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/user',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
   }
 
   @override
-  Future<DefaultResponse> refreshToken(request) async {
-    ArgumentError.checkNotNull(request, 'request');
-    const _extra = <String, dynamic>{};
+  Future<DefaultResponse> refreshToken(RefreshTokenRequest request) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
-    final _result = await _dio.request<Map<String, dynamic>>(
-        '/login/token/refresh',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'POST',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = DefaultResponse.fromJson(_result.data);
+    _data.addAll(request.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DefaultResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/login/token/refresh',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DefaultResponse.fromJson(_result.data!);
     return value;
+  }
+
+  RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
+    if (T != dynamic &&
+        !(requestOptions.responseType == ResponseType.bytes ||
+            requestOptions.responseType == ResponseType.stream)) {
+      if (T == String) {
+        requestOptions.responseType = ResponseType.plain;
+      } else {
+        requestOptions.responseType = ResponseType.json;
+      }
+    }
+    return requestOptions;
+  }
+
+  String _combineBaseUrls(
+    String dioBaseUrl,
+    String? baseUrl,
+  ) {
+    if (baseUrl == null || baseUrl.trim().isEmpty) {
+      return dioBaseUrl;
+    }
+
+    final url = Uri.parse(baseUrl);
+
+    if (url.isAbsolute) {
+      return url.toString();
+    }
+
+    return Uri.parse(dioBaseUrl).resolveUri(url).toString();
   }
 }

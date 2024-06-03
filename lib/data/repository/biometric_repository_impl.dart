@@ -5,9 +5,9 @@ import 'package:hive/hive.dart';
 class BiometricRepositoryImpl implements BiometricRepository {
   @override
   Future<bool> isFingerprintLoginEnabled() async {
-    var box = await Hive.openBox(Constants.HIVE_BOX_NAME);
+    var box = await Hive.openBox(Constants.hiveBoxName);
     var fingerprintLogin = box.get(
-      Constants.FINGER_PRINT_ENABLED,
+      Constants.fingerPrintEnabled,
       defaultValue: false,
     );
     return fingerprintLogin;
@@ -15,7 +15,7 @@ class BiometricRepositoryImpl implements BiometricRepository {
 
   @override
   Future<void> setFingerprintLogin(bool enabled) async {
-    var box = await Hive.openBox(Constants.HIVE_BOX_NAME);
-    await box.put(Constants.FINGER_PRINT_ENABLED, enabled);
+    var box = await Hive.openBox(Constants.hiveBoxName);
+    await box.put(Constants.fingerPrintEnabled, enabled);
   }
 }

@@ -2,21 +2,19 @@ import 'package:boxting/data/network/request/subscribe_event_request/subscribe_e
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import '../providers.dart';
 
 class SubscribeEventScreen extends HookWidget {
+  const SubscribeEventScreen({super.key});
+
   static Future<void> navigate(BuildContext context) async {
-    await BoxtingNavigation.goto(context, (_) => SubscribeEventScreen());
+    await BoxtingNavigation.goto(context, (_) => const SubscribeEventScreen());
   }
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     final accessCodeController = useTextEditingController();
     final eventCodeController = useTextEditingController();
 
@@ -25,10 +23,10 @@ class SubscribeEventScreen extends HookWidget {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: Column(
             children: [
-              Text(
+              const Text(
                 'Suscribete a un nuevo evento de votación',
                 style: titleTextStyle,
               ),
@@ -37,20 +35,20 @@ class SubscribeEventScreen extends HookWidget {
                 controller: eventCodeController,
                 labelText: 'Código del evento',
                 validator: (value) =>
-                    value.isEmpty ? 'Este campo no puede estar vacio' : null,
+                    value!.isEmpty ? 'Este campo no puede estar vacio' : null,
               ),
               const SizedBox(height: 24),
               BoxtingInput(
                 controller: accessCodeController,
                 labelText: 'Código de acceso',
                 validator: (value) =>
-                    value.isEmpty ? 'Este campo no puede estar vacio' : null,
+                    value!.isEmpty ? 'Este campo no puede estar vacio' : null,
               ),
               const SizedBox(height: 48),
               BoxtingButton(
-                child: Text('Suscribirse'),
+                child: const Text('Suscribirse'),
                 onPressed: () async {
-                  if (_formKey.currentState.validate()) {
+                  if (formKey.currentState!.validate()) {
                     await BoxtingLoadingDialog.show(
                       context,
                       futureBuilder: () async {
@@ -58,22 +56,22 @@ class SubscribeEventScreen extends HookWidget {
                           eventCode: eventCodeController.text.trim(),
                           accessCode: accessCodeController.text.trim(),
                         );
-                        await context
-                            .read(subscribeEventProvider)
-                            .subscribe(request);
+                        // await context
+                        //     .read(subscribeEventProvider)
+                        //     .subscribe(request);
                       },
                       onSuccess: () async {
-                        await CoolAlert.show(
-                          context: context,
-                          type: CoolAlertType.success,
-                          title: 'Felicidades',
-                          barrierDismissible: false,
-                          text: 'Se ha suscrito al evento de votación',
-                          confirmBtnText: 'Ok',
-                          confirmBtnColor: Colors.green,
-                          onConfirmBtnTap: () => BoxtingNavigation.pop(context),
-                        );
-                        await BoxtingNavigation.pop(context);
+                        // await CoolAlert.show(
+                        //   context: context,
+                        //   type: CoolAlertType.success,
+                        //   title: 'Felicidades',
+                        //   barrierDismissible: false,
+                        //   text: 'Se ha suscrito al evento de votación',
+                        //   confirmBtnText: 'Ok',
+                        //   confirmBtnColor: Colors.green,
+                        //   onConfirmBtnTap: () => BoxtingNavigation.pop(context),
+                        // );
+                        BoxtingNavigation.pop(context);
                       },
                       onError: (e) async => await BoxtingModal.show(
                         context,

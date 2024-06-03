@@ -3,29 +3,30 @@ import 'package:flutter/material.dart';
 
 class BoxtingSelect<T> extends StatelessWidget {
   const BoxtingSelect({
-    @required this.label,
+    super.key,
+    required this.label,
     this.items = const [],
     this.onChanged,
-    @required this.formatter,
+    required this.formatter,
     this.defaultValue,
-    this.helperText,
+    this.helperText = '',
     this.borderRadius = 5,
     this.validator,
     this.onTap,
     this.enabled = true,
-    this.disabledHint,
+    this.disabledHint = const SizedBox.shrink(),
   });
 
   final String label;
   final String helperText;
   final double borderRadius;
-  final T defaultValue;
+  final T? defaultValue;
   final List<T> items;
-  final ValueChanged<T> onChanged;
+  final ValueChanged<T?>? onChanged;
   final ValueConverter<T, String> formatter;
   final bool enabled;
-  final VoidCallback onTap;
-  final String Function(T) validator;
+  final VoidCallback? onTap;
+  final String? Function(T?)? validator;
   final Widget disabledHint;
 
   @override
@@ -37,7 +38,7 @@ class BoxtingSelect<T> extends StatelessWidget {
       decoration: InputDecoration(
         helperText: helperText,
         labelText: label,
-        errorStyle: TextStyle(fontSize: 9),
+        errorStyle: const TextStyle(fontSize: 9),
         focusColor: Theme.of(context).primaryColor,
         filled: true,
         labelStyle: TextStyle(
@@ -48,7 +49,7 @@ class BoxtingSelect<T> extends StatelessWidget {
           color: enabled ? Colors.green : Colors.grey,
           fontSize: 14,
         ),
-        helperStyle: TextStyle(fontSize: 14),
+        helperStyle: const TextStyle(fontSize: 14),
         fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),

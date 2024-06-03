@@ -6,25 +6,24 @@ import 'package:flutter/material.dart';
 import 'navigation.dart';
 
 class BoxtingLoadingDialog extends StatelessWidget {
-  const BoxtingLoadingDialog({Key key}) : super(key: key);
+  const BoxtingLoadingDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 300,
       alignment: Alignment.center,
-      child: SizedBox(child: LoadingVote()),
+      child: const SizedBox(child: LoadingVote()),
     );
   }
 
-  static Future<T> show<T>(
+  static Future<T?> show<T>(
     BuildContext context, {
-    @required AsyncValueGetter<T> futureBuilder,
-    VoidCallback onSuccess,
-    AsyncValueConverter<dynamic, T> onError,
+    required AsyncValueGetter<T> futureBuilder,
+    VoidCallback? onSuccess,
+    AsyncValueConverter<dynamic, T>? onError,
   }) {
-    assert(futureBuilder != null);
-    return showDialog(
+    return showDialog<T>(
       context: context,
       useSafeArea: true,
       barrierDismissible: false,

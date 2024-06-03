@@ -1,14 +1,16 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:async';
 
 import 'package:boxting/widgets/navigation.dart';
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'boxting_modal.dart';
 
 class ConnectivityVerifier extends StatefulWidget {
-  const ConnectivityVerifier({Key key, this.child}) : super(key: key);
+  const ConnectivityVerifier({super.key, required this.child});
 
   final Widget child;
 
@@ -18,7 +20,7 @@ class ConnectivityVerifier extends StatefulWidget {
 
 class _ConnectivityVerifierState extends State<ConnectivityVerifier> {
   final _connectivity = Connectivity();
-  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
 
   static bool isVModalActive = false;
 
@@ -26,20 +28,21 @@ class _ConnectivityVerifierState extends State<ConnectivityVerifier> {
     ConnectivityResult result;
 
     try {
-      result = await _connectivity.checkConnectivity();
+      result = (await _connectivity.checkConnectivity()).last;
     } on PlatformException catch (e) {
-      print(e.toString());
+      throw Exception(e);
     }
 
     if (!mounted) {
       return Future.value(null);
     }
 
-    return _updateConnectionStatus(result);
+    return _updateConnectionStatus([result]);
   }
 
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    switch (result) {
+  void _updateConnectionStatus(List<ConnectivityResult> result) async {
+    final connectivity = result.last;
+    switch (connectivity) {
       case ConnectivityResult.none:
         if (!isVModalActive) {
           isVModalActive = true;

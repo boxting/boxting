@@ -25,8 +25,8 @@ import 'package:local_auth/local_auth.dart';
 final getIt = GetIt.I;
 
 final dioOptions = BaseOptions(
-  connectTimeout: 50000,
-  receiveTimeout: 30000,
+  connectTimeout: const Duration(seconds: 50),
+  receiveTimeout: const Duration(seconds: 30),
 );
 
 void setupGetIt() {
@@ -93,7 +93,7 @@ void _setupBlocs() {
 }
 
 void _setupStorage() {
-  getIt.registerSingleton<FlutterSecureStorage>(FlutterSecureStorage());
+  getIt.registerSingleton<FlutterSecureStorage>(const FlutterSecureStorage());
 }
 
 void setupGetItTesting() {

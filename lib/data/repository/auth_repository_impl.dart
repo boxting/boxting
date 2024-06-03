@@ -22,28 +22,25 @@ class AuthRepositoryImpl implements AuthRepository {
   final BoxtingClient boxtingClient;
 
   AuthRepositoryImpl(this.boxtingClient);
+
   @override
   Future<DniResponseData> fetchInformationFromReniec(String dni) async {
     try {
       final dniResponse = await boxtingClient.getDniInformation(dni);
-      if (dniResponse.error != null) {
-        throw BoxtingException(statusCode: dniResponse.error.statusCode);
-      }
-      return dniResponse.data;
-    } on DioError catch (e) {
-      final code =
-          cast<int>(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
-              .orDefaultErrorCode();
+      throw BoxtingException(statusCode: dniResponse.error!.statusCode);
+      // return dniResponse.data;
+    } on DioException catch (e) {
+      final code = e.response?.statusCode?.orDefaultErrorCode();
       throw BoxtingException(statusCode: code);
     } catch (e) {
-      throw BoxtingException(statusCode: UNKNOWN_ERROR);
+      throw BoxtingException(statusCode: unknownError);
     }
   }
 
   @override
   Future<bool> isFirstTimeLogin() async {
-    final box = await Hive.openBox(Constants.HIVE_BOX_NAME);
-    return box.get(Constants.FIRST_LOGIN, defaultValue: true);
+    final box = await Hive.openBox(Constants.hiveBoxName);
+    return box.get(Constants.firstLogin, defaultValue: true);
   }
 
   @override
@@ -51,17 +48,15 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final loginResponse = await boxtingClient.login(loginRequest);
       await _saveAuthToken(
-        loginResponse.data.token,
-        loginResponse.data.refreshToken,
+        loginResponse.data!.token,
+        loginResponse.data!.refreshToken,
       );
       return loginResponse.success;
-    } on DioError catch (e) {
-      final code =
-          cast<int>(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
-              .orDefaultErrorCode();
+    } on DioException catch (e) {
+      final code = e.response?.statusCode?.orDefaultErrorCode();
       throw BoxtingException(statusCode: code);
     } catch (e) {
-      throw BoxtingException(statusCode: UNKNOWN_ERROR);
+      throw BoxtingException(statusCode: unknownError);
     }
   }
 
@@ -70,13 +65,11 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final registerResponse = await boxtingClient.register(registerRequest);
       return registerResponse.success;
-    } on DioError catch (e) {
-      final code =
-          cast<int>(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
-              .orDefaultErrorCode();
+    } on DioException catch (e) {
+      final code = e.response?.statusCode?.orDefaultErrorCode();
       throw BoxtingException(statusCode: code);
     } catch (e) {
-      throw BoxtingException(statusCode: UNKNOWN_ERROR);
+      throw BoxtingException(statusCode: unknownError);
     }
   }
 
@@ -86,13 +79,11 @@ class AuthRepositoryImpl implements AuthRepository {
   ) async {
     try {
       return await boxtingClient.sendForgotPassword(forgotPasswordRequest);
-    } on DioError catch (e) {
-      final code =
-          cast<int>(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
-              .orDefaultErrorCode();
+    } on DioException catch (e) {
+      final code = e.response?.statusCode?.orDefaultErrorCode();
       throw BoxtingException(statusCode: code);
     } catch (e) {
-      throw BoxtingException(statusCode: UNKNOWN_ERROR);
+      throw BoxtingException(statusCode: unknownError);
     }
   }
 
@@ -102,13 +93,11 @@ class AuthRepositoryImpl implements AuthRepository {
   ) async {
     try {
       return await boxtingClient.setNewPassword(newPasswordRequest);
-    } on DioError catch (e) {
-      final code =
-          cast<int>(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
-              .orDefaultErrorCode();
+    } on DioException catch (e) {
+      final code = e.response?.statusCode?.orDefaultErrorCode();
       throw BoxtingException(statusCode: code);
     } catch (e) {
-      throw BoxtingException(statusCode: UNKNOWN_ERROR);
+      throw BoxtingException(statusCode: unknownError);
     }
   }
 
@@ -118,13 +107,11 @@ class AuthRepositoryImpl implements AuthRepository {
   ) async {
     try {
       return await boxtingClient.validatePasswordToken(validateTokenRequest);
-    } on DioError catch (e) {
-      final code =
-          cast<int>(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
-              .orDefaultErrorCode();
+    } on DioException catch (e) {
+      final code = e.response?.statusCode?.orDefaultErrorCode();
       throw BoxtingException(statusCode: code);
     } catch (e) {
-      throw BoxtingException(statusCode: UNKNOWN_ERROR);
+      throw BoxtingException(statusCode: unknownError);
     }
   }
 
@@ -132,27 +119,25 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<UserResponse> getUserInformation() async {
     try {
       return await boxtingClient.getUserInformation();
-    } on DioError catch (e) {
-      final code =
-          cast<int>(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
-              .orDefaultErrorCode();
+    } on DioException catch (e) {
+      final code = e.response?.statusCode?.orDefaultErrorCode();
       throw BoxtingException(statusCode: code);
     } catch (e) {
-      throw BoxtingException(statusCode: UNKNOWN_ERROR);
+      throw BoxtingException(statusCode: unknownError);
     }
   }
 
   @override
   Future<void> saveFirstTimeLogin() async {
-    final box = await Hive.openBox(Constants.HIVE_BOX_NAME);
-    await box.put(Constants.FIRST_LOGIN, false);
+    final box = await Hive.openBox(Constants.hiveBoxName);
+    await box.put(Constants.firstLogin, false);
   }
 
   Future<void> _saveAuthToken(String token, String refreshToken) async {
     final secureStorage = getIt.get<FlutterSecureStorage>();
-    await secureStorage.write(key: Constants.AUTH_TOKEN, value: token);
+    await secureStorage.write(key: Constants.authToken, value: token);
     await secureStorage.write(
-      key: Constants.AUTH_REFRESH_TOKEN,
+      key: Constants.authRefreshToken,
       value: refreshToken,
     );
   }
@@ -161,13 +146,11 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> updateUserInformation(UpdateProfileRequest request) async {
     try {
       await boxtingClient.updateProfile(request);
-    } on DioError catch (e) {
-      final code =
-          cast<int>(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
-              .orDefaultErrorCode();
+    } on DioException catch (e) {
+      final code = e.response?.statusCode?.orDefaultErrorCode();
       throw BoxtingException(statusCode: code);
     } catch (e) {
-      throw BoxtingException(statusCode: UNKNOWN_ERROR);
+      throw BoxtingException(statusCode: unknownError);
     }
   }
 
@@ -177,16 +160,14 @@ class AuthRepositoryImpl implements AuthRepository {
       final response = await boxtingClient.refreshToken(request);
       final secureStorage = getIt.get<FlutterSecureStorage>();
       await secureStorage.write(
-        key: Constants.AUTH_TOKEN,
+        key: Constants.authToken,
         value: response.data,
       );
-    } on DioError catch (e) {
-      final code =
-          cast<int>(e.response.data[Constants.ERROR][Constants.ERROR_CODE])
-              .orDefaultErrorCode();
+    } on DioException catch (e) {
+      final code = e.response?.statusCode?.orDefaultErrorCode();
       throw BoxtingException(statusCode: code);
     } catch (e) {
-      throw BoxtingException(statusCode: UNKNOWN_ERROR);
+      throw BoxtingException(statusCode: unknownError);
     }
   }
 }
