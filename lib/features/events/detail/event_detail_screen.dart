@@ -1,21 +1,20 @@
 import 'package:boxting/data/network/response/event_response/event_response.dart';
 import 'package:boxting/features/elections/elections_screen.dart';
+import 'package:boxting/features/events/providers.dart';
 import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../providers.dart';
-
 class EventDetailScreen extends HookConsumerWidget {
-  final String eventId;
 
-  const EventDetailScreen({super.key, required this.eventId});
+  const EventDetailScreen({required this.eventId, super.key});
+  final String eventId;
 
   static Future<void> navigate(BuildContext context, String id) async {
     await BoxtingNavigation.goto(
-        context, (_) => EventDetailScreen(eventId: id));
+        context, (_) => EventDetailScreen(eventId: id),);
   }
 
   @override
@@ -43,15 +42,15 @@ class EventDetailScreen extends HookConsumerWidget {
 }
 
 class EventDetailBody extends HookWidget {
+  const EventDetailBody({required this.event, super.key});
   final EventResponseData event;
-  const EventDetailBody({super.key, required this.event});
 
   @override
   Widget build(BuildContext context) {
     final startDate = event.startDate.toDetailDate();
     final endDate = event.endDate.toDetailDate();
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(20),
       child: Column(
         children: [
           Text(event.name, style: titleTextStyle),
@@ -69,7 +68,7 @@ class EventDetailBody extends HookWidget {
               eventId: event.id.toString(),
               eventStatus: event.eventStatus,
             ),
-          )
+          ),
         ],
       ),
     );
@@ -77,8 +76,8 @@ class EventDetailBody extends HookWidget {
 }
 
 class SettingsModalBody extends HookWidget {
+  const SettingsModalBody({required this.eventId, super.key});
   final String eventId;
-  const SettingsModalBody({super.key, required this.eventId});
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +111,7 @@ class SettingsModalBody extends HookWidget {
           //     );
           //   },
           // ),
-        )
+        ),
       ],
     );
   }

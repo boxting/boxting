@@ -16,7 +16,7 @@ class ConfirmRegisterScreen extends StatelessWidget {
 
   static Future<void> navigate(BuildContext context) async {
     await BoxtingNavigation.goto(
-        context, (_) => ConfirmRegisterScreen.init(context));
+        context, (_) => ConfirmRegisterScreen.init(context),);
   }
 
   @override
@@ -28,7 +28,7 @@ class ConfirmRegisterScreen extends StatelessWidget {
       child: BoxtingScaffold(
         appBar: BoxtingAppBar(),
         body: Padding(
-          padding: const EdgeInsets.all(40.0),
+          padding: const EdgeInsets.all(40),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -42,7 +42,7 @@ class ConfirmRegisterScreen extends StatelessWidget {
               BoxtingButton(
                 child: const Text('Volver a iniciar sesión'),
                 onPressed: () async => BoxtingNavigation.gotoRoot(context),
-              )
+              ),
             ],
           ),
         ),

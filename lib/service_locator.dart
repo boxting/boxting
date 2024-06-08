@@ -44,16 +44,18 @@ BoxtingClient _setupNetwork() {
 }
 
 void _setupRepositories(BoxtingClient boxtingClient) {
-  getIt.registerSingleton<AuthRepository>(AuthRepositoryImpl(boxtingClient));
-  getIt.registerSingleton<BiometricRepository>(BiometricRepositoryImpl());
-  getIt.registerSingleton<LocalAuthentication>(LocalAuthentication());
-  getIt.registerSingleton<EventRepository>(EventRepositoryImpl(boxtingClient));
-  getIt.registerSingleton<ElectionsRepository>(
-      ElectionsRepositoryImpl(boxtingClient));
-  getIt.registerSingleton<CandidatesRepository>(
-      CandidatesRepositoryImpl(boxtingClient));
   getIt
-      .registerSingleton<VotingRepository>(VotingRepositoryImpl(boxtingClient));
+    ..registerSingleton<AuthRepository>(AuthRepositoryImpl(boxtingClient))
+    ..registerSingleton<BiometricRepository>(BiometricRepositoryImpl())
+    ..registerSingleton<LocalAuthentication>(LocalAuthentication())
+    ..registerSingleton<EventRepository>(EventRepositoryImpl(boxtingClient))
+    ..registerSingleton<ElectionsRepository>(
+      ElectionsRepositoryImpl(boxtingClient),
+    )
+    ..registerSingleton<CandidatesRepository>(
+      CandidatesRepositoryImpl(boxtingClient),
+    )
+    ..registerSingleton<VotingRepository>(VotingRepositoryImpl(boxtingClient));
 }
 
 final authRepositoryProvider = Provider((_) => getIt.get<AuthRepository>());
@@ -72,24 +74,25 @@ final votingRepositoryProvider = Provider((_) => getIt.get<VotingRepository>());
 final localAuthProvider = Provider((_) => LocalAuthentication());
 
 void _setupBlocs() {
-  getIt.registerSingleton<ForgotPasswordBloc>(
-    ForgotPasswordBloc(authRepository: getIt.get<AuthRepository>()),
-  );
-  getIt.registerSingleton<RegisterBloc>(
-    RegisterBloc(authRepository: getIt.get<AuthRepository>()),
-  );
-  getIt.registerSingleton<BiometricBloc>(
-    BiometricBloc(
-      getIt.get<BiometricRepository>(),
-      getIt.get<LocalAuthentication>(),
-    ),
-  );
-  getIt.registerSingleton<LoginBloc>(
-    LoginBloc(
-      authRepository: getIt.get<AuthRepository>(),
-      biometricRepository: getIt.get<BiometricRepository>(),
-    ),
-  );
+  getIt
+    ..registerSingleton<ForgotPasswordBloc>(
+      ForgotPasswordBloc(authRepository: getIt.get<AuthRepository>()),
+    )
+    ..registerSingleton<RegisterBloc>(
+      RegisterBloc(authRepository: getIt.get<AuthRepository>()),
+    )
+    ..registerSingleton<BiometricBloc>(
+      BiometricBloc(
+        getIt.get<BiometricRepository>(),
+        getIt.get<LocalAuthentication>(),
+      ),
+    )
+    ..registerSingleton<LoginBloc>(
+      LoginBloc(
+        authRepository: getIt.get<AuthRepository>(),
+        biometricRepository: getIt.get<BiometricRepository>(),
+      ),
+    );
 }
 
 void _setupStorage() {

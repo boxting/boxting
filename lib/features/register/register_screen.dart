@@ -8,14 +8,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends HookWidget {
+
+  RegisterScreen({super.key});
   final _formKey = GlobalKey<FormState>();
 
   final emailRegex =
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 
-  RegisterScreen({super.key});
-
-  void registerPersonalInfo(
+  Future<void> registerPersonalInfo(
     BuildContext context,
     String mail,
     String phone,
@@ -33,7 +33,7 @@ class RegisterScreen extends HookWidget {
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: Padding(
-        padding: const EdgeInsets.all(32.0),
+        padding: const EdgeInsets.all(32),
         child: Form(
           key: _formKey,
           child: ListView(
@@ -104,7 +104,7 @@ class RegisterScreen extends HookWidget {
                     );
                   }
                 },
-              )
+              ),
             ],
           ),
         ),

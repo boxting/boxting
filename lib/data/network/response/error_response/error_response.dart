@@ -3,10 +3,6 @@ part 'error_response.g.dart';
 
 @JsonSerializable()
 class ErrorResponse {
-  final String name;
-  final String message;
-  final int statusCode;
-  final int errorCode;
 
   ErrorResponse({
     required this.name,
@@ -17,4 +13,8 @@ class ErrorResponse {
 
   factory ErrorResponse.fromJson(Map<String, dynamic> json) =>
       _$ErrorResponseFromJson(json);
+  final String name;
+  final String message;
+  final int statusCode;
+  final int errorCode;
 }

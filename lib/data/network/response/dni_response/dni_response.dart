@@ -5,9 +5,6 @@ part 'dni_response.g.dart';
 
 @JsonSerializable()
 class DniResponse {
-  final bool success;
-  final DniResponseData? data;
-  final ErrorResponse? error;
   DniResponse({
     this.success = false,
     this.data,
@@ -16,19 +13,13 @@ class DniResponse {
 
   factory DniResponse.fromJson(Map<String, dynamic> json) =>
       _$DniResponseFromJson(json);
+  final bool success;
+  final DniResponseData? data;
+  final ErrorResponse? error;
 }
 
 @JsonSerializable()
 class DniResponseData {
-  final String dni;
-  final int cui;
-  @JsonKey(name: 'apellido_materno')
-  final String motherLastname;
-  @JsonKey(name: 'apellido_paterno')
-  final String fatherLastname;
-  @JsonKey(name: 'nombres')
-  final String names;
-  final bool used;
 
   DniResponseData({
     required this.dni,
@@ -41,4 +32,13 @@ class DniResponseData {
 
   factory DniResponseData.fromJson(Map<String, dynamic> json) =>
       _$DniResponseDataFromJson(json);
+  final String dni;
+  final int cui;
+  @JsonKey(name: 'apellido_materno')
+  final String motherLastname;
+  @JsonKey(name: 'apellido_paterno')
+  final String fatherLastname;
+  @JsonKey(name: 'nombres')
+  final String names;
+  final bool used;
 }

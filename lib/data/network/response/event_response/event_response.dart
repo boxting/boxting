@@ -6,9 +6,6 @@ part 'event_response.g.dart';
 
 @JsonSerializable()
 class EventsResponse {
-  final bool success;
-  final List<EventResponseData>? data;
-  final ErrorResponse? error;
 
   EventsResponse({
     this.success = false,
@@ -17,13 +14,13 @@ class EventsResponse {
   });
   factory EventsResponse.fromJson(Map<String, dynamic> json) =>
       _$EventsResponseFromJson(json);
+  final bool success;
+  final List<EventResponseData>? data;
+  final ErrorResponse? error;
 }
 
 @JsonSerializable()
 class SingleEventResponse {
-  final bool success;
-  final EventResponseData? data;
-  final ErrorResponse? error;
 
   SingleEventResponse({
     this.success = false,
@@ -32,10 +29,27 @@ class SingleEventResponse {
   });
   factory SingleEventResponse.fromJson(Map<String, dynamic> json) =>
       _$SingleEventResponseFromJson(json);
+  final bool success;
+  final EventResponseData? data;
+  final ErrorResponse? error;
 }
 
 @JsonSerializable()
 class EventResponseData {
+
+  EventResponseData({
+    required this.id,
+    required this.name,
+    required this.information,
+    required this.startDate,
+    required this.endDate,
+    required this.code,
+    required this.updatedAt,
+    required this.eventStatus,
+  });
+
+  factory EventResponseData.fromJson(Map<String, dynamic> json) =>
+      _$EventResponseDataFromJson(json);
   final int id;
   final String name;
   final String information;
@@ -59,20 +73,6 @@ class EventResponseData {
         return 'No ha empezado';
     }
   }
-
-  EventResponseData({
-    required this.id,
-    required this.name,
-    required this.information,
-    required this.startDate,
-    required this.endDate,
-    required this.code,
-    required this.updatedAt,
-    required this.eventStatus,
-  });
-
-  factory EventResponseData.fromJson(Map<String, dynamic> json) =>
-      _$EventResponseDataFromJson(json);
 }
 
 extension XString on String {

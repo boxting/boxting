@@ -5,14 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class BarChartSample1 extends HookWidget {
+  BarChartSample1(this.result, {super.key});
   final ResultResponseData result;
   final Color barBackgroundColor = Colors.white;
 
   final Duration animDuration = const Duration(milliseconds: 250);
 
   final touchedIndex = useState<int>(-1);
-
-  BarChartSample1(this.result, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,6 @@ class BarChartSample1 extends HookWidget {
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Text(
                   'Cantidad de votos emitidos: ${result.totalVotes}',
@@ -32,7 +30,7 @@ class BarChartSample1 extends HookWidget {
                 ),
                 const SizedBox(height: 40),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: RotatedBox(
                     quarterTurns: 1,
                     child: BarChart(
@@ -56,7 +54,7 @@ class BarChartSample1 extends HookWidget {
       barTouchData: BarTouchData(
         touchTooltipData: BarTouchTooltipData(
           getTooltipItem: (group, groupIndex, rod, rodIndex) {
-            final candidate = result.candidates[group.x.toInt()];
+            final candidate = result.candidates[group.x];
             final weekDay = candidate.firstName;
             final percentVote = candidate.voteCount * 100 / result.totalVotes;
             return BarTooltipItem(
@@ -77,9 +75,7 @@ class BarChartSample1 extends HookWidget {
           }
         },
       ),
-      titlesData: const FlTitlesData(
-        show: true,
-      ),
+      titlesData: const FlTitlesData(),
       borderData: FlBorderData(
         show: false,
       ),
@@ -90,8 +86,11 @@ class BarChartSample1 extends HookWidget {
   List<BarChartGroupData> showingGroup2s() =>
       result.candidates.map((candidate) {
         final index = result.candidates.indexOf(candidate);
-        return makeGroupData(index, candidate.voteCount.toDouble(),
-            isTouched: index == touchedIndex.value);
+        return makeGroupData(
+          index,
+          candidate.voteCount.toDouble(),
+          isTouched: index == touchedIndex.value,
+        );
       }).toList();
 
   BarChartGroupData makeGroupData(
@@ -124,8 +123,8 @@ extension XString on String {
     }
     var color = '#';
     for (var i = 0; i < 3; i++) {
-      var value = (hash >> (i * 8)) & 0xFF;
-      color += ('00${value.toStringAsPrecision(16)}').substring(-2);
+      final value = (hash >> (i * 8)) & 0xFF;
+      color += '00${value.toStringAsPrecision(16)}'.substring(-2);
     }
     return color;
   }

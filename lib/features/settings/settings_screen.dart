@@ -1,4 +1,4 @@
-import 'package:boxting/features/biometric/biometric_screen.dart';
+import 'package:boxting/features/biometric/view/biometric_screen.dart';
 import 'package:boxting/features/faq/faq_screen.dart';
 import 'package:boxting/features/settings/providers.dart';
 import 'package:boxting/features/terms/terms_screen.dart';
@@ -21,27 +21,27 @@ class SettingsScreen extends HookConsumerWidget {
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: provider.when(
-            loading: () => const BoxtingLoadingScreen(),
-            data: (enabled) => SettingsScreenBody(biometricEnabled: enabled),
-            error: (e, _) => BoxtingErrorScreen(e.toString()),
-          )),
+        padding: const EdgeInsets.all(8),
+        child: provider.when(
+          loading: () => const BoxtingLoadingScreen(),
+          data: (enabled) => SettingsScreenBody(biometricEnabled: enabled),
+          error: (e, _) => BoxtingErrorScreen(e.toString()),
+        ),
+      ),
     );
   }
 }
 
 class SettingsScreenBody extends HookWidget {
+  const SettingsScreenBody({required this.biometricEnabled, super.key});
   final bool biometricEnabled;
-
-  const SettingsScreenBody({super.key, required this.biometricEnabled});
   @override
   Widget build(BuildContext context) {
     final biometricMessage = biometricEnabled
         ? 'Elimina tu huella digital como medio para autenticarte'
         : 'Agrega tu huella digital como medio para autenticarte';
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16),
       child: Column(
         children: [
           const Text('Configuración', style: titleTextStyle),
@@ -57,7 +57,8 @@ class SettingsScreenBody extends HookWidget {
             leading: const Icon(Icons.text_format_sharp),
             title: const Text('Terminos y condiciones'),
             subtitle: const Text(
-                'Conoce los terminos y condiciones de la aplicación'),
+              'Conoce los terminos y condiciones de la aplicación',
+            ),
             trailing: const Icon(Icons.arrow_forward_ios),
             onTap: () =>
                 BoxtingNavigation.goto(context, (_) => const TermsScreen()),
@@ -79,7 +80,10 @@ class SettingsScreenBody extends HookWidget {
     );
   }
 
-  void setBiometricInformation(BuildContext context, bool enabled) async {
+  Future<void> setBiometricInformation(
+    BuildContext context,
+    bool enabled,
+  ) async {
     if (enabled) {
       // await CoolAlert.show(
       //   context: context,
@@ -119,7 +123,7 @@ class BoxtingVersion extends HookConsumerWidget {
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
-              )
+              ),
             ],
           ),
         ),

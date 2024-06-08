@@ -18,7 +18,7 @@ class BiometricScreen extends HookConsumerWidget {
     return BoxtingScaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: const EdgeInsets.all(30),
           child: Column(
             children: [
               Image.asset(
@@ -86,7 +86,7 @@ class BiometricScreen extends HookConsumerWidget {
               InkWell(
                 onTap: () => BoxtingNavigation.pop(context),
                 child: const Text('Omitir por ahora'),
-              )
+              ),
             ],
           ),
         ),

@@ -1,40 +1,30 @@
 import 'package:boxting/features/biometric/biometric_bloc.dart';
 import 'package:boxting/features/forgot_password/forgot_password_mail.dart';
 import 'package:boxting/features/home/home_screen.dart';
+import 'package:boxting/features/login/login_bloc.dart';
+import 'package:boxting/features/login/provider/login_provider.dart';
 import 'package:boxting/features/register/register_identifier_screen.dart';
-import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/boxting_icon.dart';
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
-import 'login_bloc.dart';
 
-class LoginScreen extends HookWidget {
-  final _formKey = GlobalKey<FormState>();
-
+class LoginScreen extends HookConsumerWidget {
   LoginScreen({super.key});
 
-  static Widget init(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(value: getIt.get<LoginBloc>()),
-        ChangeNotifierProvider.value(value: getIt.get<BiometricBloc>())
-      ],
-      builder: (_, __) => LoginScreen(),
-    );
-  }
+  static const route = '/login';
+  static const name = 'login_screen';
 
-  static Future<void> navigate(BuildContext context) async {
-    await BoxtingNavigation.replace(context, (_) => LoginScreen.init(context));
-  }
+  final _formKey = GlobalKey<FormState>();
 
   @override
-  Widget build(BuildContext context) {
-    final isAuthenticating = useState<bool>(false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(loginProvider);
     final loginBloc = context.watch<LoginBloc>();
     final biometricBloc = context.watch<BiometricBloc>();
 
@@ -51,14 +41,7 @@ class LoginScreen extends HookWidget {
           text: text,
         );
 
-    void login(BuildContext context) async {
-      await loginBloc.login(
-        usernameController.text.trim(),
-        passwordController.text.trim(),
-      );
-    }
-
-    void refreshToken(BuildContext context) async {
+    Future<void> refreshToken(BuildContext context) async {
       await loginBloc.refreshToken();
     }
 
@@ -73,14 +56,13 @@ class LoginScreen extends HookWidget {
             biometricBloc.cancelAuthentication();
           } else {
             await biometricBloc.authenticate(
-              onSuccess: () async => await BoxtingLoadingDialog.show(
+              onSuccess: () async => BoxtingLoadingDialog.show(
                 context,
                 futureBuilder: () async => refreshToken(context),
                 onSuccess: () => HomeScreen.navigate(context),
-                onError: (e) async => await BoxtingModal.show(
+                onError: (e) async => BoxtingModal.show(
                   context,
                   title: 'Ocurrio un error!',
-                  message: e,
                 ),
               ),
               onFailure: (PlatformException e) => showErrorAlert(
@@ -105,7 +87,7 @@ class LoginScreen extends HookWidget {
 
     return BoxtingScaffold(
       body: Padding(
-        padding: const EdgeInsets.all(32.0),
+        padding: const EdgeInsets.all(32),
         child: Form(
           key: _formKey,
           child: ListView(
@@ -136,7 +118,7 @@ class LoginScreen extends HookWidget {
               ),
               const SizedBox(height: 8),
               IconButton(
-                onPressed: () async => await authenticateBiometrical(context),
+                onPressed: () => authenticateBiometrical(context),
                 icon: const Icon(Icons.fingerprint_outlined),
               ),
               const SizedBox(height: 48),
@@ -145,12 +127,19 @@ class LoginScreen extends HookWidget {
                   if (_formKey.currentState!.validate()) {
                     await BoxtingLoadingDialog.show(
                       context,
-                      futureBuilder: () async => login(context),
+                      futureBuilder: () async {
+                        final username = usernameController.text.trim();
+                        final password = passwordController.text.trim();
+                        ref.read(loginProvider.notifier).login(
+                              username,
+                              password,
+                            );
+                      },
                       onSuccess: () => HomeScreen.navigate(context),
-                      onError: (e) async => await BoxtingModal.show(
+                      // todo: replace with listen
+                      onError: (e) async => BoxtingModal.show(
                         context,
                         title: 'Ocurrio un error!',
-                        message: e,
                       ),
                     );
                   }

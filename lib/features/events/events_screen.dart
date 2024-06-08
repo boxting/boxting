@@ -36,14 +36,14 @@ class EventListBody extends HookConsumerWidget {
     return provider.when(
       loading: () => const BoxtingLoadingScreen(),
       data: (events) => Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20),
         child: events.isEmpty
             ? const Center(
-                child: BoxtingEmptyScreen('No hay eventos disponibles'))
+                child: BoxtingEmptyScreen('No hay eventos disponibles'),)
             : Column(
                 children: [
                   const Text('Tus siguientes votaciones son:',
-                      style: titleTextStyle),
+                      style: titleTextStyle,),
                   const SizedBox(height: 48),
                   Expanded(
                     child: ListView.builder(

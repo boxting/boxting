@@ -27,7 +27,7 @@ class ProfileEvent extends StateNotifier {
   final AuthRepository repository;
   final Function callback;
 
-  void updateProfile(UpdateProfileRequest req) async {
+  Future<void> updateProfile(UpdateProfileRequest req) async {
     try {
       await repository.updateUserInformation(req);
       callback.call();

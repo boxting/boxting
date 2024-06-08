@@ -1,8 +1,8 @@
 import 'package:boxting/data/error/error_handler.dart';
 import 'package:boxting/data/network/response/elections_response/elections_response.dart';
 import 'package:boxting/service_locator.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final electionsFromEventProvider = FutureProvider.autoDispose
     .family<ElectionResponseData, String>((ref, event) async {
@@ -28,10 +28,10 @@ final electionDetailProvider = FutureProvider.autoDispose
 });
 
 class ElectionDetailRequest extends Equatable {
-  final String election;
-  final String event;
 
   const ElectionDetailRequest(this.event, this.election);
+  final String election;
+  final String event;
 
   @override
   List<Object> get props => [event, election];

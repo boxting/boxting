@@ -3,8 +3,8 @@ part 'emit_vote_request.g.dart';
 
 @JsonSerializable()
 class EmitVoteRequest{
-  final List<String> candidates;
 
   EmitVoteRequest(this.candidates);
+  final List<String> candidates;
   Map<String, dynamic> toJson() => _$EmitVoteRequestToJson(this);
 }

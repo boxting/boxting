@@ -2,15 +2,14 @@
 
 import 'dart:async';
 
+import 'package:boxting/widgets/boxting_modal.dart';
 import 'package:boxting/widgets/navigation.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'boxting_modal.dart';
-
 class ConnectivityVerifier extends StatefulWidget {
-  const ConnectivityVerifier({super.key, required this.child});
+  const ConnectivityVerifier({required this.child, super.key});
 
   final Widget child;
 
@@ -34,13 +33,13 @@ class _ConnectivityVerifierState extends State<ConnectivityVerifier> {
     }
 
     if (!mounted) {
-      return Future.value(null);
+      return Future.value();
     }
 
     return _updateConnectionStatus([result]);
   }
 
-  void _updateConnectionStatus(List<ConnectivityResult> result) async {
+  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
     final connectivity = result.last;
     switch (connectivity) {
       case ConnectivityResult.none:
@@ -54,7 +53,6 @@ class _ConnectivityVerifierState extends State<ConnectivityVerifier> {
           );
           isVModalActive = false;
         }
-        break;
       default:
         if (isVModalActive) {
           isVModalActive = false;

@@ -7,22 +7,23 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CandidateDetailScreen extends HookConsumerWidget {
-  final String candidateId;
-  final String listId;
-
   const CandidateDetailScreen({
-    super.key,
     required this.candidateId,
     required this.listId,
+    super.key,
   });
+  final String candidateId;
+  final String listId;
 
   static Future<void> navigate(
     BuildContext context,
     String candidate,
     String list,
   ) async {
-    await BoxtingNavigation.goto(context,
-        (_) => CandidateDetailScreen(candidateId: candidate, listId: list));
+    await BoxtingNavigation.goto(
+      context,
+      (_) => CandidateDetailScreen(candidateId: candidate, listId: list),
+    );
   }
 
   @override
@@ -41,14 +42,17 @@ class CandidateDetailScreen extends HookConsumerWidget {
 }
 
 class CandidateDetailBody extends HookWidget {
+  const CandidateDetailBody({required this.candidate, super.key});
   final CandidateElementResponseData candidate;
-
-  const CandidateDetailBody({super.key, required this.candidate});
 
   @override
   Widget build(BuildContext context) {
+    final name = candidate.firstName;
+    final lastName = candidate.lastName;
+    final age = candidate.age;
+
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(20),
       child: Column(
         children: [
           Image.network(
@@ -58,14 +62,16 @@ class CandidateDetailBody extends HookWidget {
           ),
           const SizedBox(height: 48),
           Text(
-            '${candidate.firstName} ${candidate.lastName} (${candidate.age} años)',
+            '$name $lastName ($age años)',
             style: titleTextStyle,
           ),
           const SizedBox(height: 24),
           Text(candidate.information),
           const SizedBox(height: 48),
-          const Text('Candidato por parte de la lista',
-              style: subTitleTextStyle),
+          const Text(
+            'Candidato por parte de la lista',
+            style: subTitleTextStyle,
+          ),
           const SizedBox(height: 48),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -75,9 +81,9 @@ class CandidateDetailBody extends HookWidget {
                 height: 96,
               ),
               const SizedBox(width: 48),
-              Text(candidate.list.name, style: titleTextStyle)
+              Text(candidate.list.name, style: titleTextStyle),
             ],
-          )
+          ),
         ],
       ),
     );

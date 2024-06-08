@@ -49,13 +49,13 @@ final subscribeEventProvider = StateNotifierProvider<SubscribeEvent, dynamic>(
   },
 );
 
-class SubscribeEvent extends StateNotifier {
+class SubscribeEvent extends StateNotifier<void> {
   SubscribeEvent(this.repository, this.callback) : super(null);
 
   final EventRepository repository;
   final Function callback;
 
-  void subscribe(SubscribeEventRequest req) async {
+  Future<void> subscribe(SubscribeEventRequest req) async {
     try {
       await repository.subscribeNewEvent(req);
       callback.call();

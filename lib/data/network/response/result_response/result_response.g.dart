@@ -8,8 +8,8 @@ part of 'result_response.dart';
 
 ResultResponse _$ResultResponseFromJson(Map<String, dynamic> json) =>
     ResultResponse(
-      json['success'] as bool,
-      ResultResponseData.fromJson(json['data'] as Map<String, dynamic>),
+      success: json['success'] as bool,
+      data: ResultResponseData.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ResultResponseToJson(ResultResponse instance) =>

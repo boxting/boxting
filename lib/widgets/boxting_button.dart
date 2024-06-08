@@ -4,7 +4,7 @@ class BoxtingButton extends StatelessWidget {
   const BoxtingButton({
     required this.child,
     this.onPressed,
-    this.backgroudColor = Colors.white,
+    this.backgroudColor = Colors.indigo,
     this.disabledBackgroudColor = Colors.grey,
     this.height = 50,
     this.width = double.infinity,
@@ -21,7 +21,7 @@ class BoxtingButton extends StatelessWidget {
   });
 
   const BoxtingButton.outline({
-    double width = 100,
+    required Widget child, double width = 100,
     double height = 40,
     TextStyle textStyle = const TextStyle(
       color: Colors.pink,
@@ -29,7 +29,6 @@ class BoxtingButton extends StatelessWidget {
       fontWeight: FontWeight.bold,
     ),
     VoidCallback? onPressed,
-    required Widget child,
     Key? key,
   }) : this(
           width: width,
@@ -61,7 +60,6 @@ class BoxtingButton extends StatelessWidget {
     return DefaultTextStyle(
       style: textStyle,
       child: Align(
-        alignment: Alignment.center,
         child: GestureDetector(
           onTap: isDisabled ? null : onPressed,
           child: Container(
@@ -72,11 +70,10 @@ class BoxtingButton extends StatelessWidget {
               color: isDisabled ? disabledBackgroudColor : backgroudColor,
               borderRadius: BorderRadius.circular(borderRadius),
               border: borderColor != null
-                  ? Border.all(width: 1.0, color: borderColor!)
+                  ? Border.all(color: borderColor!)
                   : null,
             ),
             child: Column(
-              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 child,

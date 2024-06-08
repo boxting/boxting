@@ -4,10 +4,6 @@ part 'register_request.g.dart';
 
 @JsonSerializable()
 class RegisterRequest {
-  String username;
-  String password;
-  String mail;
-  VoterRequest? voter;
 
   RegisterRequest({
     this.username = '',
@@ -15,16 +11,16 @@ class RegisterRequest {
     this.mail = '',
     this.voter,
   });
+  String username;
+  String password;
+  String mail;
+  VoterRequest? voter;
 
   Map<String, dynamic> toJson() => _$RegisterRequestToJson(this);
 }
 
 @JsonSerializable()
 class VoterRequest {
-  String firstName;
-  String lastName;
-  String dni;
-  String phone;
 
   VoterRequest({
     required this.firstName,
@@ -35,5 +31,9 @@ class VoterRequest {
 
   factory VoterRequest.fromJson(Map<String, dynamic> json) =>
       _$VoterRequestFromJson(json);
+  String firstName;
+  String lastName;
+  String dni;
+  String phone;
   Map<String, dynamic> toJson() => _$VoterRequestToJson(this);
 }

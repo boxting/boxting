@@ -11,7 +11,7 @@ extension XString on String? {
 
 class BoxtingInterceptors extends InterceptorsWrapper {
   @override
-  void onRequest(
+  Future<void> onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
@@ -23,9 +23,12 @@ class BoxtingInterceptors extends InterceptorsWrapper {
   }
 
   @override
-  void onError(DioException err, ErrorInterceptorHandler handler) async {
+  Future<void> onError(
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
     if (err.response?.statusCode == HttpStatus.unauthorized) {
-      getIt
+      await getIt
           .get<FlutterSecureStorage>()
           .write(key: Constants.authToken, value: null);
     }

@@ -1,3 +1,4 @@
+import 'package:boxting/features/forgot_password/forgot_password_bloc.dart';
 import 'package:boxting/features/forgot_password/forgot_password_create.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
@@ -5,8 +6,6 @@ import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
-
-import 'forgot_password_bloc.dart';
 
 class ForgotPasswordVerifyScreen extends HookWidget {
   const ForgotPasswordVerifyScreen({super.key});
@@ -20,14 +19,14 @@ class ForgotPasswordVerifyScreen extends HookWidget {
       appBar: BoxtingAppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: 40.0,
+          horizontal: 40,
         ),
         child: Form(
           key: formKey,
           child: ListView(
             children: [
               const Padding(
-                padding: EdgeInsets.symmetric(vertical: 40.0),
+                padding: EdgeInsets.symmetric(vertical: 40),
                 child: Text(
                   'Recupera tu contraseña',
                   style: TextStyle(
@@ -59,7 +58,7 @@ class ForgotPasswordVerifyScreen extends HookWidget {
                         fontWeight: FontWeight.normal,
                         fontSize: 16,
                       ),
-                    )
+                    ),
                   ],
                 ),
                 textAlign: TextAlign.center,
@@ -73,7 +72,6 @@ class ForgotPasswordVerifyScreen extends HookWidget {
               ),
               const SizedBox(height: 28),
               BoxtingButton(
-                width: double.infinity,
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
                     await BoxtingLoadingDialog.show(
@@ -86,7 +84,7 @@ class ForgotPasswordVerifyScreen extends HookWidget {
                       onError: (e) async => BoxtingModal.show(
                         context,
                         title: 'Error!',
-                        message: e,
+                        message: 'Error al actualizar la contrasena.',
                       ),
                     );
                   }
@@ -109,6 +107,8 @@ class ForgotPasswordVerifyScreen extends HookWidget {
 
   static Future<void> navigate(BuildContext context) async {
     await BoxtingNavigation.goto(
-        context, (_) => ForgotPasswordVerifyScreen.init(context));
+      context,
+      (_) => ForgotPasswordVerifyScreen.init(context),
+    );
   }
 }

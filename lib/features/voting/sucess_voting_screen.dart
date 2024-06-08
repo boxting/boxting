@@ -15,7 +15,7 @@ class SuccessVotingScreen extends HookWidget {
   Widget build(BuildContext context) {
     return BoxtingScaffold(
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -30,7 +30,7 @@ class SuccessVotingScreen extends HookWidget {
                 BoxtingNavigation.pop(context);
                 BoxtingNavigation.pop(context);
               },
-            )
+            ),
           ],
         ),
       ),

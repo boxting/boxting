@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 
 class BoxtingSelect<T> extends StatelessWidget {
   const BoxtingSelect({
-    super.key,
-    required this.label,
+    required this.label, required this.formatter, super.key,
     this.items = const [],
     this.onChanged,
-    required this.formatter,
     this.defaultValue,
     this.helperText = '',
     this.borderRadius = 5,
@@ -64,12 +62,11 @@ class BoxtingSelect<T> extends StatelessWidget {
                     formatter(val),
                     overflow: TextOverflow.ellipsis,
                   ),
-                )
+                ),
             ]
           : null,
       onChanged: onChanged,
       onTap: onTap,
-      isDense: true,
     );
   }
 }

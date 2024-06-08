@@ -7,11 +7,11 @@ import 'package:equatable/equatable.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class VoteRequest extends Equatable {
+
+  const VoteRequest(this.candidates, this.election, this.event);
   final List<String> candidates;
   final String election;
   final String event;
-
-  const VoteRequest(this.candidates, this.election, this.event);
 
   @override
   List<Object> get props => [candidates, election, event];
@@ -34,7 +34,7 @@ class VotingElection extends StateNotifier {
   final VotingRepository repository;
   final Function(VoteRequest req) callback;
 
-  void emitVote(VoteRequest req) async {
+  Future<void> emitVote(VoteRequest req) async {
     try {
       callback.call(req);
     } on BoxtingException catch (e) {

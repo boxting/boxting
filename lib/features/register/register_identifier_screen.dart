@@ -23,7 +23,9 @@ class IdentifierRegisterScreen extends HookWidget {
 
   static Future<void> navigate(BuildContext context) async {
     await BoxtingNavigation.goto(
-        context, (_) => IdentifierRegisterScreen.init(context));
+      context,
+      (_) => IdentifierRegisterScreen.init(context),
+    );
   }
 
   @override
@@ -39,7 +41,7 @@ class IdentifierRegisterScreen extends HookWidget {
         key: formKey,
         child: LayoutBuilder(
           builder: (context, viewportConstraints) => SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             child: ConstrainedBox(
               constraints: BoxConstraints(
                 minHeight: viewportConstraints.maxHeight,
@@ -78,11 +80,11 @@ class IdentifierRegisterScreen extends HookWidget {
 
 class IdentifierBody extends StatelessWidget {
   const IdentifierBody({
-    super.key,
     required this.documentTypeSelected,
     required this.documentController,
     required this.termsAccepted,
     required GlobalKey<FormState> formKey,
+    super.key,
   }) : _formKey = formKey;
 
   final ValueNotifier<DocumentOption?> documentTypeSelected;
@@ -115,7 +117,7 @@ class IdentifierBody extends StatelessWidget {
                 label: 'Documento',
                 defaultValue: documentTypeSelected.value,
                 formatter: (doc) => doc.name,
-                onChanged: (doc) => documentTypeSelected.value = doc!,
+                onChanged: (doc) => documentTypeSelected.value = doc,
                 validator: (value) =>
                     value == null ? 'Debe seleccionar una opción' : null,
               ),
@@ -148,7 +150,6 @@ class IdentifierBody extends StatelessWidget {
         ),
         const SizedBox(height: 24),
         BoxtingButton(
-          width: double.infinity,
           disabled: !termsAccepted.value,
           onPressed: () async {
             if (_formKey.currentState!.validate()) {
@@ -160,15 +161,14 @@ class IdentifierBody extends StatelessWidget {
               } else {
                 await BoxtingLoadingDialog.show(
                   context,
-                  futureBuilder: () async => getUserInformation(
+                  futureBuilder: () => getUserInformation(
                     context,
                     documentController.text.trim(),
                   ),
                   onSuccess: () => RegisterScreen.navigate(context),
-                  onError: (e) async => await BoxtingModal.show(
+                  onError: (e) => BoxtingModal.show(
                     context,
                     title: 'Error!',
-                    message: e,
                   ),
                 );
               }
@@ -181,7 +181,7 @@ class IdentifierBody extends StatelessWidget {
   }
 }
 
-void getUserInformation(BuildContext context, String identifier) async {
+Future<void> getUserInformation(BuildContext context, String identifier) async {
   final bloc = context.read<RegisterBloc>();
   await bloc.retrieveIdentifierInformation(identifier);
 }

@@ -4,10 +4,10 @@ import 'package:equatable/equatable.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CandidateDetailRequest extends Equatable {
-  final String candidate;
-  final String listId;
 
   const CandidateDetailRequest(this.candidate, this.listId);
+  final String candidate;
+  final String listId;
 
   @override
   List<Object> get props => [candidate, listId];

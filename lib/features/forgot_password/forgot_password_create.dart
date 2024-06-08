@@ -18,14 +18,14 @@ class ForgotPasswordCreateScreen extends HookWidget {
       appBar: BoxtingAppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: 40.0,
+          horizontal: 40,
         ),
         child: Form(
           key: formKey,
           child: ListView(
             children: [
               const Padding(
-                padding: EdgeInsets.symmetric(vertical: 40.0),
+                padding: EdgeInsets.symmetric(vertical: 40),
                 child: Text(
                   'Crea una nueva contraseña',
                   style: TextStyle(
@@ -48,7 +48,6 @@ class ForgotPasswordCreateScreen extends HookWidget {
               ),
               const SizedBox(height: 28),
               BoxtingButton(
-                width: double.infinity,
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     BoxtingLoadingDialog.show(
@@ -58,10 +57,10 @@ class ForgotPasswordCreateScreen extends HookWidget {
                         repeatPasswordController.text.trim(),
                       ),
                       onSuccess: () => BoxtingNavigation.gotoRoot(context),
-                      onError: (err) async => await BoxtingModal.show(
+                      onError: (err) async => BoxtingModal.show(
                         context,
                         title: 'Error',
-                        message: err,
+                        message: 'No se pudo enviar restaurar contraseña.',
                       ),
                     );
                   }
@@ -75,9 +74,9 @@ class ForgotPasswordCreateScreen extends HookWidget {
     );
   }
 
-  void _createNewPassword(BuildContext context, String password) async {
+  Future<void> _createNewPassword(BuildContext context, String password) async {
     final bloc = context.read<ForgotPasswordBloc>();
-    bloc.createNewPassword(password);
+    await bloc.createNewPassword(password);
   }
 
   static Widget init(BuildContext context) {
@@ -89,6 +88,8 @@ class ForgotPasswordCreateScreen extends HookWidget {
 
   static Future<void> navigate(BuildContext context) async {
     await BoxtingNavigation.goto(
-        context, (context) => ForgotPasswordCreateScreen.init(context));
+      context,
+      ForgotPasswordCreateScreen.init,
+    );
   }
 }

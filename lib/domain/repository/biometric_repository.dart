@@ -1,4 +1,4 @@
 abstract class BiometricRepository {
   Future<bool> isFingerprintLoginEnabled();
-  Future<void> setFingerprintLogin(bool enabled);
+  Future<void> setFingerprintLogin({required bool enabled});
 }

@@ -5,9 +5,6 @@ part 'login_response.g.dart';
 
 @JsonSerializable()
 class LoginResponse {
-  final bool success;
-  final LoginResponseData? data;
-  final ErrorResponse? error;
 
   LoginResponse({
     required this.success,
@@ -17,6 +14,9 @@ class LoginResponse {
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>
       _$LoginResponseFromJson(json);
+  final bool success;
+  final LoginResponseData? data;
+  final ErrorResponse? error;
 }
 
 @JsonSerializable()
@@ -31,6 +31,9 @@ class LoginResponseData {
     required this.refreshToken,
   });
 
+  factory LoginResponseData.fromJson(Map<String, dynamic> json) =>
+      _$LoginResponseDataFromJson(json);
+
   final int id;
   final String username;
   final LoginResponseRole role;
@@ -38,28 +41,19 @@ class LoginResponseData {
   final String mail;
   final String token;
   final String refreshToken;
-
-  factory LoginResponseData.fromJson(Map<String, dynamic> json) =>
-      _$LoginResponseDataFromJson(json);
 }
 
 @JsonSerializable()
 class LoginResponseRole {
-  String name;
   LoginResponseRole({required this.name});
 
   factory LoginResponseRole.fromJson(Map<String, dynamic> json) =>
       _$LoginResponseRoleFromJson(json);
+  String name;
 }
 
 @JsonSerializable()
 class LoginResponseVoter {
-  int id;
-  String firstName;
-  String lastName;
-  String dni;
-
-  String phone;
 
   LoginResponseVoter({
     required this.id,
@@ -71,4 +65,10 @@ class LoginResponseVoter {
 
   factory LoginResponseVoter.fromJson(Map<String, dynamic> json) =>
       _$LoginResponseVoterFromJson(json);
+  int id;
+  String firstName;
+  String lastName;
+  String dni;
+
+  String phone;
 }

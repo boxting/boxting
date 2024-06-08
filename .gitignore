@@ -47,3 +47,5 @@ boxting_key.jks
 key.properties
 service_account_key.json
 android_keys.zip
+# Monarch related
+.monarch/

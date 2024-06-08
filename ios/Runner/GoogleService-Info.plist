@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>477434757501-u53lc4bhrumglgdr0jjrg3pg0ipfje7q.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.477434757501-u53lc4bhrumglgdr0jjrg3pg0ipfje7q</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>477434757501-p4a760p8ppiusodgb7lmlp4n5ssngfk3.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB58-4rtz314AzczWUAvVr8qTXFBlxc8mg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>477434757501</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.boxtinglabs.boxting</string>
+	<key>PROJECT_ID</key>
+	<string>boxting-8ec66</string>
+	<key>STORAGE_BUCKET</key>
+	<string>boxting-8ec66.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:477434757501:ios:a51229a2beb73a312acc14</string>
+	<key>DATABASE_URL</key>
+	<string>https://boxting-8ec66.firebaseio.com</string>
+</dict>
+</plist>

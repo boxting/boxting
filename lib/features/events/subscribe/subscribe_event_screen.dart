@@ -23,7 +23,7 @@ class SubscribeEventScreen extends HookConsumerWidget {
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20),
         child: Form(
           key: formKey,
           child: Column(
@@ -58,10 +58,8 @@ class SubscribeEventScreen extends HookConsumerWidget {
                           eventCode: eventCodeController.text.trim(),
                           accessCode: accessCodeController.text.trim(),
                         );
-                        ref
-                            .read<SubscribeEvent>(
-                              subscribeEventProvider.notifier,
-                            )
+                        await ref
+                            .read(subscribeEventProvider.notifier)
                             .subscribe(request);
                       },
                       onSuccess: () async {
@@ -77,15 +75,15 @@ class SubscribeEventScreen extends HookConsumerWidget {
                         // );
                         BoxtingNavigation.pop(context);
                       },
-                      onError: (e) async => await BoxtingModal.show(
+                      onError: (e) async => BoxtingModal.show(
                         context,
                         title: 'Error',
-                        message: e,
+                        message: 'La subscripción del evento ha fallado',
                       ),
                     );
                   }
                 },
-              )
+              ),
             ],
           ),
         ),

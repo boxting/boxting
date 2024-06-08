@@ -9,6 +9,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 
 class RegisterForeignForm extends HookWidget {
+
+  const RegisterForeignForm({required this.document, super.key});
   final String document;
 
   static Widget init(BuildContext context, String document) {
@@ -20,10 +22,8 @@ class RegisterForeignForm extends HookWidget {
 
   static Future<void> navigate(BuildContext context, String document) async {
     await BoxtingNavigation.goto(
-        context, (_) => RegisterForeignForm.init(context, document));
+        context, (_) => RegisterForeignForm.init(context, document),);
   }
-
-  const RegisterForeignForm({super.key, required this.document});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class RegisterForeignForm extends HookWidget {
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20),
         child: Form(
           key: formKey,
           child: Column(
@@ -85,7 +85,7 @@ class RegisterForeignForm extends HookWidget {
                     RegisterScreen.navigate(context);
                   }
                 },
-              )
+              ),
             ],
           ),
         ),

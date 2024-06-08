@@ -11,26 +11,24 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class LoginBloc extends ChangeNotifier {
+  LoginBloc({
+    required this.authRepository,
+    required this.biometricRepository,
+  });
   final AuthRepository authRepository;
   final BiometricRepository biometricRepository;
 
   late BoxtingException _boxtingFailure;
   BoxtingException get failure => _boxtingFailure;
 
-  LoginBloc({
-    required this.authRepository,
-    required this.biometricRepository,
-  });
-
   Future<bool> loadBiometricInformation() async {
-    return await biometricRepository.isFingerprintLoginEnabled();
+    return biometricRepository.isFingerprintLoginEnabled();
   }
 
-  Future<bool> isFirstTimeLogin() async =>
-      await authRepository.isFirstTimeLogin();
+  Future<bool> isFirstTimeLogin() async => authRepository.isFirstTimeLogin();
 
   Future<void> setFirstLogin() async =>
-      await biometricRepository.setFingerprintLogin(false);
+      biometricRepository.setFingerprintLogin(enabled: false);
 
   Future<void> login(String username, String password) async {
     try {

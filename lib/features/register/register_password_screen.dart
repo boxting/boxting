@@ -19,7 +19,9 @@ class RegisterPasswordScreen extends HookWidget {
 
   static Future<void> navigate(BuildContext context) async {
     await BoxtingNavigation.goto(
-        context, (_) => RegisterPasswordScreen.init(context));
+      context,
+      (_) => RegisterPasswordScreen.init(context),
+    );
   }
 
   @override
@@ -32,14 +34,14 @@ class RegisterPasswordScreen extends HookWidget {
       appBar: BoxtingAppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: 40.0,
+          horizontal: 40,
         ),
         child: Form(
           key: formKey,
           child: ListView(
             children: [
               const Padding(
-                padding: EdgeInsets.symmetric(vertical: 40.0),
+                padding: EdgeInsets.symmetric(vertical: 40),
                 child: Text(
                   'Crea una contraseña',
                   style: TextStyle(
@@ -53,7 +55,6 @@ class RegisterPasswordScreen extends HookWidget {
               const SizedBox(height: 9),
               BoxtingPasswordInput(
                 controller: passwordController,
-                labelText: 'Contraseña',
               ),
               const SizedBox(height: 24),
               BoxtingPasswordInput(
@@ -62,7 +63,6 @@ class RegisterPasswordScreen extends HookWidget {
               ),
               const SizedBox(height: 28),
               BoxtingButton(
-                width: double.infinity,
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     BoxtingLoadingDialog.show(
@@ -70,10 +70,10 @@ class RegisterPasswordScreen extends HookWidget {
                       futureBuilder: () async =>
                           bloc.registerPassword(passwordController.text.trim()),
                       onSuccess: () => ConfirmRegisterScreen.navigate(context),
-                      onError: (err) async => await BoxtingModal.show(
+                      onError: (err) async => BoxtingModal.show(
                         context,
                         title: 'Error',
-                        message: err,
+                        message: 'No se pudo registrar la contrsena.',
                       ),
                     );
                   }

@@ -6,9 +6,8 @@ import 'package:boxting/data/network/response/vote_response/vote_response.dart';
 import 'package:boxting/domain/repository/voting_repository.dart';
 
 class VotingRepositoryImpl extends VotingRepository {
-  final BoxtingClient boxtingClient;
-
   VotingRepositoryImpl(this.boxtingClient);
+  final BoxtingClient boxtingClient;
 
   @override
   Future<DefaultResponse> emitVoteForElection(
@@ -22,11 +21,11 @@ class VotingRepositoryImpl extends VotingRepository {
 
   @override
   Future<ResultResponse> getResultByElection(String election) async {
-    return await boxtingClient.getResultsByElection(election);
+    return boxtingClient.getResultsByElection(election);
   }
 
   @override
   Future<VoteResponse> getMyVoteFromElection(String election) async {
-    return await boxtingClient.getMyVoteFromElection(election);
+    return boxtingClient.getMyVoteFromElection(election);
   }
 }

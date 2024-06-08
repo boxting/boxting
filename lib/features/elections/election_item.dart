@@ -4,16 +4,15 @@ import 'package:boxting/widgets/styles.dart';
 import 'package:flutter/material.dart';
 
 class ElectionItem extends StatelessWidget {
-  final ElectionElementResponseData election;
-  final String eventId;
-  final num eventStatus;
-
   const ElectionItem({
-    super.key,
     required this.election,
     required this.eventId,
     required this.eventStatus,
+    super.key,
   });
+  final ElectionElementResponseData election;
+  final String eventId;
+  final num eventStatus;
   @override
   Widget build(BuildContext context) {
     final userVotedState = election.userVoted
@@ -28,7 +27,7 @@ class ElectionItem extends StatelessWidget {
       ),
       child: Card(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
               Text(election.name, style: subTitleTextStyle),
@@ -40,7 +39,7 @@ class ElectionItem extends StatelessWidget {
                 style: TextStyle(
                   color: election.userVoted ? Colors.green : Colors.red,
                 ),
-              )
+              ),
             ],
           ),
         ),

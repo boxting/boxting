@@ -4,8 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 class BoxtingPasswordInput extends HookWidget {
   const BoxtingPasswordInput({
-    super.key,
-    required this.controller,
+    required this.controller, super.key,
     this.labelText = 'Contraseña',
   });
 
@@ -29,7 +28,7 @@ class BoxtingPasswordInput extends HookWidget {
               : BoxtingInputType.password;
         },
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 16),
           child: Text(
             type.value == BoxtingInputType.password ? 'Mostrar' : 'Ocultar',
             style: const TextStyle(

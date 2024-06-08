@@ -9,19 +9,20 @@ import 'package:boxting/data/network/request/update_profile/update_profile_reque
 import 'package:boxting/data/network/request/validate_token_request/validate_token_request.dart';
 import 'package:boxting/data/network/response/default_response/default_response.dart';
 import 'package:boxting/data/network/response/dni_response/dni_response.dart';
+import 'package:boxting/data/network/response/login_response/login_response.dart';
 import 'package:boxting/data/network/response/user_response/user_response.dart';
+import 'package:boxting/data/repository/utils.dart';
 import 'package:boxting/domain/constants/constants.dart';
+import 'package:boxting/domain/entities/either.dart';
 import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
-import 'utils.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final BoxtingClient boxtingClient;
-
   AuthRepositoryImpl(this.boxtingClient);
+  final BoxtingClient boxtingClient;
 
   @override
   Future<DniResponseData> fetchInformationFromReniec(String dni) async {
@@ -39,24 +40,30 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<bool> isFirstTimeLogin() async {
-    final box = await Hive.openBox(Constants.hiveBoxName);
-    return box.get(Constants.firstLogin, defaultValue: true);
+    final box = await Hive.openBox<bool>(Constants.hiveBoxName);
+    return Future.value(box.get(Constants.firstLogin, defaultValue: true));
   }
 
   @override
-  Future<bool> login(LoginRequest loginRequest) async {
+  Future<Either<Exception, LoginResponseData>> login(
+    LoginRequest loginRequest,
+  ) async {
     try {
       final loginResponse = await boxtingClient.login(loginRequest);
-      await _saveAuthToken(
-        loginResponse.data!.token,
-        loginResponse.data!.refreshToken,
-      );
-      return loginResponse.success;
+      if (loginResponse.data != null) {
+        await _saveAuthToken(
+          loginResponse.data!.token,
+          loginResponse.data!.refreshToken,
+        );
+        return Right(loginResponse.data!);
+      } else {
+        return Left(Exception());
+      }
     } on DioException catch (e) {
       final code = e.response?.statusCode?.orDefaultErrorCode();
-      throw BoxtingException(statusCode: code);
+      return Left(BoxtingException(statusCode: code));
     } catch (e) {
-      throw BoxtingException(statusCode: unknownError);
+      return Left(BoxtingException(statusCode: unknownError));
     }
   }
 
@@ -129,7 +136,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> saveFirstTimeLogin() async {
-    final box = await Hive.openBox(Constants.hiveBoxName);
+    final box = await Hive.openBox<bool>(Constants.hiveBoxName);
     await box.put(Constants.firstLogin, false);
   }
 

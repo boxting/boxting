@@ -8,10 +8,10 @@ import 'package:local_auth/local_auth.dart';
 typedef FailureCallback = void Function(PlatformException e);
 
 class BiometricBloc extends ChangeNotifier {
-  final BiometricRepository repository;
-  final LocalAuthentication auth;
 
   BiometricBloc(this.repository, this.auth);
+  final BiometricRepository repository;
+  final LocalAuthentication auth;
 
   Future<void> checkBiometrics() async {
     try {

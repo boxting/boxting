@@ -8,21 +8,9 @@ enum BoxtingInputType {
 }
 
 class BoxtingInput extends StatelessWidget {
-  final String labelText;
-  final Widget suffix;
-  final bool enabled;
-  final TextEditingController? controller;
-  final String? Function(String?)? validator;
-  final int maxLines;
-  final BoxtingInputType type;
-  final VoidCallback? onFocus;
-  final double borderRadius;
-  final bool readOnly;
-  final bool autofocus;
-
   const BoxtingInput({
-    super.key,
     required this.labelText,
+    super.key,
     this.controller,
     this.suffix = const SizedBox(),
     this.type = BoxtingInputType.text,
@@ -34,6 +22,17 @@ class BoxtingInput extends StatelessWidget {
     this.readOnly = false,
     this.autofocus = false,
   });
+  final String labelText;
+  final Widget suffix;
+  final bool enabled;
+  final TextEditingController? controller;
+  final String? Function(String?)? validator;
+  final int maxLines;
+  final BoxtingInputType type;
+  final VoidCallback? onFocus;
+  final double borderRadius;
+  final bool readOnly;
+  final bool autofocus;
 
   @override
   Widget build(BuildContext context) {
@@ -75,13 +74,12 @@ class BoxtingInput extends StatelessWidget {
   }
 
   TextInputType chooseTextInput() {
-    switch (type) {
-      case BoxtingInputType.numeric:
-        return TextInputType.number;
-      case BoxtingInputType.email:
-        return TextInputType.emailAddress;
-      default:
-        return TextInputType.text;
+    if (type == BoxtingInputType.numeric) {
+      return TextInputType.number;
+    } else if (type == BoxtingInputType.email) {
+      return TextInputType.emailAddress;
+    } else {
+      return TextInputType.text;
     }
   }
 }

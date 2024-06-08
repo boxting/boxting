@@ -12,13 +12,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
 class EditProfileScreen extends HookConsumerWidget {
+  const EditProfileScreen(this.user, {super.key});
   final User user;
 
   static Future<void> navigate(BuildContext context, User user) async {
     await BoxtingNavigation.goto(context, (_) => EditProfileScreen(user));
   }
 
-  const EditProfileScreen(this.user, {super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final phoneController = useTextEditingController(text: user.phone);
@@ -28,7 +28,7 @@ class EditProfileScreen extends HookConsumerWidget {
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             const Text('Editar perfil', style: titleTextStyle),
@@ -58,7 +58,6 @@ class EditProfileScreen extends HookConsumerWidget {
               readOnly: true,
               onFocus: () => DatePicker.showDatePicker(
                 context,
-                showTitleActions: true,
                 minTime: DateTime(1900, 3, 5),
                 maxTime: DateTime.now(),
                 onConfirm: (date) {
@@ -80,10 +79,13 @@ class EditProfileScreen extends HookConsumerWidget {
                   final reqDate =
                       DateFormat(Constants.serverDateFormat).format(date);
                   final request = UpdateProfileRequest(
-                      mailController.text, phoneController.text, reqDate);
+                    mailController.text,
+                    phoneController.text,
+                    reqDate,
+                  );
 
-                  ref
-                      .read<ProfileEvent>(profileEventProvider.notifier)
+                  await ref
+                      .read(profileEventProvider.notifier)
                       .updateProfile(request);
                 },
                 onError: (e) => BoxtingModal.show(

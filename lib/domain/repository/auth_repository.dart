@@ -7,10 +7,12 @@ import 'package:boxting/data/network/request/update_profile/update_profile_reque
 import 'package:boxting/data/network/request/validate_token_request/validate_token_request.dart';
 import 'package:boxting/data/network/response/default_response/default_response.dart';
 import 'package:boxting/data/network/response/dni_response/dni_response.dart';
+import 'package:boxting/data/network/response/login_response/login_response.dart';
 import 'package:boxting/data/network/response/user_response/user_response.dart';
+import 'package:boxting/domain/entities/either.dart';
 
 abstract class AuthRepository {
-  Future<bool> login(LoginRequest loginRequest);
+  Future<Either<Exception, LoginResponseData>> login(LoginRequest loginRequest);
   Future<bool> isFirstTimeLogin();
   Future<bool> registerUser(RegisterRequest registerRequest);
   Future<DniResponseData> fetchInformationFromReniec(String dni);

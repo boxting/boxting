@@ -10,7 +10,7 @@ final loadBiometricProvider = FutureProvider<bool>((ref) async {
 final setBioInformationProvider =
     FutureProvider.autoDispose.family<void, bool>((ref, info) async {
   final repository = ref.watch(biometricRepositoryProvider);
-  await repository.setFingerprintLogin(info);
+  await repository.setFingerprintLogin(enabled: info);
   ref.container.refresh(loadBiometricProvider);
 });
 

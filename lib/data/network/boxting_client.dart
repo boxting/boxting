@@ -7,19 +7,19 @@ import 'package:boxting/data/network/request/register_request/register_request.d
 import 'package:boxting/data/network/request/subscribe_event_request/subscribe_event_request.dart';
 import 'package:boxting/data/network/request/update_profile/update_profile_request.dart';
 import 'package:boxting/data/network/request/validate_token_request/validate_token_request.dart';
+import 'package:boxting/data/network/response/candidates_response/candidates_response.dart';
 import 'package:boxting/data/network/response/default_response/default_response.dart';
 import 'package:boxting/data/network/response/dni_response/dni_response.dart';
 import 'package:boxting/data/network/response/elections_response/elections_response.dart';
 import 'package:boxting/data/network/response/event_response/event_response.dart';
 import 'package:boxting/data/network/response/login_response/login_response.dart';
+import 'package:boxting/data/network/response/register_response/register_response.dart';
 import 'package:boxting/data/network/response/result_response/result_response.dart';
 import 'package:boxting/data/network/response/subscribe_event_response/subscribe_event_response.dart';
 import 'package:boxting/data/network/response/user_response/user_response.dart';
 import 'package:boxting/data/network/response/vote_response/vote_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
-import 'response/candidates_response/candidates_response.dart';
-import 'response/register_response/register_response.dart';
 
 part 'boxting_client.g.dart';
 

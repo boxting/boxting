@@ -6,9 +6,9 @@ import 'package:boxting/domain/repository/elections_repository.dart';
 import 'package:dio/dio.dart';
 
 class ElectionsRepositoryImpl extends ElectionsRepository {
-  final BoxtingClient boxtingClient;
 
   ElectionsRepositoryImpl(this.boxtingClient);
+  final BoxtingClient boxtingClient;
   @override
   Future<ElectionsResponse> fetchElectionsByEvent(String eventId) async {
     try {

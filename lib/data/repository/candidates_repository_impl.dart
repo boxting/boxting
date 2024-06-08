@@ -6,9 +6,9 @@ import 'package:boxting/domain/repository/candidates_repository.dart';
 import 'package:dio/dio.dart';
 
 class CandidatesRepositoryImpl extends CandidatesRepository {
-  final BoxtingClient client;
 
   CandidatesRepositoryImpl(this.client);
+  final BoxtingClient client;
   @override
   Future<CandidatesResponse> fetchCandidatesByElection(String election) async {
     try {

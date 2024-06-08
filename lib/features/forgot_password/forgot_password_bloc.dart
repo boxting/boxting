@@ -6,8 +6,8 @@ import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordBloc extends ChangeNotifier {
-  final AuthRepository authRepository;
   ForgotPasswordBloc({required this.authRepository});
+  final AuthRepository authRepository;
 
   late String _forgotPasswordMail;
   String get forgotPasswordMail => _forgotPasswordMail;
@@ -15,7 +15,7 @@ class ForgotPasswordBloc extends ChangeNotifier {
   late String _forgotPasswordToken;
   String get forgotPasswordToken => _forgotPasswordToken;
 
-  void forgotPassword(String mail) async {
+  Future<void> forgotPassword(String mail) async {
     try {
       final request = ForgotPasswordRequest(mail: mail);
       await authRepository.sendForgotPassword(request);
@@ -25,7 +25,7 @@ class ForgotPasswordBloc extends ChangeNotifier {
     }
   }
 
-  void verifyCode(String token) async {
+  Future<void> verifyCode(String token) async {
     try {
       final request = ValidateTokenRequest(
         mail: _forgotPasswordMail,
@@ -38,7 +38,7 @@ class ForgotPasswordBloc extends ChangeNotifier {
     }
   }
 
-  void createNewPassword(String password) async {
+  Future<void> createNewPassword(String password) async {
     try {
       final request = NewPasswordRequest(
         mail: _forgotPasswordMail,
