@@ -6,6 +6,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class BiometricScreen extends HookConsumerWidget {
   const BiometricScreen({super.key});
 
+  static const route = 'biometrics';
+  static const name = 'biometrics_screen';
+
   static Future<void> navigate(
     BuildContext context,
   ) async {
@@ -52,7 +55,7 @@ class BiometricScreen extends HookConsumerWidget {
                   ),
                 ),
                 onPressed: () async {
-                  final localAuth = ref.read(localAuthProvider);
+                  final localAuth = ref.read(localAuthenticationProvider);
                   final result = await localAuth.authenticate(
                     localizedReason:
                         'Escanea tu huella digital para autenticarte',

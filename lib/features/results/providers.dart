@@ -1,6 +1,6 @@
 import 'package:boxting/data/error/error_handler.dart';
 import 'package:boxting/data/network/response/result_response/result_response.dart';
-import 'package:boxting/service_locator.dart';
+import 'package:boxting/data/repository/repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final getElectionResultProvider = FutureProvider.autoDispose

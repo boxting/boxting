@@ -18,7 +18,7 @@ class BoxtingLoadingDialog extends StatelessWidget {
 
   static Future<T?> show<T>(
     BuildContext context, {
-    required AsyncValueGetter<T> futureBuilder,
+    AsyncValueGetter<T>? futureBuilder,
     VoidCallback? onSuccess,
     AsyncValueConverter<dynamic, T>? onError,
   }) {
@@ -26,7 +26,7 @@ class BoxtingLoadingDialog extends StatelessWidget {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        futureBuilder().then(
+        futureBuilder?.call().then(
           (value) {
             BoxtingNavigation.pop<T>(context, value);
             onSuccess?.call();

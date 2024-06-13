@@ -1,6 +1,6 @@
-import 'package:boxting/features/biometric/biometric_bloc.dart';
+import 'package:boxting/features/biometric/view/biometric_screen.dart';
 import 'package:boxting/features/events/events_screen.dart';
-import 'package:boxting/features/login/login_bloc.dart';
+import 'package:boxting/features/login/login.dart';
 import 'package:boxting/features/profile/profile_screen.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -20,11 +20,11 @@ class HomeScreen extends HookConsumerWidget {
     final selectedIndex = useState<int>(0);
     final child = useState<Widget>(const EventsScreen());
     ref.listen(
-      isFirstTimeLoginProvider,
+      firstTimeLoginProvider,
       (prev, next) {
         if (next.requireValue) {
           ref.read(setFirstLoginProvider);
-          context.goNamed('biometrics_screen');
+          context.goNamed(BiometricScreen.name);
         }
       },
     );

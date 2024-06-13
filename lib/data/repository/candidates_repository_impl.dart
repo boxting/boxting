@@ -4,9 +4,17 @@ import 'package:boxting/data/network/response/candidates_response/candidates_res
 import 'package:boxting/data/repository/utils.dart';
 import 'package:boxting/domain/repository/candidates_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'candidates_repository_impl.g.dart';
+
+@riverpod
+CandidatesRepository candidatesRepository(CandidatesRepositoryRef ref) {
+  final boxtingClient = ref.read(boxtingClientProvider);
+  return CandidatesRepositoryImpl(boxtingClient);
+}
 
 class CandidatesRepositoryImpl extends CandidatesRepository {
-
   CandidatesRepositoryImpl(this.client);
   final BoxtingClient client;
   @override

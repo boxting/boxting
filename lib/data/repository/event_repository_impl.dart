@@ -5,9 +5,17 @@ import 'package:boxting/data/network/response/event_response/event_response.dart
 import 'package:boxting/data/repository/utils.dart';
 import 'package:boxting/domain/repository/event_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'event_repository_impl.g.dart';
+
+@riverpod
+EventRepository eventRepository(EventRepositoryRef ref) {
+  final boxtingClient = ref.read(boxtingClientProvider);
+  return EventRepositoryImpl(boxtingClient);
+}
 
 class EventRepositoryImpl extends EventRepository {
-
   EventRepositoryImpl(this.boxtingClient);
   final BoxtingClient boxtingClient;
 

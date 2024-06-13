@@ -1,5 +1,4 @@
-import 'package:boxting/features/login/login_screen.dart';
-import 'package:boxting/widgets/widgets.dart';
+import 'package:boxting/features/login/view/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -7,10 +6,6 @@ import 'package:introduction_screen/introduction_screen.dart';
 
 class OnBoardingScreen extends HookWidget {
   const OnBoardingScreen({super.key});
-
-  static Future<void> navigate(BuildContext context) async {
-    await BoxtingNavigation.replace(context, (_) => const OnBoardingScreen());
-  }
 
   static const route = '/on_boarding';
   static const name = 'on_boarding_screen';

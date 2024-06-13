@@ -18,10 +18,33 @@ import 'package:boxting/data/network/response/result_response/result_response.da
 import 'package:boxting/data/network/response/subscribe_event_response/subscribe_event_response.dart';
 import 'package:boxting/data/network/response/user_response/user_response.dart';
 import 'package:boxting/data/network/response/vote_response/vote_response.dart';
+import 'package:boxting/service_locator.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import 'interceptor/boxting_interceptor.dart';
 
 part 'boxting_client.g.dart';
+
+final dioOptions = BaseOptions(
+  connectTimeout: const Duration(seconds: 50),
+  receiveTimeout: const Duration(seconds: 30),
+);
+
+@riverpod
+Dio dio(DioRef ref) {
+  final dioClient = Dio(dioOptions);
+  final secureStorage = ref.read(secureStorageProvider);
+  dioClient.interceptors.add(BoxtingInterceptors(secureStorage: secureStorage));
+  return dioClient;
+}
+
+@riverpod
+BoxtingClient boxtingClient(BoxtingClientRef ref) {
+  final dio = ref.read(dioProvider);
+  return BoxtingClient(dio);
+}
 
 @RestApi(baseUrl: 'https://boxting-rest-api.herokuapp.com')
 abstract class BoxtingClient {

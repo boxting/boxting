@@ -19,10 +19,29 @@ import 'package:boxting/service_locator.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'auth_repository_impl.g.dart';
+
+@riverpod
+AuthRepository authRepository(AuthRepositoryRef ref) {
+  final boxtingClient = ref.read(boxtingClientProvider);
+  final secureStorage = ref.read(secureStorageProvider);
+  return AuthRepositoryImpl(
+    boxtingClient: boxtingClient,
+    secureStorage: secureStorage,
+  );
+}
 
 class AuthRepositoryImpl implements AuthRepository {
-  AuthRepositoryImpl(this.boxtingClient);
+  AuthRepositoryImpl({
+    required BoxtingClient boxtingClient,
+    required FlutterSecureStorage secureStorage,
+  })  : boxtingClient = boxtingClient,
+        _secureStorage = secureStorage;
+
   final BoxtingClient boxtingClient;
+  final FlutterSecureStorage _secureStorage;
 
   @override
   Future<DniResponseData> fetchInformationFromReniec(String dni) async {
@@ -141,9 +160,8 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   Future<void> _saveAuthToken(String token, String refreshToken) async {
-    final secureStorage = getIt.get<FlutterSecureStorage>();
-    await secureStorage.write(key: Constants.authToken, value: token);
-    await secureStorage.write(
+    await _secureStorage.write(key: Constants.authToken, value: token);
+    await _secureStorage.write(
       key: Constants.authRefreshToken,
       value: refreshToken,
     );
@@ -162,11 +180,15 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> refreshToken(RefreshTokenRequest request) async {
+  Future<void> refreshToken() async {
     try {
+      final token = await _secureStorage.read(key: Constants.authToken);
+      final refresh = await _secureStorage.read(
+        key: Constants.authRefreshToken,
+      );
+      final request = RefreshTokenRequest(token!, refresh!);
       final response = await boxtingClient.refreshToken(request);
-      final secureStorage = getIt.get<FlutterSecureStorage>();
-      await secureStorage.write(
+      await _secureStorage.write(
         key: Constants.authToken,
         value: response.data,
       );
