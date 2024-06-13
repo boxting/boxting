@@ -13,13 +13,3 @@ FlutterSecureStorage secureStorage(SecureStorageRef ref) {
 LocalAuthentication localAuthentication(LocalAuthenticationRef ref) {
   return LocalAuthentication();
 }
-
-// void _setupBlocs() {
-//   getIt
-//     ..registerSingleton<ForgotPasswordBloc>(
-//       ForgotPasswordBloc(authRepository: getIt.get<AuthRepository>()),
-//     )
-//     ..registerSingleton<RegisterBloc>(
-//       RegisterBloc(authRepository: getIt.get<AuthRepository>()),
-//     );
-// }
