@@ -1,7 +1,7 @@
 import 'package:boxting/features/biometric/view/biometric_screen.dart';
 import 'package:boxting/features/faq/faq_screen.dart';
 import 'package:boxting/features/settings/providers.dart';
-import 'package:boxting/features/terms/terms_screen.dart';
+import 'package:boxting/features/terms/view/terms_screen.dart';
 import 'package:boxting/widgets/styles.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';

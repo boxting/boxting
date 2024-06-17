@@ -39,5 +39,19 @@ final localAuthenticationProvider =
 );
 
 typedef LocalAuthenticationRef = AutoDisposeProviderRef<LocalAuthentication>;
+String _$remoteConfigHash() => r'e29f1e7d50e23e119a1cea7dd447248ce175235b';
+
+/// See also [remoteConfig].
+@ProviderFor(remoteConfig)
+final remoteConfigProvider = AutoDisposeProvider<FirebaseRemoteConfig>.internal(
+  remoteConfig,
+  name: r'remoteConfigProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$remoteConfigHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef RemoteConfigRef = AutoDisposeProviderRef<FirebaseRemoteConfig>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

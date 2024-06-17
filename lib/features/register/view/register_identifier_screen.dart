@@ -2,7 +2,7 @@ import 'package:boxting/domain/entities/documents.dart';
 import 'package:boxting/features/register/register_bloc.dart';
 import 'package:boxting/features/register/view/register_foreign_form.dart';
 import 'package:boxting/features/register/view/register_screen.dart';
-import 'package:boxting/features/terms/terms_screen.dart';
+import 'package:boxting/features/terms/terms.dart';
 import 'package:boxting/widgets/boxting_loading_dialog.dart';
 import 'package:boxting/widgets/boxting_switch.dart';
 import 'package:boxting/widgets/widgets.dart';
