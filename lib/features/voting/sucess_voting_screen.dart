@@ -15,21 +15,22 @@ class SuccessVotingScreen extends HookWidget {
   Widget build(BuildContext context) {
     return BoxtingScaffold(
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('El voto se registró correctamente',
-                style: titleTextStyle),
+            const Text(
+              'El voto se registró correctamente',
+              style: titleTextStyle,
+            ),
             const SuccessVote(),
             BoxtingButton(
               child: const Text('Volver'),
               onPressed: () {
-                // TODO: Refresh election detail screeen
                 BoxtingNavigation.pop(context);
                 BoxtingNavigation.pop(context);
               },
-            )
+            ),
           ],
         ),
       ),

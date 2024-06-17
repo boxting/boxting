@@ -9,19 +9,39 @@ import 'package:boxting/data/network/request/update_profile/update_profile_reque
 import 'package:boxting/data/network/request/validate_token_request/validate_token_request.dart';
 import 'package:boxting/data/network/response/default_response/default_response.dart';
 import 'package:boxting/data/network/response/dni_response/dni_response.dart';
+import 'package:boxting/data/network/response/login_response/login_response.dart';
 import 'package:boxting/data/network/response/user_response/user_response.dart';
+import 'package:boxting/data/repository/utils.dart';
 import 'package:boxting/domain/constants/constants.dart';
+import 'package:boxting/domain/entities/either.dart';
 import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:boxting/service_locator.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
-import 'utils.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'auth_repository_impl.g.dart';
+
+@riverpod
+AuthRepository authRepository(AuthRepositoryRef ref) {
+  final boxtingClient = ref.read(boxtingClientProvider);
+  final secureStorage = ref.read(secureStorageProvider);
+  return AuthRepositoryImpl(
+    boxtingClient: boxtingClient,
+    secureStorage: secureStorage,
+  );
+}
 
 class AuthRepositoryImpl implements AuthRepository {
-  final BoxtingClient boxtingClient;
+  AuthRepositoryImpl({
+    required BoxtingClient boxtingClient,
+    required FlutterSecureStorage secureStorage,
+  })  : boxtingClient = boxtingClient,
+        _secureStorage = secureStorage;
 
-  AuthRepositoryImpl(this.boxtingClient);
+  final BoxtingClient boxtingClient;
+  final FlutterSecureStorage _secureStorage;
 
   @override
   Future<DniResponseData> fetchInformationFromReniec(String dni) async {
@@ -39,24 +59,30 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<bool> isFirstTimeLogin() async {
-    final box = await Hive.openBox(Constants.hiveBoxName);
-    return box.get(Constants.firstLogin, defaultValue: true);
+    final box = await Hive.openBox<bool>(Constants.hiveBoxName);
+    return Future.value(box.get(Constants.firstLogin, defaultValue: true));
   }
 
   @override
-  Future<bool> login(LoginRequest loginRequest) async {
+  Future<Either<Exception, LoginResponseData>> login(
+    LoginRequest loginRequest,
+  ) async {
     try {
       final loginResponse = await boxtingClient.login(loginRequest);
-      await _saveAuthToken(
-        loginResponse.data!.token,
-        loginResponse.data!.refreshToken,
-      );
-      return loginResponse.success;
+      if (loginResponse.data != null) {
+        await _saveAuthToken(
+          loginResponse.data!.token,
+          loginResponse.data!.refreshToken,
+        );
+        return Right(loginResponse.data!);
+      } else {
+        return Left(Exception());
+      }
     } on DioException catch (e) {
       final code = e.response?.statusCode?.orDefaultErrorCode();
-      throw BoxtingException(statusCode: code);
+      return Left(BoxtingException(statusCode: code));
     } catch (e) {
-      throw BoxtingException(statusCode: unknownError);
+      return Left(BoxtingException(statusCode: unknownError));
     }
   }
 
@@ -129,14 +155,13 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> saveFirstTimeLogin() async {
-    final box = await Hive.openBox(Constants.hiveBoxName);
+    final box = await Hive.openBox<bool>(Constants.hiveBoxName);
     await box.put(Constants.firstLogin, false);
   }
 
   Future<void> _saveAuthToken(String token, String refreshToken) async {
-    final secureStorage = getIt.get<FlutterSecureStorage>();
-    await secureStorage.write(key: Constants.authToken, value: token);
-    await secureStorage.write(
+    await _secureStorage.write(key: Constants.authToken, value: token);
+    await _secureStorage.write(
       key: Constants.authRefreshToken,
       value: refreshToken,
     );
@@ -155,11 +180,15 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> refreshToken(RefreshTokenRequest request) async {
+  Future<void> refreshToken() async {
     try {
+      final token = await _secureStorage.read(key: Constants.authToken);
+      final refresh = await _secureStorage.read(
+        key: Constants.authRefreshToken,
+      );
+      final request = RefreshTokenRequest(token!, refresh!);
       final response = await boxtingClient.refreshToken(request);
-      final secureStorage = getIt.get<FlutterSecureStorage>();
-      await secureStorage.write(
+      await _secureStorage.write(
         key: Constants.authToken,
         value: response.data,
       );

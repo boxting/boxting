@@ -1,9 +1,8 @@
 import 'package:boxting/widgets/loading_vote.dart';
+import 'package:boxting/widgets/navigation.dart';
 import 'package:boxting/widgets/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import 'navigation.dart';
 
 class BoxtingLoadingDialog extends StatelessWidget {
   const BoxtingLoadingDialog({super.key});
@@ -19,17 +18,15 @@ class BoxtingLoadingDialog extends StatelessWidget {
 
   static Future<T?> show<T>(
     BuildContext context, {
-    required AsyncValueGetter<T> futureBuilder,
+    AsyncValueGetter<T>? futureBuilder,
     VoidCallback? onSuccess,
     AsyncValueConverter<dynamic, T>? onError,
   }) {
     return showDialog<T>(
       context: context,
-      useSafeArea: true,
       barrierDismissible: false,
       builder: (context) {
-        final future = futureBuilder();
-        future.then(
+        futureBuilder?.call().then(
           (value) {
             BoxtingNavigation.pop<T>(context, value);
             onSuccess?.call();

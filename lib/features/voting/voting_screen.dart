@@ -11,11 +11,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class VotingScreen extends HookConsumerWidget {
+  const VotingScreen(this.election, this.winners, this.event, {super.key});
   final String election;
   final String event;
   final num winners;
-
-  const VotingScreen(this.election, this.winners, this.event, {super.key});
 
   static Future<void> navigate(
     BuildContext context,
@@ -41,14 +40,17 @@ class VotingScreen extends HookConsumerWidget {
 }
 
 class VotingScreenBody extends HookConsumerWidget {
+  const VotingScreenBody(
+    this.candidates,
+    this.electionId,
+    this.winners,
+    this.event, {
+    super.key,
+  });
   final List<CandidateElementResponseData> candidates;
   final String electionId;
   final String event;
   final num winners;
-
-  const VotingScreenBody(
-      this.candidates, this.electionId, this.winners, this.event,
-      {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -56,7 +58,7 @@ class VotingScreenBody extends HookConsumerWidget {
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             const Text('Elige a tu candidato', style: titleTextStyle),
@@ -79,7 +81,7 @@ class VotingScreenBody extends HookConsumerWidget {
                     } else {
                       selectedCandidates.value = [
                         selectedCandidates.value,
-                        [candidates[index].id.toString()]
+                        [candidates[index].id.toString()],
                       ].expand((x) => x).toList();
                     }
                   },
@@ -96,25 +98,28 @@ class VotingScreenBody extends HookConsumerWidget {
             const SizedBox(height: 20),
             BoxtingButton(
               onPressed: selectedCandidates.value.length == winners
-                  ? () async => await BoxtingLoadingDialog.show(
+                  ? () async => BoxtingLoadingDialog.show(
                         context,
                         futureBuilder: () async {
                           final request = VoteRequest(
-                              selectedCandidates.value, electionId, event);
+                            selectedCandidates.value,
+                            electionId,
+                            event,
+                          );
                           await ref
-                              .read(votingElectionProvider)
+                              .read(votingElectionProvider.notifier)
                               .emitVote(request);
                         },
                         onSuccess: () => SuccessVotingScreen.navigate(context),
                         onError: (e) async => BoxtingModal.show(
                           context,
                           title: 'Ocurrio un error!',
-                          message: e,
+                          message: 'No se pudo emitir tu voto.',
                         ),
                       )
                   : null,
               child: const Text('Votar'),
-            )
+            ),
           ],
         ),
       ),

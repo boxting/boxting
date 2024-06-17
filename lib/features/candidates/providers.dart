@@ -1,13 +1,12 @@
 import 'package:boxting/data/network/response/candidates_response/candidates_response.dart';
-import 'package:boxting/service_locator.dart';
+import 'package:boxting/data/repository/repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CandidateDetailRequest extends Equatable {
+  const CandidateDetailRequest(this.candidate, this.listId);
   final String candidate;
   final String listId;
-
-  const CandidateDetailRequest(this.candidate, this.listId);
 
   @override
   List<Object> get props => [candidate, listId];

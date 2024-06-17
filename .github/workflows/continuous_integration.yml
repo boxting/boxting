@@ -21,13 +21,12 @@ jobs:
         env:
           ANDROID_KEYS_SECRET_PASSPHRASE: ${{ secrets.ANDROID_KEYS_SECRET_PASSPHRASE }}
       - name: Setup Flutter
-        uses: subosito/flutter-action@v1
+        uses: subosito/flutter-action@v2
         with:
-          flutter-version: 1.22.6
+          flutter-version: 3.22.1
       - name: Install Flutter dependencies
         run: flutter pub get
       - name: Analyze files
         run: flutter analyze .
       - name: Run the tests
         run: flutter test
-      

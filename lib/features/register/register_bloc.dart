@@ -1,21 +1,19 @@
 import 'package:boxting/data/error/error_handler.dart';
 import 'package:boxting/data/network/request/register_request/register_request.dart';
-import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:boxting/data/network/response/dni_response/dni_response.dart';
-
+import 'package:boxting/domain/repository/auth_repository.dart';
 import 'package:flutter/material.dart';
 
 class RegisterBloc extends ChangeNotifier {
+  RegisterBloc({required this.authRepository}) {
+    _registerRequest = RegisterRequest();
+  }
   final AuthRepository authRepository;
 
   late BoxtingException _boxtingFailure;
   BoxtingException get failure => _boxtingFailure;
 
   late RegisterRequest _registerRequest;
-
-  RegisterBloc({required this.authRepository}) {
-    _registerRequest = RegisterRequest();
-  }
 
   Future<void> _register() async {
     try {
@@ -37,8 +35,9 @@ class RegisterBloc extends ChangeNotifier {
     String phone,
     String username,
   ) async {
-    _registerRequest.username = username;
-    _registerRequest.mail = mail;
+    _registerRequest
+      ..username = username
+      ..mail = mail;
     _registerRequest.voter?.phone = phone;
   }
 

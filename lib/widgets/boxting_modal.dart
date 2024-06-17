@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 
 class BoxtingModal extends StatelessWidget {
   const BoxtingModal({
-    super.key,
+    required this.title, required this.body, super.key,
     this.height = 0,
     this.width = 0,
-    required this.title,
-    required this.body,
     this.style = const TextStyle(color: Colors.white, fontSize: 14),
     this.buttonTextStyle = const TextStyle(
       color: Colors.black,
@@ -54,7 +52,6 @@ class BoxtingModal extends StatelessWidget {
               const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.max,
                 children: [
                   BoxtingButton(
                     backgroudColor: Colors.white,

@@ -9,9 +9,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CandidatesScreen extends HookConsumerWidget {
-  final String electionId;
 
-  const CandidatesScreen({super.key, required this.electionId});
+  const CandidatesScreen({required this.electionId, super.key});
+  final String electionId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,9 +25,9 @@ class CandidatesScreen extends HookConsumerWidget {
 }
 
 class CandidatesScreenBody extends HookWidget {
-  final CandidateResponseData data;
 
-  const CandidatesScreenBody({super.key, required this.data});
+  const CandidatesScreenBody({required this.data, super.key});
+  final CandidateResponseData data;
 
   @override
   Widget build(BuildContext context) {

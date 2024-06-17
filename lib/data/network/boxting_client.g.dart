@@ -609,3 +609,39 @@ class _BoxtingClient implements BoxtingClient {
     return Uri.parse(dioBaseUrl).resolveUri(url).toString();
   }
 }
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+String _$dioHash() => r'a5cb9a19cb876a7cb3e50b75452f47495a5e0120';
+
+/// See also [dio].
+@ProviderFor(dio)
+final dioProvider = AutoDisposeProvider<Dio>.internal(
+  dio,
+  name: r'dioProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$dioHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef DioRef = AutoDisposeProviderRef<Dio>;
+String _$boxtingClientHash() => r'fc38fdf4a893c45de35b4917358d8a24b0b218c6';
+
+/// See also [boxtingClient].
+@ProviderFor(boxtingClient)
+final boxtingClientProvider = AutoDisposeProvider<BoxtingClient>.internal(
+  boxtingClient,
+  name: r'boxtingClientProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$boxtingClientHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef BoxtingClientRef = AutoDisposeProviderRef<BoxtingClient>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

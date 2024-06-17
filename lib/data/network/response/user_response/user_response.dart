@@ -6,23 +6,15 @@ part 'user_response.g.dart';
 
 @JsonSerializable()
 class UserResponse {
-  final bool success;
-  final UserResponseData data;
-
   UserResponse(this.success, this.data);
   factory UserResponse.fromJson(Map<String, dynamic> json) =>
       _$UserResponseFromJson(json);
+  final bool success;
+  final UserResponseData data;
 }
 
 @JsonSerializable()
 class UserResponseData {
-  final int id;
-  final String username;
-  final String mail;
-  final bool isActive;
-  final RoleResponse role;
-  final VoterResponse voter;
-
   UserResponseData(
     this.id,
     this.username,
@@ -34,6 +26,12 @@ class UserResponseData {
 
   factory UserResponseData.fromJson(Map<String, dynamic> json) =>
       _$UserResponseDataFromJson(json);
+  final int id;
+  final String username;
+  final String mail;
+  final bool isActive;
+  final RoleResponse role;
+  final VoterResponse voter;
 }
 
 extension XUserResponseData on UserResponseData {
@@ -59,24 +57,15 @@ extension XUserResponseData on UserResponseData {
 
 @JsonSerializable()
 class RoleResponse {
-  final String name;
-
   RoleResponse(this.name);
 
   factory RoleResponse.fromJson(Map<String, dynamic> json) =>
       _$RoleResponseFromJson(json);
+  final String name;
 }
 
 @JsonSerializable()
 class VoterResponse {
-  final int id;
-  final String firstName;
-  final String lastName;
-  final String dni;
-  final String phone;
-  final String birthday;
-  final num age;
-
   VoterResponse(
     this.id,
     this.firstName,
@@ -89,4 +78,11 @@ class VoterResponse {
 
   factory VoterResponse.fromJson(Map<String, dynamic> json) =>
       _$VoterResponseFromJson(json);
+  final int id;
+  final String firstName;
+  final String lastName;
+  final String dni;
+  final String phone;
+  final String birthday;
+  final num age;
 }

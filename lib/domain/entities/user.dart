@@ -2,6 +2,17 @@ import 'package:hive/hive.dart';
 
 @HiveType(typeId: 0)
 class User extends HiveObject {
+
+  User({
+    required this.name,
+    required this.lastname,
+    required this.dni,
+    required this.id,
+    required this.mail,
+    required this.phone,
+    required this.birthday,
+    this.username,
+  });
   @HiveField(0)
   final String id;
   @HiveField(1)
@@ -17,17 +28,6 @@ class User extends HiveObject {
   @HiveField(6)
   final String? username;
   final String birthday;
-
-  User({
-    required this.name,
-    required this.lastname,
-    required this.dni,
-    required this.id,
-    required this.mail,
-    required this.phone,
-    required this.birthday,
-    this.username,
-  });
   @override
   String toString() => 'User: $name $lastname $dni $mail';
 }

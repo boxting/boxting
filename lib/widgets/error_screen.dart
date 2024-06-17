@@ -1,13 +1,13 @@
-import 'package:boxting/features/login/login_screen.dart';
+import 'package:boxting/features/login/view/login_screen.dart';
 import 'package:boxting/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
 class BoxtingErrorScreen extends HookWidget {
-  final String message;
-
   const BoxtingErrorScreen(this.message, {super.key});
+  final String message;
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +23,13 @@ class BoxtingErrorScreen extends HookWidget {
         Text(message),
         const SizedBox(height: 48),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+          padding: const EdgeInsets.symmetric(horizontal: 32),
           child: BoxtingButton(
             backgroudColor: Colors.red,
-            onPressed: () => LoginScreen.navigate(context),
+            onPressed: () => context.goNamed(LoginScreen.name),
             child: const Text('Volver a ingresar'),
           ),
-        )
+        ),
       ],
     );
   }

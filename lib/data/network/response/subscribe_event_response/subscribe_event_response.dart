@@ -4,9 +4,6 @@ part 'subscribe_event_response.g.dart';
 
 @JsonSerializable()
 class SubscribeEventResponse {
-  final bool success;
-  final SubscribeEventResponseData data;
-  final ErrorResponse error;
 
   SubscribeEventResponse({
     required this.success,
@@ -15,16 +12,13 @@ class SubscribeEventResponse {
   });
   factory SubscribeEventResponse.fromJson(Map<String, dynamic> json) =>
       _$SubscribeEventResponseFromJson(json);
+  final bool success;
+  final SubscribeEventResponseData data;
+  final ErrorResponse error;
 }
 
 @JsonSerializable()
 class SubscribeEventResponseData {
-  final bool isOwner;
-  final bool isCollaborator;
-  final num userId;
-  final num eventId;
-  final String accessCode;
-  final String updatedAt;
 
   SubscribeEventResponseData({
     required this.isOwner,
@@ -36,4 +30,10 @@ class SubscribeEventResponseData {
   });
   factory SubscribeEventResponseData.fromJson(Map<String, dynamic> json) =>
       _$SubscribeEventResponseDataFromJson(json);
+  final bool isOwner;
+  final bool isCollaborator;
+  final num userId;
+  final num eventId;
+  final String accessCode;
+  final String updatedAt;
 }

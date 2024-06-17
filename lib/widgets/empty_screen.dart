@@ -3,9 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:lottie/lottie.dart';
 
 class BoxtingEmptyScreen extends HookWidget {
-  final String message;
 
   const BoxtingEmptyScreen(this.message, {super.key});
+  final String message;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class BoxtingEmptyScreen extends HookWidget {
             height: 240,
             fit: BoxFit.fill,
           ),
-          Text(message)
+          Text(message),
         ],
       ),
     );

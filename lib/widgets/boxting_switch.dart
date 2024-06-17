@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 
 class BoxtingSwitch extends StatelessWidget {
   const BoxtingSwitch({
-    super.key,
-    required this.title,
+    required this.title, required this.onChanged, super.key,
     this.value = false,
-    required this.onChanged,
   });
 
   final Widget title;

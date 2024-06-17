@@ -7,9 +7,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MyVoteScreen extends HookConsumerWidget {
-  final String election;
 
   const MyVoteScreen(this.election, {super.key});
+  final String election;
 
   static Future<void> navigate(BuildContext context, String election) async {
     await BoxtingNavigation.goto(context, (_) => MyVoteScreen(election));
@@ -21,9 +21,9 @@ class MyVoteScreen extends HookConsumerWidget {
     return BoxtingScaffold(
       appBar: BoxtingAppBar(),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20),
         child: provider.when(
-          data: (data) => MyVoteBody(data),
+          data: MyVoteBody.new,
           loading: () => const BoxtingLoadingScreen(),
           error: (e, _) => BoxtingErrorScreen(e.toString()),
         ),
@@ -33,14 +33,14 @@ class MyVoteScreen extends HookConsumerWidget {
 }
 
 class MyVoteBody extends HookWidget {
-  final VoteResponseData data;
 
   const MyVoteBody(this.data, {super.key});
+  final VoteResponseData data;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -64,7 +64,7 @@ class MyVoteBody extends HookWidget {
                 data.vote.voterId,
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -72,10 +72,10 @@ class MyVoteBody extends HookWidget {
 }
 
 class SelectedCandidate extends HookWidget {
-  final SelectedCandidateResponse candidate;
-  final String voteId;
 
   const SelectedCandidate(this.candidate, this.voteId, {super.key});
+  final SelectedCandidateResponse candidate;
+  final String voteId;
 
   @override
   Widget build(BuildContext context) {

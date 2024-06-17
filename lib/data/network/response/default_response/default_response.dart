@@ -5,9 +5,6 @@ part 'default_response.g.dart';
 
 @JsonSerializable()
 class DefaultResponse {
-  final bool success;
-  final String? data;
-  final ErrorResponse? error;
 
   DefaultResponse({
     this.success = false,
@@ -16,4 +13,7 @@ class DefaultResponse {
   });
   factory DefaultResponse.fromJson(Map<String, dynamic> json) =>
       _$DefaultResponseFromJson(json);
+  final bool success;
+  final String? data;
+  final ErrorResponse? error;
 }

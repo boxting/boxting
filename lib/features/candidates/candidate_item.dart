@@ -2,13 +2,12 @@ import 'package:boxting/data/network/response/candidates_response/candidates_res
 import 'package:flutter/material.dart';
 
 class CandidateItem extends StatelessWidget {
+  const CandidateItem({required this.candidate, super.key});
   final CandidateElementResponseData candidate;
 
-  final imageSize = 48.0;
-
-  const CandidateItem({super.key, required this.candidate});
   @override
   Widget build(BuildContext context) {
+    const imageSize = 48.0;
     return ListTile(
       leading: Row(
         mainAxisSize: MainAxisSize.min,

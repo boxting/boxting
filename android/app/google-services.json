@@ -38,6 +38,13 @@
             {
               "client_id": "477434757501-nko4ho4emev5irjgqnpa62d005mfpfhr.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "477434757501-u53lc4bhrumglgdr0jjrg3pg0ipfje7q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.boxtinglabs.boxting"
+              }
             }
           ]
         }

@@ -1,12 +1,10 @@
+import 'package:boxting/widgets/connectivity.dart';
 import 'package:flutter/material.dart';
-
-import 'connectivity.dart';
 
 class BoxtingScaffold extends StatelessWidget {
   const BoxtingScaffold({
-    super.key,
+    required this.body, super.key,
     this.appBar,
-    required this.body,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
     this.bottomNavigationBar,

@@ -4,11 +4,19 @@ import 'package:boxting/data/network/response/default_response/default_response.
 import 'package:boxting/data/network/response/result_response/result_response.dart';
 import 'package:boxting/data/network/response/vote_response/vote_response.dart';
 import 'package:boxting/domain/repository/voting_repository.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'voting_repository_impl.g.dart';
+
+@riverpod
+VotingRepository votingRepository(VotingRepositoryRef ref) {
+  final boxtingClient = ref.read(boxtingClientProvider);
+  return VotingRepositoryImpl(boxtingClient);
+}
 
 class VotingRepositoryImpl extends VotingRepository {
-  final BoxtingClient boxtingClient;
-
   VotingRepositoryImpl(this.boxtingClient);
+  final BoxtingClient boxtingClient;
 
   @override
   Future<DefaultResponse> emitVoteForElection(
@@ -22,11 +30,11 @@ class VotingRepositoryImpl extends VotingRepository {
 
   @override
   Future<ResultResponse> getResultByElection(String election) async {
-    return await boxtingClient.getResultsByElection(election);
+    return boxtingClient.getResultsByElection(election);
   }
 
   @override
   Future<VoteResponse> getMyVoteFromElection(String election) async {
-    return await boxtingClient.getMyVoteFromElection(election);
+    return boxtingClient.getMyVoteFromElection(election);
   }
 }

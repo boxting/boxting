@@ -4,11 +4,19 @@ import 'package:boxting/data/network/response/elections_response/elections_respo
 import 'package:boxting/data/repository/utils.dart';
 import 'package:boxting/domain/repository/elections_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'elections_repository_impl.g.dart';
+
+@riverpod
+ElectionsRepository electionsRepository(ElectionsRepositoryRef ref) {
+  final boxtingClient = ref.read(boxtingClientProvider);
+  return ElectionsRepositoryImpl(boxtingClient);
+}
 
 class ElectionsRepositoryImpl extends ElectionsRepository {
-  final BoxtingClient boxtingClient;
-
   ElectionsRepositoryImpl(this.boxtingClient);
+  final BoxtingClient boxtingClient;
   @override
   Future<ElectionsResponse> fetchElectionsByEvent(String eventId) async {
     try {

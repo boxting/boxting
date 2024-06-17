@@ -1,6 +1,5 @@
+import 'package:boxting/widgets/loading_vote.dart';
 import 'package:flutter/material.dart';
-
-import 'loading_vote.dart';
 
 class BoxtingLoadingScreen extends StatelessWidget {
   const BoxtingLoadingScreen({super.key});

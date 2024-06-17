@@ -1,13 +1,12 @@
 import 'package:boxting/data/network/response/event_response/event_response.dart';
+import 'package:boxting/features/events/detail/event_detail_screen.dart';
 import 'package:boxting/widgets/styles.dart';
 import 'package:flutter/material.dart';
 
-import 'detail/event_detail_screen.dart';
-
 class EventItem extends StatelessWidget {
-  final EventResponseData event;
 
-  const EventItem({super.key, required this.event});
+  const EventItem({required this.event, super.key});
+  final EventResponseData event;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +14,7 @@ class EventItem extends StatelessWidget {
       onTap: () => EventDetailScreen.navigate(context, event.id.toString()),
       child: Card(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16),
           child: ListTile(
             leading: Column(
               children: [

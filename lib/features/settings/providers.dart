@@ -1,16 +1,16 @@
-import 'package:boxting/service_locator.dart';
+import 'package:boxting/data/repository/repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 final loadBiometricProvider = FutureProvider<bool>((ref) async {
-  final repository = ref.watch(biometricRepositoryProvider);
+  final repository = ref.read(biometricRepositoryProvider);
   return repository.isFingerprintLoginEnabled();
 });
 
 final setBioInformationProvider =
     FutureProvider.autoDispose.family<void, bool>((ref, info) async {
   final repository = ref.watch(biometricRepositoryProvider);
-  await repository.setFingerprintLogin(info);
+  await repository.setFingerprintLogin(enabled: info);
   ref.container.refresh(loadBiometricProvider);
 });
 
